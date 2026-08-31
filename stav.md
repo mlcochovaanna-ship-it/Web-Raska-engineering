@@ -150,6 +150,8 @@ Obojí ověřeno přes `getComputedStyle`/`currentSrc` i screenshoty na 768/820/
 
 Ověřeno screenshoty na 320/375/430/767px (žádné horizontální přetečení, tlačítko vycentrované, stejný styl jako "Nezávazná poptávka") i na desktopu 1440px (hlavičkové `.nav-phone-cta` beze změny).
 
+**Doplněno:** tlačítko "Nezávazná poptávka" v mobilním menu na žádost uživatelky odstraněno (`index.html`) – v menu teď zůstává jen telefonní tlačítko. `.mobile-nav a.btn { margin-bottom: var(--space-4) }` zůstává (odsazení od spodního paddingu menu), CSS beze změny.
+
 ## Otevřené / nedořešené body
 
 - Uživatel zatím nepotvrdil finální schválení posledního stavu průmysl panelu (návrat k fotce s potrubím) – čeká se na vizuální kontrolu.
