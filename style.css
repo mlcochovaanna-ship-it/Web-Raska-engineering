@@ -276,6 +276,7 @@ p {
 }
 .btn-outline-dark:hover {
   background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-color: transparent;
   color: var(--color-white);
 }
 
@@ -579,6 +580,10 @@ p {
   z-index: 2;
   margin-top: -8.6rem;
   padding-bottom: var(--space-16);
+  /* Odkaz "Naše služby" v hero sekci míří na #sluzby (= tenhle element) —
+     bez scroll-margin-top by prohlížeč zarovnal úplný vršek sekce (ikony karet)
+     pod fixní hlavičku, takže by byly ikony napůl schované za menu. */
+  scroll-margin-top: calc(var(--header-height) + var(--space-6));
 }
 
 @media (min-width: 768px) {
@@ -684,12 +689,39 @@ p {
   .hero-content { max-width: none; }
 
   .hero-inner {
-    width: 100%;
-    max-width: 100%;
-    padding-inline: var(--space-8);
+    /* Šířka/padding se NEpřebíjí (na rozdíl od mobilu) — necháváme běžné
+       chování .container (85 %, max 1280px), aby levý/pravý okraj textu
+       lícoval s kartami služeb a všemi dalšími sekcemi pod hero. Dřívější
+       pevný padding (--space-8) dával textu o ~26px víc místa než 85 %
+       container, takže se text rozjel oproti zbytku stránky. */
     min-height: auto;
-    padding-top: calc(var(--header-height) + var(--space-12));
-    padding-bottom: var(--space-12);
+    /* Nahoře je vidět jen --space-24 (--header-height je fixní hlavička,
+       ne vizuální odsazení od textu) — dole musí být stejných --space-24,
+       ať je odstup od hlavičky/nahoře a od fotky/dole opravdu stejný. Celá
+       mezera před fotkou zůstává tady (ne na .hero-media jako margin) —
+       ::before níže kryje gradientem přesně box .hero-inner (včetně
+       paddingu), takže cokoliv za jeho hranicí by ukázalo jinou, plochou
+       barvu z pozadí .hero a vzniklo by viditelné švové rozhraní. */
+    padding-top: calc(var(--header-height) + var(--space-24));
+    padding-bottom: var(--space-24);
+  }
+
+  /* Gradient přesunutý sem (ne jen na .hero) — .hero-media tu není absolutně
+     pozicovaná, takže prodlužuje výšku celé sekce, a gradient definovaný jen
+     na .hero by měl svůj světlejší konec schovaný za neprůhlednou fotkou.
+     `::before` musí "prokouknout" mimo 85% šířku .hero-inner (container) do
+     celé šířky obrazovky, jinak by na okraji vznikl viditelný šev proti
+     ploché barvě .hero za ním — odtud trik s `left:50%/width:100vw/translateX`. */
+  .hero-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    z-index: -1;
+    background: linear-gradient(160deg, var(--color-primary-dark) 0%, var(--color-primary-dark) 55%, var(--color-primary) 100%);
   }
 
   .hero-content {
@@ -697,12 +729,53 @@ p {
     min-height: auto;
   }
 
+  .hero-content .eyebrow {
+    /* Bez úzkého postranního sloupce (viz výše) může eyebrow zalomit na dva
+       řádky stejně jako na mobilu, když se nevejde do 85% šířky. */
+    white-space: normal;
+    margin-bottom: var(--space-8);
+  }
+
+  /* Sladěné rozestupy mezi eyebrow/nadpisem/textem/tlačítky — dřív 24/32/64px
+     (nekonzistentní), sjednoceno na 24px (--space-6), ale to bylo na vkus
+     uživatelky moc nahusto — teď jednotně 32px (--space-8) mezi každou
+     dvojicí, o trochu vzdušnější. .hero-content je flex column, takže se
+     sousední margins (na rozdíl od běžných blokových boxů) NEkolabují na
+     větší z obou, ale sečtou se — .lead margin-bottom je proto nutné
+     vynulovat, ať mezeru dělá jen .hero-actions margin-top. */
+  .hero-content h1 { margin-bottom: var(--space-8); }
+  .hero-content .lead { margin-bottom: 0; }
+  .hero-actions { margin-top: var(--space-8); }
+
   .hero-media {
     position: relative;
     left: auto;
     width: 100%;
-    aspect-ratio: 12 / 5;
-    margin-top: var(--space-12);
+    /* Vyšší poměr stran než původních 12/5 = 2.4 (ten ukazoval jen tenký
+       vodorovný pruh, cca 33 % výšky, uprostřed vysoké koláže) – ale 4/3
+       (60 %) dělalo fotku tak vysokou, že přesah karet pod ní (viz
+       .services-overlap) vypadal jako by karty vůbec nevyčuhovaly. 3/2
+       (cca 52 % výšky) je kompromis: pořád mnohem čitelnější panely než
+       12/5, ale přesah karet je vůči nižší fotce znovu vidět. */
+    aspect-ratio: 3 / 2;
+    /* Bez vlastního margin-top — mezera před fotkou je teď celá v
+       .hero-inner padding-bottom (viz výše), aby ji celou kryl gradient
+       a nevznikl na rozhraní viditelný švík. */
+  }
+
+  .hero-media img {
+    /* Výchozí `center center` ukazovalo příliš z vrchu koláže (horní část
+       elektro panelu) — posunuto níž ve zdrojovém obrázku (= obrázek
+       vizuálně "nahoru" ve výřezu), ať je víc vidět středová část
+       (fotovoltaika) a míň vrch. */
+    object-position: center 65%;
+  }
+
+  .services-overlap {
+    /* Karta má vykukovat přes spodní okraj fotky zřetelně (ne jen náznakem),
+       ale míň než na desktopu (-9.6rem/-10.6rem, tam je vedle fotky dost
+       místa i nad kartou). */
+    margin-top: -6rem;
   }
 }
 
@@ -819,6 +892,46 @@ p {
     align-items: center;
     gap: var(--space-12);
     padding: var(--space-12);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet: stejné svislé uspořádání jako na mobilu (ikona/nadpis/text nahoře,
+     tlačítko pod tím, fotka jako maskovaný pruh dole) místo řádkového z
+     pravidla výše — to na tomhle rozsahu bylo přehuštěné: text se lámal do
+     mnoha úzkých řádků, tlačítko i fotka byly stěsnané doprostřed karty. */
+  .band-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    /* Nižší než mobilních 32rem — širší sloupec zalomí text do míň řádků,
+       takže by se stejná výška zbytečně roztáhla do prázdna nad fotkou. */
+    min-height: 26rem;
+  }
+
+  .band-photo {
+    /* Stejný svislý ořez a maska jako na mobilu (viz @media max-width:767px
+       výše) — širokoúhlá desktopová fotka (1800×649) by se přes "cover" na
+       vysoké kartě ořízla jen vodorovně a svislá maska by nikdy nic
+       neodkryla (žádná rezerva k posunu). */
+    background-image:
+      linear-gradient(100deg, rgba(15, 34, 61, 0.6) 0%, rgba(15, 34, 61, 0.2) 55%, rgba(15, 34, 61, 0) 100%),
+      url('Obrazky/web/pohotovost-band-mobile.jpg');
+    /* Y posunuto z "center" (50 %) na 85 % — širší tabletová karta ořízne
+       tuhle vysokou fotku hodně svisle (vidět je jen ~44 % její výšky), a
+       střed obrázku padá na řady jističů, ne na multimetr v ruce dole.
+       Beze změny velikosti/zoomu (pořád "cover") — jen jiné okno v témže
+       rámu, ať je multimetr zase vidět, ale pořád v kontextu rozvaděče. */
+    background-position: 0% 0%, 50% 85%;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.5) 58%, #000 82%);
+    mask-image: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.5) 58%, #000 82%);
+  }
+
+  .band .btn-pulse {
+    /* Tlačítko posunuté doprava — .band-inner je flex column s
+       align-items:flex-start, tohle přebíjí zarovnání jen pro tento prvek. */
+    align-self: flex-end;
   }
 }
 
@@ -946,6 +1059,35 @@ p {
   }
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet: stejná skládaná struktura (text → watermark → fotka na celou
+     šířku) jako na mobilu, ale fotka dřív byla mnohem vyšší než textový
+     blok (aspect-ratio 4/3 na celou šířku obrazovky = 576–767px, zatímco
+     text má jen ~420px) — na žádost uživatelky zkrácena na pevnou výšku,
+     jen o něco vyšší než text, místo škálování s šířkou. */
+  .about-media {
+    aspect-ratio: auto;
+    height: 28rem;
+  }
+
+  .about-media img {
+    /* Výchozí `left 35%` je zděděné z ostatních šířek — na tomhle nižším,
+       širším výřezu (viz aspect-ratio výše) to nechávalo v obraze zbytečně
+       moc oblohy. Posunuto o kousek níž ve zdrojové fotce (= nahoru ve
+       výřezu), ať je víc auta/domu a míň oblohy. */
+    object-position: left 60%;
+  }
+
+  .about-watermark {
+    /* Stejný princip jako v mobilním pravidle výše (bottom = výška fotky +
+       odstup), ale fotka už neroste s `vw` (viz .about-media), takže i tahle
+       hodnota je teď pevná, ne `vw`-based. */
+    width: 11rem;
+    bottom: calc(28rem + var(--space-2));
+    right: var(--space-2);
+  }
+}
+
 .feature-grid {
   position: relative;
   z-index: 2;
@@ -994,6 +1136,12 @@ p {
 
 @media (min-width: 640px) {
   .feature-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Na tabletu byly 4 karty vedle sebe v jednom úzkém řádku moc stěsnané
+     (text se lámal do mnoha řádků) — po dvou pod sebou je čitelnější. */
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (min-width: 768px) {
@@ -1128,6 +1276,15 @@ p {
   .showcase-item:last-child {
     clip-path: polygon(var(--showcase-skew) 0, 100% 0, 100% 100%, 0 100%);
   }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Na tabletu je všech 6 fotek vedle sebe v jednom řádku (stejně jako na
+     desktopu), ale sloupec je tu jen ~1/6 šířky obrazovky (128–170px) —
+     s poměrem 3/4 z toho vyšla velmi nízká, "useknutá" fotka. Vyšší poměr
+     dá fotkám víc prostoru, aniž by se měnil počet sloupců nebo diagonální
+     řez. */
+  .showcase-photo { aspect-ratio: 3 / 6; }
 }
 
 .showcase-cta-band {
@@ -1559,7 +1716,7 @@ p {
 }
 
 .footer-bottom a {
-  color: var(--color-accent);
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-weight: 600;
 }
@@ -1700,5 +1857,31 @@ p {
   }
   .contact-section {
     padding-block: var(--section-padding-mobile);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16. Standardní vertikální padding obsahových sekcí na tabletu
+   -------------------------------------------------------------------------- */
+/* Na desktopu má každá sekce svůj vlastní padding-block/top/bottom laděný
+   zvlášť (48px u .band, 64px u .about-section/.showcase-section, 96–112px
+   u .contact-section/.showcase-cta-band) — na tabletu (768–1023px; hero se
+   podle zadání neřeší, viz sekce 6) ale takhle rozházené hodnoty vedle sebe
+   při scrollování působí nesladěně. Sjednoceno na var(--space-16) (64px) —
+   stejná hodnota, jakou už přirozeně mají .section/.about-section, jen
+   přebité u tří sekcí, které se od ní na tabletu odchylovaly. Blok je
+   záměrně na konci souboru (stejně jako mobilní ekvivalent v sekci 15), aby
+   při stejné specificitě vždy přebil dřívější nepodmíněná pravidla. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .band {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+  .contact-section {
+    padding-block: var(--space-16);
+  }
+  .showcase-cta-band {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
   }
 }
