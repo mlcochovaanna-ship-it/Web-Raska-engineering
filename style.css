@@ -1179,8 +1179,6 @@ p {
    -------------------------------------------------------------------------- */
 .showcase-section { padding-bottom: 0; }
 
-.showcase-section .section-head { margin-bottom: var(--space-8); }
-
 .showcase-section .section-head .lead { font-size: var(--fs-base); }
 
 .showcase-gallery {
@@ -1884,4 +1882,438 @@ p {
     padding-top: var(--space-16);
     padding-bottom: var(--space-16);
   }
+}
+
+/* --------------------------------------------------------------------------
+   17. Podstránky — hero, nabídka služeb, elektrorevize, FAQ, CTA pás
+   -------------------------------------------------------------------------- */
+
+/* Hero podstránky: text vlevo na tmavém gradientu, fotka vpravo se šikmým
+   řezem (stejný princip jako .about-media, jen zrcadlově — fotka vpravo,
+   proto se seřezává levá hrana) — sdílí vizuální jazyk s O nás místo aby
+   kopíroval jedinečný full-bleed hero homepage. Homepage hero má zůstat
+   největší a nejnápadnější prvek webu — hero podstránek je proto záměrně
+   menší a klidnější: žádné vh-based min-height (výška plyne jen z obsahu),
+   textu je vždy víc místa než fotce (58/42), protože nadpis a text
+   podstránek bývají delší než krátký claim na homepage. */
+.page-hero {
+  position: relative;
+  background: linear-gradient(160deg, var(--color-primary-dark) 0%, var(--color-primary-dark) 55%, var(--color-primary) 100%);
+  isolation: isolate;
+  overflow: hidden;
+  /* Sekce leží hned pod fixní hlavičkou — offset patří sem jednou, ne
+     zvlášť na mobilu/tabletu/desktopu (viz poučení v sekci 6, Hero). */
+  padding-top: var(--header-height);
+  /* Rezerva dole, do které přesahují karty "Co nabízíme" (.offer-overlap,
+     stejná technika jako .hero-inner padding-bottom + .services-overlap na
+     homepage) – bez ní by přesahující karty ležely na bílém pozadí další
+     sekce, ne na modrém gradientu hero. */
+  padding-bottom: var(--space-16);
+}
+
+.page-hero-split {
+  /* BEZ position:relative – .page-hero-media na desktopu (1024px+) je
+     position:absolute a potřebuje mít za containing block přímo .page-hero
+     (kvůli jeho padding-bottom rezervě, do které má fotka sahat), ne tenhle
+     mezičlánek. Kdyby tu position:relative zůstalo, staly by se z něj
+     nejbližší pozicovaný předek a fotka by končila na konci textového
+     sloupce (bez rezervy) – přesně to způsobovalo přetrvávající modrý pruh. */
+  display: flex;
+  flex-direction: column;
+}
+
+.page-hero-content {
+  --tunnel-inset: calc((100% - min(var(--container-width), var(--container-max))) / 2);
+  position: relative;
+  z-index: 1;
+  color: var(--color-white);
+  /* Souměrný padding nahoře/dole (dřív space-12/space-8 – nesouměrné). */
+  padding: var(--space-16) var(--tunnel-inset);
+}
+
+.page-hero-content h1 {
+  color: var(--color-white);
+  /* Bez vlastní velikosti by nadpis spadl na obecnou --fs-h1 škálu (až
+     3.75rem/60px na desktopu) a byl by VĚTŠÍ než homepage hero (max 3rem/
+     48px) – přesný opak žádoucího stavu. Homepage musí zůstat vizuálně
+     nejmarkantnější, hero podstránek je proto vždy o něco menší napříč
+     všemi šířkami (cca 75–83 % homepage hodnoty). */
+  font-size: clamp(1.75rem, 1.5rem + 1.6vw, 2.5rem);
+  margin-bottom: var(--space-6);
+}
+
+.page-hero-content .lead {
+  color: rgba(255, 255, 255, 0.86);
+  /* Stejný princip jako u nadpisu – pevná, menší velikost místo zděděné
+     .lead škály (na desktopu by jinak byla stejně velká jako homepage). */
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.page-hero-media {
+  position: relative;
+  width: 100%;
+  /* Fotka rozvaděče beze změny/ořezu (celá, přesně jak ji dodala
+     uživatelka) – poměr ~0,82 (na výšku). Box na desktopu má fixní výšku
+     ~640px danou textovým sloupcem, ale proměnlivou šířku (42 % viewportu),
+     takže viditelný podíl fotky se breakpoint od breakpointu dost liší –
+     jedno object-position tedy nesedí úplně stejně na všech šířkách, ale
+     to je akceptovaný kompromis výměnou za nezořezanou fotku. */
+  aspect-ratio: 4 / 3;
+}
+
+.page-hero-media img {
+  /* Absolutní pozicování místo width/height:100% – v (column) flex
+     kontejneru width/height:100% na img způsobovalo, že rodičovský
+     aspect-ratio se vůbec neuplatnil a box se řídil nativním poměrem
+     zdrojové fotky (aspect-ratio bylo v praxi bez efektu). */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.page-hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(11, 27, 48, 0.5) 100%);
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .page-hero-split {
+    flex-direction: row;
+  }
+
+  .page-hero-content {
+    /* Víc prostoru pro (delší) text podstránek, fotka jen doplňkově menší. */
+    flex: 0 0 58%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Ještě větší souměrný padding nad nadpisem/pod tlačítky (dřív
+       space-16/64px) – vyšší textový sloupec = vyšší .page-hero-split =
+       vyšší .page-hero, takže karty "Co nabízíme" (přesah -4rem od spodku
+       .page-hero) sklouznou o kus níž. */
+    padding: var(--space-24) 0 var(--space-24) var(--tunnel-inset);
+  }
+
+  .page-hero-media {
+    /* Absolutně přes CELOU výšku .page-hero (včetně spodní rezervy
+       padding-bottom, do které přesahují karty "Co nabízíme") – stejná
+       technika jako .hero-media na homepage. Dřív byla fotka jen flex
+       položka v řádku vedle textu (výška = výška textového sloupce), takže
+       pod ní zbývala v rezervě viditelná modrá plocha místo fotky, i když
+       karty samy měly nulovou mezeru – při sebemenší odchylce výšky textu
+       (jiný font/prohlížeč) se mezera znovu objevila. Absolutní pozicování
+       na spodní hranu sekce (bottom:0) tohle riziko úplně odstraňuje –
+       fotka VŽDY sahá až tam, kam sahá karta, bez ohledu na výšku textu. */
+    position: absolute;
+    top: 0;
+    left: 58%;
+    right: 0;
+    bottom: 0;
+    /* width:100% ze základního (mobilního) pravidla by jinak mělo přednost
+       před dopočtem šířky z left+right a box by byl široký přes celou
+       obrazovku (ověřeno getBoundingClientRect – bez tohohle byl box
+       1920px místo očekávaných ~806px). */
+    width: auto;
+    aspect-ratio: auto;
+    clip-path: polygon(4.5rem 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .page-hero-media::after {
+    background: linear-gradient(100deg, rgba(11, 27, 48, 0.35) 0%, transparent 22%);
+  }
+}
+
+/* Karty "Co nabízíme" přesahují přes spodní hranu hero sekce – stejná
+   technika jako .services-overlap na homepage (záporný margin-top vytáhne
+   sekci nahoru do rezervy v .page-hero padding-bottom). Menší hodnoty než
+   na homepage (-8.6/-9.6/-10.6rem) – hero podstránky je menší, přesah
+   úměrně skromnější. */
+.offer-overlap {
+  position: relative;
+  z-index: 2;
+  /* -4rem = přesně .page-hero padding-bottom (var(--space-16)) – karty tak
+     začínají přesně na spodní hraně fotky/tlačítek (bez mezery = modrého
+     pruhu pod fotkou, ale i bez zásahu DO fotky, viz předchozí dvě kola,
+     kde -2rem nechávalo mezeru a -7rem řezalo do fotky). Přeměřeno
+     getBoundingClientRect na 1920/1024/768/390px. */
+  margin-top: -4rem;
+  padding-bottom: var(--space-16);
+}
+
+/* Nabídka služeb — mřížka skleněných karet (stejná komponenta jako
+   .feature-item v O nás), jen s vlastním počtem sloupců pro 6 položek. */
+.offer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .offer-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+}
+
+@media (min-width: 1024px) {
+  .offer-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* "Co nabízíme" používá kartu 1:1 podle homepage (stejná .feature-item
+   receptura jako v O nás – bílé sklo), ale ikony NE ve stylu bílého
+   symbolu na oranžovém kolečku (feature-item-icon default) – nahrané
+   ikony jsou barevné (navy/oranžová), stejně jako u velkých karet služeb
+   (.service-card-icon), takže by se v kolečku bily s vlastní oranžovou.
+   Místo toho stejná receptura jako .service-card-icon (ikona bez pozadí,
+   jemná bílá glow), jen zmenšená – karty "Co nabízíme" jsou dost menší
+   než karty služeb na homepage. */
+.offer-grid .feature-item-icon {
+  width: 3rem;
+  height: 3rem;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.offer-grid .feature-item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.85))
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.75))
+    drop-shadow(0 0 18px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 2px 4px rgba(15, 34, 61, 0.18));
+}
+
+/* Elektrorevize — bez fotky (dřívější fotka montáže tematicky neseděla
+   k revizím a byla příliš dominantní). Karty "Provádíme revize" používají
+   STEJNOU skleněnou recepturu jako .feature-item/.service-card všude jinde
+   na webu (blur, border, shadow-lg, gradientové kolečko na ikonu) – dřívější
+   pokus o "plochý" bezstínový vzhled i bezfotkový layout vypadaly vedle
+   zbytku webu jako z jiné stránky/nekonzistentně – vráceno k ověřenému
+   vzoru: fotka + text nahoře (stejná komponenta jako O nás na homepage:
+   .about-split/.about-content/.about-media/.about-watermark), karty
+   "Provádíme revize" přesahující přes spodní hranu fotky (.feature-grid,
+   stejné karty/ikony jako O nás). Fotka: technik s multimetrem při měření
+   (Obrazky/web/revize-mereni.jpg) – motiv měření/kontroly sedí k revizím
+   mnohem líp než dřívější fotka montáže rozvaděče. */
+.revize-section {
+  /* Sekce sama je BÍLÁ (bez vlastního background) – modré pozadí zůstává
+     jen na úrovni fotky/textu, to dělá `.about-split` samo o sobě (base
+     pravidlo, background: var(--color-bg-blue)). Karty "Provádíme revize"
+     a "Jak elektrorevize probíhá" pod tím jsou tedy na bílé ploše, modrá se
+     vrací až v sekci "Otázky a odpovědi" (.section--blue) pod tím. */
+  /* padding-top: 0 MUSÍ být explicitní, ne jen vynechané — element má i
+     třídu .about-section, jejíž padding-block:var(--space-16) (64px nahoře
+     i dole) jinak platí dál (jen vynechání padding-top v tomhle pravidle ho
+     nepřebije, cascade ho nechá být) – fotka by pak nesahala až na vrch
+     sekce (viz 16./23. kolo). */
+  padding-top: 0;
+  padding-bottom: var(--space-16);
+  /* margin-top (ne padding-top!) doplňuje mezeru mezi pásem "Potřebujete
+     elektrikáře rychle?" a touhle sekcí, kterou by na homepage dělal
+     padding-top:var(--space-16) na .about-section – tady ho ale mít
+     nemůžeme (viz padding-top:0 výše, kvůli modrému pruhu). Margin na
+     rozdíl od paddingu nevykresluje pozadí sekce, takže mezera zůstane
+     bílá (stejně jako na homepage mezi .band a .about-section), ne modrá –
+     bez rizika, že se bug s pruhem vrátí. */
+  margin-top: var(--space-16);
+}
+
+@media (max-width: 767px) {
+  /* Stejné zmenšení jako --section-padding-mobile u .about-section/
+     .contact-section jinde na webu (sekce 15) – tahle mezera je margin
+     místo padding (viz výše), takže se do stejného sdíleného pravidla
+     netrefí sama, doplněno ručně. */
+  .revize-section { margin-top: var(--space-12); }
+}
+
+.revize-section .about-content { padding-block: var(--space-8); }
+
+/* Multimetr a zkoušečka napětí jsou v dolní části zdrojové fotky – vyšší
+   Y posune viditelné okno níž (odkryje víc spodku, míň horní police). */
+.revize-section .about-media img { object-position: center 90%; }
+
+.revize-section .feature-grid { margin-top: -2.5rem; }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Sdílené tabletové pravidlo (.about-media { height: 28rem }, laděné pro
+     homepage O nás) dělalo na šířku téhle sekce (celá obrazovka, ne jen
+     container) fotku nepřirozeně nízkou a širokou – skoro jako útlý pruh
+     místo fotky. Vyšší hodnota jen pro tuhle sekci. */
+  .revize-section .about-media { height: 34rem; }
+  .revize-section .about-watermark { bottom: calc(34rem + var(--space-2)); }
+}
+
+@media (min-width: 1024px) {
+  /* 26rem dělalo fotku na užších desktopech (1024–1200px) nepřirozeně
+     nízkou a širokou ("pruh") – 34rem dává poměr blízký homepage O nás
+     (36rem), jen mírně kompaktnější. */
+  .revize-section .about-split { min-height: 34rem; }
+}
+
+.revize-subhead {
+  color: var(--color-primary-dark);
+  margin-top: var(--space-24);
+  margin-bottom: var(--space-8);
+}
+
+/* Jak elektrorevize probíhá — číslované kroky s vlastními ikonami čísel
+   (stejný efekt jako ikony karet "Co nabízíme" – .offer-grid
+   .feature-item-icon: bez kolečka, jen jemná bílá glow), propojené
+   šipkou/chevronem mezi jednotlivými kroky (vodorovně v řádku od tabletu,
+   svisle mezi kroky pod sebou na mobilu) – čitelný postup "1 → 2 → 3"
+   místo pouhých čísel vedle sebe. */
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-16);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.step-item { position: relative; }
+
+.step-number {
+  /* Číslice mají různý přirozený poměr stran (úzká "1" vs. širší "2"/"3") –
+     pevná čtvercová plocha s object-fit:contain je proto zprostředkovaně
+     centrovala různě daleko od levého okraje a nesedělo to s textem pod
+     nimi. Místo toho pevná výška a šířka podle obsahu (bez centrování),
+     zarovnané zleva stejně jako nadpis a text kroku. */
+  display: flex;
+  align-items: flex-end;
+  height: 3.25rem;
+  margin-bottom: var(--space-4);
+}
+
+.step-number img {
+  height: 100%;
+  width: auto;
+  display: block;
+  filter:
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.85))
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.75))
+    drop-shadow(0 0 18px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 2px 4px rgba(15, 34, 61, 0.18));
+}
+
+.step-item h4 { color: var(--color-primary-dark); margin-bottom: var(--space-3); }
+
+.step-item p { color: var(--color-text); margin: 0; font-size: var(--fs-base); }
+
+@media (min-width: 768px) {
+  .steps { grid-template-columns: repeat(3, 1fr); gap: var(--space-12) var(--space-6); }
+}
+
+/* Otázky a odpovědi — accordion na <details>/<summary>, šipka rotuje při
+   otevření; 4 položky → od tabletu ve dvou sloupcích. */
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  padding-inline: var(--space-6);
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item .faq-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+  flex-shrink: 0;
+  color: var(--color-accent);
+  transition: transform var(--transition);
+}
+
+.faq-item[open] .faq-icon { transform: rotate(180deg); }
+
+.faq-item p {
+  color: var(--color-muted);
+  font-size: var(--fs-base);
+  padding-bottom: var(--space-4);
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .faq-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); align-items: start; }
+}
+
+/* CTA pás před kontaktem na podstránkách — stejný jazyk jako kontaktní
+   sekce na homepage (světle modré pozadí, tmavě modré nadpisy), jen bez
+   formuláře. Tmavý gradient (dřívější verze) byl identický s pozadím
+   patičky hned pod ním, takže sekce s patičkou vizuálně splývala bez
+   viditelné hranice mezi nimi. */
+.page-cta {
+  background: var(--color-bg-blue);
+  color: var(--color-text);
+  text-align: center;
+  /* Menší než homepage .contact-section (var(--space-24)/96px), ale větší
+     než FAQ/Ukázky (64px) – uživatelka chtěla u téhle sekce výraznější
+     padding, cca 80px, mezi oběma hodnotami škály. */
+  padding-block: 5rem;
+}
+
+.page-cta h2 { color: var(--color-primary-dark); }
+
+.page-cta .lead {
+  color: var(--color-text);
+  margin-inline: auto;
+}
+
+.page-cta-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3) var(--space-6);
+  margin: var(--space-6) auto var(--space-8);
+}
+
+.page-cta-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.page-cta-contact svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+@media (max-width: 767px) {
+  .page-cta { padding-block: var(--section-padding-mobile); }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .page-cta { padding-block: var(--space-16); }
 }
