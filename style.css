@@ -654,8 +654,10 @@ p {
 }
 
 @media (max-width: 767px) {
-  /* Tlačítka blíž textu než na desktopu */
-  .hero-actions {
+  /* Tlačítka blíž textu než na desktopu – jen na homepage (.hero-content),
+     .hero-actions je sdílená třída i s .page-hero-content na podstránkách,
+     kde má vlastní, symetrické odsazení (viz níže u .page-hero-content). */
+  .hero-content .hero-actions {
     margin-top: var(--space-4);
   }
 }
@@ -1898,7 +1900,12 @@ p {
    podstránek bývají delší než krátký claim na homepage. */
 .page-hero {
   position: relative;
-  background: linear-gradient(160deg, var(--color-primary-dark) 0%, var(--color-primary-dark) 55%, var(--color-primary) 100%);
+  /* Stejný vzorec jako .hero/.site-footer, ale se stlačenými zlomy (dřív
+     0/55/100 %) – na nízké ploché sekci podstránky (na rozdíl od hero na
+     homepage přes celou výšku okna) padal světlejší konec (55–100 %)
+     geometricky mimo viditelnou oblast (na desktopu pod fotku, jinde pod
+     spodní okraj), takže gradient vždy vypadal jako plná tmavá barva. */
+  background: linear-gradient(160deg, var(--color-primary-dark) 0%, var(--color-primary-dark) 15%, var(--color-primary) 55%);
   isolation: isolate;
   overflow: hidden;
   /* Sekce leží hned pod fixní hlavičkou — offset patří sem jednou, ne
@@ -1909,6 +1916,17 @@ p {
      homepage) – bez ní by přesahující karty ležely na bílém pozadí další
      sekce, ne na modrém gradientu hero. */
   padding-bottom: var(--space-16);
+}
+
+@media (max-width: 1023px) {
+  /* Do 1024px nese tuhle rezervu už sama fotka (viz .page-hero-media
+     padding-bottom výše, který k poměru 4:3 přičítá přesně tuhle
+     hodnotu) – kdyby zůstala i tady, sečetla by se s tou ve fotce a karty
+     by byly zarovnané na spodek PRÁZDNÉ rezervy za už vyšší fotkou,
+     místo aby přesahovaly do samotné fotky. */
+  .page-hero {
+    padding-bottom: 0;
+  }
 }
 
 .page-hero-split {
@@ -1950,6 +1968,16 @@ p {
   margin-bottom: 0;
 }
 
+@media (max-width: 767px) {
+  /* Bez tohohle by tlačítka zdědila mobilní override .hero-content
+     .hero-actions (16px, laděný pro homepage) – tady chceme stejnou mezeru
+     jako pod nadpisem (h1 margin-bottom: var(--space-6)), ne menší. Na
+     tabletu/desktopu zůstává hero-actions na sdílených 48px beze změny. */
+  .page-hero-content .hero-actions {
+    margin-top: var(--space-6);
+  }
+}
+
 .page-hero-media {
   position: relative;
   width: 100%;
@@ -1959,7 +1987,31 @@ p {
      takže viditelný podíl fotky se breakpoint od breakpointu dost liší –
      jedno object-position tedy nesedí úplně stejně na všech šířkách, ale
      to je akceptovaný kompromis výměnou za nezořezanou fotku. */
-  aspect-ratio: 4 / 3;
+  /* Klasický intrinsic-ratio box (padding-bottom v % šířky) místo čistého
+     aspect-ratio – umožňuje k poměru 4:3 (=75 %) přičíst ještě FIXNÍCH
+     --space-16 navíc, ať fotka sahá až do spodní rezervy .page-hero, do
+     které přesahují karty "Co nabízíme" (.offer-overlap, margin-top:
+     -4rem). Bez týhle přidané výšky ležel horní okraj karet na holém
+     modrém pozadí (rezerva byla prázdná, ne fotka) místo na fotce –
+     translucentní sklo karty se namíchalo s tmavě modrou místo s fotkou a
+     vytvořilo nevzhledný namodralý pruh. Jen do 1024px – od 1024px řeší
+     stejnou věc .page-hero-media { position:absolute; bottom:0 } níže.
+     Bez explicitního height (necháno na auto) – box-sizing je border-box,
+     takže by height:0 padding do celkové výšky nezapočítal a box by
+     zůstal 0px vysoký; s height:auto ho auto-výška spočítá správně jako
+     součet paddingu (žádný jiný obsah box nevyplňuje, img je absolutní). */
+  padding-bottom: calc(75% + var(--space-16));
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Na tabletu vychází ze stejného poměru (75 % šířky) fotka v absolutních
+     px vyšší než homepage (768–1023px tam roste jen 512–682px, tady
+     640–831px) – opačně, než by u podstránky mělo být. Nižší procento
+     dělá fotku o kus nižší, přesah karet (--space-16 fixní přídavek)
+     zůstává stejný. */
+  .page-hero-media {
+    padding-bottom: calc(50% + var(--space-16));
+  }
 }
 
 .page-hero-media img {
@@ -2022,6 +2074,10 @@ p {
        obrazovku (ověřeno getBoundingClientRect – bez tohohle byl box
        1920px místo očekávaných ~806px). */
     width: auto;
+    /* Reset mobilního/tabletového triku (padding-bottom v % šířky, viz
+       základní pravidlo výše) – tady je box absolutně pozicovaný přes
+       top+bottom, takže by ten padding jen zbytečně přidával místo navíc. */
+    padding-bottom: 0;
     aspect-ratio: auto;
     clip-path: polygon(4.5rem 0, 100% 0, 100% 100%, 0 100%);
   }
@@ -2142,13 +2198,41 @@ p {
 
 .revize-section .feature-grid { margin-top: -2.5rem; }
 
+@media (max-width: 767px) {
+  /* Fotka (1024×768) má PŘESNĚ stejný poměr stran 4:3 jako výchozí
+     .about-media box na mobilu – object-fit:cover proto nemá žádnou
+     rezervu ke svislému ořezu a object-position:90% (viz výše) neměla na
+     mobilu vůbec žádný efekt. Mírně širší poměr boxu vytvoří rezervu, aby
+     šlo skutečně posunout, co je vidět nahoře/dole. */
+  .revize-section .about-media { aspect-ratio: 4 / 2.3; }
+  .revize-section .about-media img { object-position: center 100%; }
+
+  /* Na mobilu sladěno s O nás na homepage (var(--space-12)/48px a
+     -3.5rem přesah karet) – zmenšená "kompaktní" hodnota výše (--space-8/
+     32px, -2.5rem, viz 4. kolo úprav podstránky) zůstává jen na desktopu,
+     kde má tahle sekce dost místa navíc. Pravidlo musí být AŽ ZA obecným
+     (viz poučení v sekci Tablet hero) – stejná specificita, jinak by ho
+     pozdější obecné pravidlo v cascade přebilo. */
+  .revize-section .about-content { padding-block: var(--space-12); }
+  .revize-section .feature-grid { margin-top: -3.5rem; }
+}
+
 @media (min-width: 768px) and (max-width: 1023px) {
   /* Sdílené tabletové pravidlo (.about-media { height: 28rem }, laděné pro
      homepage O nás) dělalo na šířku téhle sekce (celá obrazovka, ne jen
      container) fotku nepřirozeně nízkou a širokou – skoro jako útlý pruh
      místo fotky. Vyšší hodnota jen pro tuhle sekci. */
-  .revize-section .about-media { height: 34rem; }
-  .revize-section .about-watermark { bottom: calc(34rem + var(--space-2)); }
+  .revize-section .about-media { height: 30rem; }
+  .revize-section .about-watermark { bottom: calc(30rem + var(--space-2)); }
+  .revize-section .about-media img { object-position: center 100%; }
+
+  /* Svislý rytmus (padding textu + přesah karet) sladěn s homepage O nás
+     na tabletu (var(--space-16)/64px, -3.5rem) – kompaktní "úsporná"
+     hodnota (--space-8, -2.5rem) zůstává jen na desktopu, kde má sekce
+     dost místa navíc. Pravidlo AŽ ZA base .revize-section .about-content/
+     .feature-grid výše (stejná specificita, jinak by ho přebily). */
+  .revize-section .about-content { padding-block: var(--space-16); }
+  .revize-section .feature-grid { margin-top: -3.5rem; }
 }
 
 @media (min-width: 1024px) {
@@ -2175,7 +2259,7 @@ p {
   grid-template-columns: 1fr;
   gap: var(--space-16);
   list-style: none;
-  margin: 0;
+  margin: 0 0 var(--space-6) 0;
   padding: 0;
 }
 
@@ -2218,6 +2302,10 @@ p {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
+  /* Karty mají měkký box-shadow, který dobarvuje pozadí pod sebou ještě
+     desítky px za svou hranou – bez tohohle marginu opticky "ukusuje" ze
+     spodního paddingu sekce a dělá dojem menší mezery než nahoře. */
+  margin-bottom: var(--space-6);
 }
 
 .faq-item {
