@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Kdyby si někdo otevřel adresu s .html (např. /elektro-sluzby.html),
+# přesměruj ho na hezkou adresu bez přípony (/elektro-sluzby).
+RewriteCond %{THE_REQUEST} /([^.\s]+)\.html[\s?] [NC]
+RewriteRule ^ /%1 [NC,L,R=301]
+
+# Adresu bez přípony (např. /elektro-sluzby) interně napoj na skutečný
+# soubor (elektro-sluzby.html), aniž by se to projevilo v adresním řádku.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^([^.]+)$ $1.html [NC,L]
