@@ -2050,8 +2050,9 @@ p {
     /* Ještě větší souměrný padding nad nadpisem/pod tlačítky (dřív
        space-16/64px) – vyšší textový sloupec = vyšší .page-hero-split =
        vyšší .page-hero, takže karty "Co nabízíme" (přesah -4rem od spodku
-       .page-hero) sklouznou o kus níž. */
-    padding: var(--space-24) 0 var(--space-24) var(--tunnel-inset);
+       .page-hero) sklouznou o kus níž. Pravý padding (dřív 0) přidán, ať
+       text nedoléhá až na hranu fotky vpravo (na přání uživatelky). */
+    padding: var(--space-24) var(--space-12) var(--space-24) var(--tunnel-inset);
   }
 
   .page-hero-media {
@@ -2145,6 +2146,18 @@ p {
     drop-shadow(0 0 10px rgba(255, 255, 255, 0.75))
     drop-shadow(0 0 18px rgba(255, 255, 255, 0.55))
     drop-shadow(0 2px 4px rgba(15, 34, 61, 0.18));
+}
+
+/* "Stěhování výrobních strojů" – ikona je široká/plochá (stroj + šipky po
+   stranách), takže při vynucení do stejného čtvercového 3rem plátna jako
+   ostatní ikony vycházela nižší (viz komentář u karty v HTML). Místo
+   deformace obsahu (zmenšování šipky) necháváme ikonu širší než ostatní,
+   ale o něco menší celkově (na přání uživatelky – "o kousíček ji zmenši"),
+   poměr stran zpracovaného PNG zachovaný (Obrazky/web/icon-stehovani-
+   stroju.png, 986×527px). */
+.offer-grid .feature-item-icon--wide {
+  width: 4.97rem;
+  height: 2.65rem;
 }
 
 /* Elektrorevize — bez fotky (dřívější fotka montáže tematicky neseděla
@@ -2242,6 +2255,84 @@ p {
   .revize-section .about-split { min-height: 34rem; }
 }
 
+/* ============================= FOTOVOLTAIKA – "FOTOVOLTAIKA NA KLÍČ" =============================
+   Stejná komponenta jako .revize-section u Elektro služeb, jen vlastní
+   třída (jiná podstránka, jiná fotka). Fotka karta-fotovoltaika.jpg má
+   shodný poměr stran 4:3 jako revize-mereni.jpg, takže výchozí hodnoty
+   (výšky, object-position) přebrané 1:1 jako rozumný start – motiv je ale
+   jiný (letecký pohled na střechu, ne polička s přístroji), takže přesný
+   ořez bude po prvním náhledu čekat na doladění, stejně jako to trvalo
+   u Elektrorevize (viz kola úprav podstránky elektro-sluzby výše). */
+.fve-section {
+  padding-top: 0;
+  padding-bottom: var(--space-16);
+  margin-top: var(--space-16);
+}
+
+@media (max-width: 767px) {
+  .fve-section { margin-top: var(--space-12); }
+}
+
+.fve-section .about-content { padding-block: var(--space-8); }
+
+/* Zdrojová fotka (karta-fotovoltaika.jpg) je teď už oříznutá při zpracování
+   tak, aby zmizel levý okraj střechy i palec fotografa v rohu záběru (dřív
+   object-position nešlo použít, protože poměr stran fotky skoro přesně
+   odpovídal poměru stran boxu, takže cover neměl co ořezávat). Svisle mírně
+   nahoru (35 %), aby byly vidět hlavně panely, ne beton střechy dole. */
+.fve-section .about-media img { object-position: center 45%; }
+
+.fve-section .feature-grid { margin-top: -2.5rem; }
+
+/* Základní .feature-grid počítá se 4 kartami (grid-template-columns:
+   repeat(4,1fr) od 640px) – u techologií jsou jen 3 (SolaX/NORD/GoodWe),
+   takže by v řádku zbyl jeden prázdný sloupec a karty by nedosáhly na
+   pravý okraj containeru (přesně tenhle efekt bylo vidět předtím). Vlastní
+   počet sloupců pro tuhle sekci, stejné zlomy jako .offer-grid (2 sloupce
+   na tabletu, 3 od desktopu). */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .fve-section .feature-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .fve-section .feature-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .fve-section .about-media { aspect-ratio: 4 / 2.3; }
+  .fve-section .about-media img { object-position: center 45%; }
+
+  .fve-section .about-content { padding-block: var(--space-12); }
+  .fve-section .feature-grid { margin-top: -3.5rem; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .fve-section .about-media { height: 30rem; }
+  .fve-section .about-watermark { bottom: calc(30rem + var(--space-2)); }
+  .fve-section .about-media img { object-position: center 45%; }
+
+  .fve-section .about-content { padding-block: var(--space-16); }
+  .fve-section .feature-grid { margin-top: -3.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .fve-section .about-split { min-height: 34rem; }
+}
+
+/* ============================= PRŮMYSLOVÁ ŘEŠENÍ – "ČIŠTĚNÍ VODNÍCH A CHLADICÍCH OKRUHŮ" =============================
+   Stejný .feature-grid problém jako u .fve-section výše – jen 3 karty
+   (zařízení, u kterých se čištění provádí), základní .feature-grid počítá
+   se 4 (repeat(4,1fr) od 640px), takže by zbyl prázdný sloupec a karty by
+   nedosáhly na pravý okraj containeru. Stejné zlomy jako u .fve-section
+   (2 sloupce na tabletu, 3 od desktopu). */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .cleaning-section .feature-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .cleaning-section .feature-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
 .revize-subhead {
   color: var(--color-primary-dark);
   margin-top: var(--space-24);
@@ -2294,10 +2385,72 @@ p {
 
 @media (min-width: 768px) {
   .steps { grid-template-columns: repeat(3, 1fr); gap: var(--space-12) var(--space-6); }
+
+  /* Vnitřní padding u každého kroku, aby sloupce vedle sebe nepůsobily
+     nalepené – ke gapu mezi sloupci (space-6) přidává další odstup od
+     souseda vpravo (poslednímu sloupci nevadí, jen zbyde neviditelná
+     rezerva). */
+  .step-item { padding-right: var(--space-6); }
 }
 
+/* Technologie (SolaX/NORD/GoodWe) teď žijí jako karty přímo ve
+   .fve-section .feature-grid – STEJNÝ vzhled jako "Provádíme revize" u
+   Elektro služeb / feature-grid u O nás (výchozí .feature-item-icon
+   kolečko, oranžový gradient). Jediná vlastní věc navíc je tahle kurzíva
+   pro podtitul značky mezi h3 a dlouhým popisem – základní ".feature-item p"
+   pravidlo (margin:0) by jinak slepilo podtitul a popis bez odstupu. */
+.feature-grid .tech-tagline {
+  color: var(--color-accent);
+  font-style: italic;
+  margin-bottom: var(--space-2);
+}
+
+.fve-section .feature-grid h3 { font-size: 1.25rem; }
+
+/* ============================= CERTIFIKACE A ODBORNÁ ZPŮSOBILOST =============================
+   Náhledy skutečných certifikátů (Obrazky/Certifikaty) – klikací, otevírají
+   plnou velikost v nové záložce (ne přes sdílený lightbox galerie realizací
+   níž, aby se šipkami "další/předchozí" nemísily dokumenty s fotkami). */
+.cert-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .cert-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.cert-thumb {
+  display: block;
+  max-width: 200px;
+  margin: 0 auto var(--space-4);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.cert-thumb:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.cert-thumb img { width: 100%; height: auto; display: block; }
+
+.cert-card h3 { font-size: 1.05rem; color: var(--color-primary-dark); margin-bottom: var(--space-2); }
+
+.cert-card p { font-size: var(--fs-base); color: var(--color-muted); margin: 0; }
+
 /* Otázky a odpovědi — accordion na <details>/<summary>, šipka rotuje při
-   otevření; 4 položky → od tabletu ve dvou sloupcích. */
+   otevření; 4 položky → od tabletu ve dvou sloupcích. Sloupce jsou od
+   tabletu dva NEZÁVISLÉ flex kontejnery (.faq-col), ne jeden grid o 2
+   sloupcích/2 řádcích – ve sdíleném gridu roztažení jedné karty zvětšilo
+   výšku celého řádku a posunulo dolů i kartu ve vedlejším sloupci ve
+   stejném řádku (byť samotná neroztažená karta zůstávala nahoře díky
+   align-items:start, prostor pod ní v řádku ji odsouval). Samostatné
+   sloupce = otevření karty ovlivní jen její vlastní sloupec. */
 .faq-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -2306,6 +2459,26 @@ p {
      desítky px za svou hranou – bez tohohle marginu opticky "ukusuje" ze
      spodního paddingu sekce a dělá dojem menší mezery než nahoře. */
   margin-bottom: var(--space-6);
+}
+
+/* Na mobilu (1 sloupec) je .faq-col jen obalový element bez vizuálního
+   významu – display:contents ho z box tree odstraní, takže karty (details)
+   se stanou přímými grid items v .faq-grid. V HTML jsou ale seřazené po
+   sloupcích (1., 3. otázka v prvním <div>, 2., 4. ve druhém – kvůli
+   desktopu, viz komentář výše), takže bez zásahu by na mobilu vyšlo
+   pořadí 1, 3, 2, 4 místo čtenářského 1, 2, 3, 4 – opraveno přes `order`
+   níž. */
+.faq-col { display: contents; }
+
+@media (max-width: 767px) {
+  .faq-col:first-of-type > .faq-item:nth-of-type(1) { order: 1; }
+  .faq-col:last-of-type > .faq-item:nth-of-type(1) { order: 2; }
+  .faq-col:first-of-type > .faq-item:nth-of-type(2) { order: 3; }
+  .faq-col:last-of-type > .faq-item:nth-of-type(2) { order: 4; }
+  /* 5. otázka (liché FAQ, např. Fotovoltaika: 3+2 sloupce místo 2+2 u
+     Elektro služeb) – bez efektu na stránky se 4 otázkami, kde první
+     sloupec 3. položku nemá. */
+  .faq-col:first-of-type > .faq-item:nth-of-type(3) { order: 5; }
 }
 
 .faq-item {
@@ -2350,7 +2523,8 @@ p {
 }
 
 @media (min-width: 768px) {
-  .faq-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); align-items: start; }
+  .faq-grid { display: flex; align-items: flex-start; gap: var(--space-6); }
+  .faq-col { display: flex; flex-direction: column; gap: var(--space-6); flex: 1; min-width: 0; }
 }
 
 /* CTA pás před kontaktem na podstránkách — stejný jazyk jako kontaktní

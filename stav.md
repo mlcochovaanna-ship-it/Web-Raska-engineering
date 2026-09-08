@@ -1,6 +1,6 @@
 # Stav rozpracované práce – web Raška engineering
 
-_Poslední aktualizace: 2026-09-03_
+_Poslední aktualizace: 2026-09-07_
 
 ## Mobilní úpravy – toto sezení
 
@@ -553,3 +553,106 @@ Delší sada drobných doladění napříč celou stránkou `elektro-sluzby.html
 - Všechny body ověřeny Playwright screenshoty (různé šířky) i vizuální kontrolou uživatelkou přímo v konverzaci.
 
 **Otevřené:** žádné explicitně nevyřízené požadavky v tomto kole.
+
+### Dvacáté sedmé kolo – mezery FAQ/kroky, CTA tlačítko u Elektrorevize, výměna fotky v galerii
+
+- **FAQ (`Otázky a odpovědi`) – dolní mezera opticky menší než horní.** Uživatelka trvala na tom, že jde o reálný rozdíl (přeměřeno pravítkem), ne jen o dojem – ověřeno rigorózně přes pixel-sampling (PIL/numpy): měkký `box-shadow` (`var(--shadow-lg)`) karet dobarvuje pozadí pod sebou ještě ~45 px za svou hranou, takže z nominálních 64 px spodního paddingu sekce "čistá" barva vrátí až po ~45 px, zatímco nahoře je čistá okamžitě na celých 64 px. **Fix:** `.faq-grid { margin-bottom: var(--space-6) }` (24px navíc, po prvním zkušebním `--space-12`, které uživatelka označila za "zase moc velké").
+- **Stejná extra mezera doplněna i pod "Jak elektrorevize probíhá".** `.steps { margin: 0 0 var(--space-6) 0 }` (dřív `margin:0`) – sjednocený odstup před FAQ sekcí (ověřeno 88px celkem).
+- **Oranžové CTA tlačítko pod úvodní text Elektrorevize**, vedoucí přímo na `/kontakt` (zvažováno nejdřív jako kotva `#mate-zajem` dolů na existující CTA pás, ale uživatelka správně upozornila, že by to byl zbytečný dvojitý krok – dole je stejně tlačítko vedoucí na kontakt). Text "Poptat elektrorevizi".
+- **Galerie "Ukázky naší práce" – poslední (6.) fotka vyměněna** za novou fotku z průmyslového provozu (`Obrazky/Elektroinstalace/WhatsApp-Image-2021-03-20-at-11.11-1.jpg`, zdroj přesně 3:4, bez ořezu zmenšeno na `Obrazky/web/realizace-elektro-rozvadec-provoz.jpg`, 768×1024).
+
+### Dvacáté osmé kolo – mobilní pas: sladění hero mezer, oprava "modrého pruhu", sladění Elektrorevize s O nás na mobilu
+
+Uživatelka: "Ok, mě se tato stránka líbí. Jdeme na mobil."
+
+- **Nesouměrná mezera pod hero textem vs. pod nadpisem.** Kořenová příčina: `.hero-actions` mělo mobilní override zavedený PŮVODNĚ jen pro homepage (`margin-top: var(--space-4)`), ale sdílená třída ho neúmyslně aplikovala i na hero téhle podstránky, kde ale nebyl žádaný stejný odstup. **Fix:** homepage pravidlo scopnuto přes `.hero-content .hero-actions` (jen homepage), přidáno nové samostatné pravidlo `.page-hero-content .hero-actions { margin-top: var(--space-6) }` jen pro podstránky.
+- **"Modrý pruh" pod hero fotkou na mobilu.** Kořenová příčina: karty "Co nabízíme" (`.offer-overlap`) se záporným marginem přesahují nahoru do rezervy `.page-hero`'s `padding-bottom`, ale fotka (`.page-hero-media`) svou vlastní výškou tuhle rezervu nepokrývala celou – část rezervy byla jen holé pozadí sekce (modré), do kterého poloprůhledná karta "propadávala" a vytvářela viditelný modrý pruh mezi fotkou a kartami. **Fix:** `.page-hero-media` dostalo `padding-bottom: calc(75% + var(--space-16))` (intrinzitní-ratio technika – `height` ponechána na `auto`, protože s globálním `box-sizing:border-box` by explicitní `height:0` padding-bottom efekt zrušilo) – fotka teď svou výškou sama sahá až do rezervy, kterou karty přesahují, takže se karta překrývá s fotkou, ne s holým pozadím. Tabletová varianta `calc(50% + var(--space-16))`. Doplněno `.page-hero { padding-bottom:0 }` pro <1024px (na desktopu zůstává beze změny, tam je jiný mechanismus z 13./14. kola).
+- **Sladění Elektrorevize s homepage O nás na mobilu.** `.revize-section .about-content` padding-block sjednocen na `var(--space-12)` (dřív kompaktní `--space-8`, zůstává jen na tabletu/desktopu), `.revize-section .feature-grid` přesah na `-3.5rem` (dřív `-2.5rem`) – shodné s homepage.
+- **Ořez fotky Elektrorevize posunut** (méně shora, víc zdola – multimetr/zkoušečka v dolní části zdrojové fotky). Fotka `revize-mereni.jpg` má přesně stejný poměr stran (4:3) jako výchozí `.about-media` box na mobilu, takže `object-position` bez úpravy poměru boxu neměla žádný efekt (cover nemá žádnou ořezovou rezervu, když se poměry přesně shodují). **Fix:** `.revize-section .about-media { aspect-ratio: 4/2.3 }` (deliberně jiný poměr než fotka, vytváří rezervu k ořezu) + `object-position: center 100%`.
+- Jen návrh, neimplementováno na žádost uživatelky: možnost vycentrovat kroky "Jak elektrorevize probíhá" na mobilu – ponecháno beze změny.
+
+### Dvacáté deváté kolo – tablet: nižší hero fotka, zviditelnění modrého gradientu
+
+- **Hero fotka na tabletu snížena** – podstránkový hero má být nižší než homepage. Řešeno stejnou intrinzitní technikou jako u mobilu výše (`.page-hero-media` padding-bottom `calc(50% + var(--space-16))`), beze změny desktopu.
+- **Modrý gradient hero sekce (`.page-hero`, stejná formule jako patička) byl fakticky neviditelný.** Ověřeno pixel-sampling: barva byla na celé výšce konstantní `--color-primary-dark`, přechod na `--color-primary` (zlomy `0%/55%/100%`) padal geometricky až pod fotku (gradient směřuje `160deg`, tj. dolů-doprava, přesně tam, kde na desktopu leží fotka). **Fix:** zlomy stlačeny na `0%/15%/55%` (jen u `.page-hero`, homepage `.hero` a `.site-footer` mají svou vlastní, nedotčenou definici se stejnou formulí) – přechod teď proběhne dřív, uvnitř viditelné textové zóny. Ověřeno jak vizuálně (screenshoty 1920/820/390px), tak přímým měřením barvy po sloupcích pixelů (reálná, měřitelná progrese od `(22,58,104)` k `~(30,77,138)`) – žádné horizontální přetečení.
+
+### Třicáté kolo – sladění Elektrorevize s O nás na tabletu (padding, přesah karet) + posun ořezu fotky
+
+- **Padding textu a přesah karet na tabletu (768–1023px) sladěny s homepage O nás.** Dřív `.revize-section .about-content` dědilo kompaktní `--space-8`/`.feature-grid` `-2.5rem` (žádný tabletový override neexistoval), homepage má na tabletu `--space-16`/`-3.5rem`. **Fix:** přidán tabletový override `.revize-section .about-content { padding-block: var(--space-16) }` + `.revize-section .feature-grid { margin-top: -3.5rem }`. Výška fotky (`34rem`, později zmenšena – viz níže) zůstává záměrně JINÁ než homepage (28rem) – tahle sekce je full-bleed přes celou šířku obrazovky, ne v containeru, takže při homepage hodnotě by fotka vypadala jako tenký pruh (zdůvodněno už ve 21. kole). Ověřeno `getComputedStyle` – 64px/64px padding a -56px přesah identické s homepage.
+- **Ořez fotky posunut, aby bylo vidět míň shora.** První pokus – posun `object-position` z `90%` na `100%` – neměl znatelný efekt (uživatelka: "vypadá to stejně jako předtím"): box na tabletu má jen malou vertikální ořezovou rezervu (box i fotka mají blízké poměry stran), takže i krajní hodnota `object-position` posune ořez jen o pár px. **Skutečný fix:** zmenšena fixní výška boxu `.revize-section .about-media` z `34rem` na `30rem` (spolu s `.about-watermark` bottom offsetem) – užší box = větší ořezová rezerva, která se (při `object-position: center 100%`) celá odečte shora. Výsledek zřetelně odkrývá víc spodku fotky (multimetr), méně horní police. Ověřeno screenshoty na 820px.
+
+### Třicáté první kolo – čisté URL adresy (`/elektro-sluzby` místo `elektro-sluzby.html`) nefungovaly na doméně
+
+Po nahrání na ostrou doménu (`webkitty.cz` hosting, potvrzeno uživatelkou) adresa `/elektro-sluzby` a všechny interní odkazy/tlačítka nefungovaly. Nejdřív omylem vyzkoušen opačný přístup (přepsání všech interních odkazů na `*.html`, aby fungovalo aspoň lokální `file://` testování) – uživatelka to zamítla: na doméně chce fungující čisté URL bez `.html`, ne odkazy s příponou.
+
+**Skutečný fix:** odkazy vráceny zpět na root-absolute tvar (`/elektro-sluzby`, `/kontakt` atd., přesně jako předtím) a do kořene webu přidán **`.htaccess`** s `mod_rewrite` pravidly pro Apache (Webkitty běží na klasickém Apache/cPanel hostingu, ne na platformě s automatickými čistými URL jako Netlify): (1) požadavek na `/xxx.html` přesměruje 301 na `/xxx`, (2) požadavek na `/xxx` bez přípony interně namapuje na skutečný soubor `xxx.html`, pokud existuje. Uživatelka potvrdila, že po nahrání `.htaccess` na doménu už `/elektro-sluzby` funguje.
+
+**Poučení pro příště:** `.htaccess` je skrytý soubor (začíná tečkou) – při nahrávání přes FTP/správce souborů na Webkitty je potřeba mít zapnuté zobrazení skrytých souborů, jinak snadno zůstane nenahraný. Lokální testování čistých URL přes dvojklik/`file://` není možné (žádný server, žádné rewrite pravidlo) – to je očekávané omezení, ne bug.
+
+### Třicáté druhé kolo – FAQ akordeon: otevření karty ovlivňovalo i sousední sloupec
+
+Uživatelka nahlásila, že roztažení jedné otázky v FAQ mřížce (`Otázky a odpovědi`) posouvalo i kartu ve VEDLEJŠÍM sloupci – nežádoucí, otevření se má týkat jen dané karty.
+
+**Diagnostika:** `.faq-grid` byl jeden sdílený CSS grid (2 sloupce × 2 řady). `align-items:start` (zavedeno už dřív) sice zabraňovalo natažení karty ve STEJNÉM řádku, ale výška řádkové stopy (`grid-auto-rows`) se pořád řídila nejvyšší kartou v řádku – takže po otevření karty v 1. řádku se 2. řádek (v OBOU sloupcích) posunul dolů. Ověřeno Playwright měřením `getBoundingClientRect` před/po otevření.
+
+**Fix:** `.faq-grid` restrukturalizován na dva NEZÁVISLÉ sloupce – v HTML nový obalový `<div class="faq-col">` pro každý sloupec (1., 3. otázka v prvním, 2., 4. ve druhém, zachovává stejné vizuální rozložení jako předtím). Od 768px `.faq-grid { display:flex }` + `.faq-col { display:flex; flex-direction:column }` (sloupce teď mají nezávislou výšku). Na mobilu (1 sloupec) `.faq-col { display:contents }` – obal zmizí z box tree, karty plynou přímo v `.faq-grid`; protože je ale v HTML pořadí `1,3,2,4` (kvůli desktopovým sloupcům), doplněno `order` v `@media(max-width:767px)`, které na mobilu vrátí čtenářské pořadí `1,2,3,4`.
+
+Ověřeno Playwright: mobilní pořadí karet přesně `1,2,3,4`; na desktopu otevření 1. karty (levý sloupec) posune dolů jen 2. kartu ve STEJNÉM sloupci, pravý sloupec (změřeno – identická vzájemná mezera před/po) zůstává zcela beze změny. Uživatelka potvrdila a požádala tenhle vzor (nezávislé sloupce místo sdíleného gridu) používat i příště u podobných víceloupcových akordeonů.
+
+**Otevřené:** žádné explicitně nevyřízené požadavky. Zvažovaná drobnost (zmenšit mobilní přesah karet `.feature-grid`, aby nezakrýval multimetr na fotce Elektrorevize) uživatelka vědomě zamítla – "necháme, jak je", kvůli konzistenci s homepage.
+
+## Fotovoltaika – nová podstránka (`fotovoltaika.html`), dokončeno
+
+Nová podstránka podle vzoru `elektro-sluzby.html` – stejná struktura (hero → Co nabízíme → hlavní sekce s fotkou a kartami → Certifikace → FAQ → galerie realizací → CTA), stejný grafický design, sdílený `style.css`/`script.js`. Stránka je uživatelkou odsouhlasena jako hotová.
+
+### Chyba na začátku: stránka se nejdřív postavila bez kontroly `instrukce.md`
+
+První verze stránky vznikla čistě podle vzoru Elektro služeb, s vlastním (vymyšleným) textem tam, kde `instrukce.md` ve skutečnosti obsahuje závazný, doslovný obsah pro každou sekci (a výslovný zákaz cokoli přidávat/vymýšlet). Uživatelka to odhalila dotazem "Je v instrukce.md ještě jiný text ke stránce fotovoltaika?" a zpochybněním vymyšleného nadpisu "Jak fotovoltaika probíhá". Musela se přestavět prakticky každá sekce (počet a text karet "Co nabízíme", chybějící sekce Technologie, nadpis a počet kroků spolupráce, chybějící Certifikace, obsah FAQ, text závěrečného CTA), aby seděla na `instrukce.md` doslovně.
+
+**Poučení pro příště: u NOVÉ podstránky vždy nejdřív přečíst `instrukce.md` (pokud v projektu existuje) celý, ne až po prvním konceptu.** Platí obecně, ne jen pro tuhle stránku.
+
+### Hero
+
+Fotka `Obrazky/web/hero-fotovoltaika.jpg` – PIL ořez `(0, 250, 4600, 3000)` ze zdroje `Obrazky/kolaz/aerial-view-private-house-with-solar-panels-roof.jpg` (5464×3640), resize na šířku 1800 → 1800×1076. Iterováno jednou na přání "přibliž ji ve výřezu, aby byla vidět převážně střecha" (dřívější, méně přiblížená verze nahrazena). H1/lead text doslovně z `instrukce.md`.
+
+### Co nabízíme (`.offer-grid`) – 6 karet, vlastní PNG ikony
+
+Karty: Fotovoltaické systémy na míru, Střídače, Bateriová úložiště, Wallbox, Monitoring systému, Servis a údržba (6. karta doplněna na výslovné přání uživatelky, není z `instrukce.md`). Ikony prošly dvěma koly:
+
+1. **Dočasně** liniové SVG ikony ze sdíleného spritu (s pomocnou třídou `.icon-circle-fallback`, co jim vracela oranžové kolečko) – uživatelka zatím neměla vlastní ikony.
+2. **Po nahrání 6 vlastních PNG ikon** (`Obrazky/Ikony/fve-systemy-na-miru.png`, `stridace.png`, `bateriova-uloziste.png`, `wallbox.png`, `monitoring-fve.png`, `servis-a-udrzna-fve.png`) nahrazeny `<img>` tagy stejně jako na Elektro službách, `.icon-circle-fallback` (HTML i CSS) smazáno jako nepoužívané.
+
+**Zjištěná a opravená chyba při zpracování ikon – "halo" v alfa kanálu kazilo tight-crop.** První průchod (prostý `alpha.getbbox()` ořez na čtvercové plátno) dal ikony viditelně MENŠÍ než na Elektro službách, přestože matematicky měly vyplnit celou výšku 48px boxu (`object-fit:contain` do čtvercového `.feature-item-icon`). Příčina: zdrojové PNG mají kolem ikony jemný, téměř neviditelný glow/stín (alfa 1–9), který `getbbox()` (počítá jakýkoli alfa>0 pixel) zabral do ořezu jako "obsah" – po ořezu tak samotná viditelná ikona vyplňovala jen ~68 % nového plátna místo očekávaných ~85 %. **Fix:** ořez přes práh (`alpha > 40`, numpy), ne přes `getbbox()`. Zavedena reprodukovatelná pipeline (viz i nížu u SolaX/NORD/GoodWe): najít bbox nad prahem → čtvercové plátno odvozené z VÝŠKY glyfu (`canvas_size = max(gh/0.85, gw)`, pojistka `max()` pro širší glyfy) → glyf vycentrovat. Výška 0.85 odpovídá průměrnému vyplnění existujících ikon na Elektro službách (změřeno 0.75–0.90 na několika vzorcích). Ověřeno srovnávacím screenshotem vedle sebe s ikonou z Elektro služeb.
+
+**Poučení pro příště: při ořezávání PNG ikon na čtvercové plátno vždy prahovat alfa kanál (`alpha > ~40`), ne používat holé `getbbox()` – jinak jemný glow v souboru zkreslí ořez a ikona vyjde vizuálně menší, než by měla.**
+
+### Fotovoltaika na klíč / Technologie / Jak spolupráce probíhá – sloučená sekce (`.fve-section`)
+
+Stejná vizuální komponenta jako "Elektrorevize" u Elektro služeb (fotka + šikmý řez, karty přesahující přes spodní hranu fotky). Prošla několika koly přestavby:
+
+- **Technologie (SolaX/NORD/GoodWe)** byly nejdřív samostatná sekce s vlastním "ozvláštněným" designem (accent bar, badge pill) na žádost "udělala jsi jen prosté karty, to je nuda" – uživatelka pak zvolila jiný směr a požádala kartičky přesunout přímo pod "Fotovoltaika na klíč", ve stejném vzhledu jako `.feature-grid` na Elektro službách/O nás. Vlastní accent-bar CSS smazáno, karty teď sdílí standardní `.feature-item`/`.feature-item-icon`.
+- **Chyba: 3 karty nevyplňovaly celou šířku řádku.** Sdílený `.feature-grid` počítá s `grid-template-columns: repeat(4,1fr)` (navržen pro přesně 4 karty jako O nás/Elektrorevize) – se 3 kartami zbyl neviditelný 4. sloupec a karty nedosahovaly na pravý okraj containeru. **Fix:** `.fve-section .feature-grid` dostal vlastní zlomy (2 sloupce 640–1023px, 3 od 1024px), stejný vzor jako `.offer-grid`.
+- **Ikony u SolaX/NORD/GoodWe:** nejdřív odstraněny úplně ("dala bych bez ikon"), nadpis zvětšen na kompenzaci (1.05rem → 1.4rem). Po nahrání vlastních bílých ikon (`Obrazky/Ikony/solax.png`, `nord.png`, `goodwe.png`) vráceny zpět do standardních oranžových koleček (stejná pipeline ořezu jako u "Co nabízíme" ikon výše, práh `alpha>40`, fill 0.85) – nadpis vrácen na běžnou velikost, později na žádost zvětšen na `1.25rem` (kompromis, ne úplně původní 1.05, ale ne extrémních 1.4). Ikona SolaX (baterie+sluníčko, vizuálně "těžší" vlevo) doladěna ručním vodorovným posunem `+75px` v rámci plátna, aby opticky vyvážila kompozici.
+- **Texty SolaX/NORD/GoodWe přeformulovány** na žádost "přívětivěji a čtivěji", se zachováním všech faktů a vyrovnanou délkou (~230–250 znaků na odstavec) – viz komentář v HTML u sekce. Tagline NORD vráceno zpět na původní "Odolnost a dlouhá životnost", GoodWe zkráceno na "Moderní technologie pro chytré řízení" (na přání uživatelky po jednom kole delší varianty). Pomlčky v žádné kartě nejsou (explicitní požadavek), NORD proto "a spolehlivě fungují" místo pomlčky.
+- **Texty kroků "Jak spolupráce probíhá" přepsány** na žádost ("aby byly body trošku vyrovnané a vyjadřovaly nadpis") – 3 kroky (Konzultace a návrh řešení / Realizace / Spuštění a následný servis), teď podobné délky (~230–250 znaků), každý blíž svému nadpisu. Není doslovný text z `instrukce.md` (explicitní svolení uživatelky). Kroky navíc dostaly `padding-right: var(--space-6)` na desktopu, ať sloupce vedle sebe nepůsobí "nalepené".
+- **Fotka (`karta-fotovoltaika.jpg`) přeořezána přímo ve zdroji**, ne jen přes `object-position`. Zdrojová fotka měla EXIF datum, díky kterému se dohledal originál `Obrazky/Fotovoltaika/IMG_3112.jpeg` (4032×3024, iPhone 15 Pro Max) – poměr stran fotky (4:3) byl téměř identický s poměrem stran boxu, takže `object-fit:cover` neměl prakticky žádnou ořezovou rezervu a `object-position` (zkoušeno až 100%) viditelně nic neměnil. Palec fotografa v levém dolním rohu i okraj střechy vlevo zůstávaly viditelné za všech hodnot. **Skutečný fix:** nový ořez přímo ze zdroje `(750, 0, 4032, 3024)` (odřezává levý pruh i palec najednou), resize na 1600px šířky → `karta-fotovoltaika.jpg` 1600×1474 (jiný poměr stran než předtím, teď má `object-fit:cover` reálnou svislou rezervu). `object-position` doladěno na `center 45%` po několika koly (35 % → 55 % → 45 %, na základě zpětné vazby "víc zdola"/"tak dej střed").
+
+**Poučení pro příště: pokud fotka a box, do kterého se vkládá (`object-fit:cover`), mají téměř identický poměr stran, `object-position` nemá prakticky žádný efekt (cover nemá co ořezávat) – řešením je oříznout/přerámovat zdrojový soubor, ne ladit `object-position` donekonečna.**
+
+### Certifikace a odborná způsobilost – nová sekce
+
+3 skutečné certifikáty ze složky `Obrazky/Certifikaty/` (PNG skeny) převedeny přes PIL (`convert('RGB')`, resize na šířku 900px, JPEG kvalita 85) na `Obrazky/web/cert-cfa.jpg`, `cert-mpo-kvalifikace.jpg`, `cert-solax-skoleni.jpg`. Klikací náhledy (`.cert-thumb`) otevírají plnou velikost v nové záložce (`target="_blank"`), záměrně MIMO sdílený lightbox galerie realizací níž, aby se šipkami neprocházely dokumenty spolu s fotkami.
+
+### FAQ – 4 otázky (zúženo z 5 na žádost uživatelky)
+
+Otázka "Jaké technologie používáte?" odstraněna. **Chyba při odstranění:** smazána jen z jednoho sloupce, bez přesunu jiné otázky na vyrovnání → sloupce vyšly 3+1. Opraveno přesunem "Zajišťujete také následný servis?" do druhého sloupce, teď čisté 2+2 (stejný vzor nezávislých `.faq-col` sloupců jako Elektro služby, viz 32. kolo výše).
+
+### Galerie realizací – 6 fotek
+
+Vybrány z `Obrazky/Fotovoltaika/` (desítky reálných fotek z realizací). Hero fotka byla zprvu i v galerii, později na žádost odstraněna ("Tu hero fotku z galerie smaž"). Dvě nové fotky zpracovány přes PIL s `ImageOps.exif_transpose()` (na rozdíl od `sips`, který u portrétních iPhone fotek nekorektně zapisoval rozměry po rotaci) – `realizace-fotovoltaika-5.jpg` (technik při instalaci měniče) a `realizace-fotovoltaika-6.jpg` (firemní vůz + dokončená realizace).
+
+### Obsahová redundance – lehký redakční průchod
+
+Na žádost "projdi stránku, jestli se nám tam moc neopakuje obsah" nalezeny a lehce přeformulovány (zachován význam, ne doslovné duplicity): karta "Fotovoltaické systémy na míru" (dřív skoro totožná s FAQ/krokem 1), "Bateriová úložiště" a "Monitoring systému" (dřív skoro identické se svými FAQ odpověďmi), krok 1 "Konzultace a návrh řešení", a úvodní odstavec "Fotovoltaika na klíč" (dřív popisoval stejný "návrh→montáž→servis" proces jako hero lead hned nad ním). FAQ vědomě ponecháno beze změny – uživatelka avizovala, že se otázky/odpovědi možná budou ještě měnit, a mírná zbytková podobnost obsahu jinde na stránce jí nevadí.
+
+**Otevřené:** žádné explicitně nevyřízené požadavky – uživatelka stránku označila za hotovou.
