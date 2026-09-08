@@ -2126,9 +2126,13 @@ p {
    symbolu na oranžovém kolečku (feature-item-icon default) – nahrané
    ikony jsou barevné (navy/oranžová), stejně jako u velkých karet služeb
    (.service-card-icon), takže by se v kolečku bily s vlastní oranžovou.
-   Místo toho stejná receptura jako .service-card-icon (ikona bez pozadí,
-   jemná bílá glow), jen zmenšená – karty "Co nabízíme" jsou dost menší
-   než karty služeb na homepage. */
+   Místo toho ikona bez kolečka, zmenšená – karty "Co nabízíme" jsou dost
+   menší než karty služeb na homepage. BEZ glow filtru (na rozdíl od
+   .service-card-icon) – karta je neprůhledné bílé sklo (rgba(255,255,255,
+   0.5) + blur), takže žádná fotka pod ikonou nikdy nesvítí a bílá/tmavá
+   glow tam dělala jen viditelný šedavý oválný "flek" kolem ikony (hlášeno
+   na mobilu jako "ikony mají jakoby pozadí a je ořezané" – stejná příčina
+   jako u .step-number, viz komentář tam). */
 .offer-grid .feature-item-icon {
   width: 3rem;
   height: 3rem;
@@ -2141,11 +2145,6 @@ p {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter:
-    drop-shadow(0 0 4px rgba(255, 255, 255, 0.85))
-    drop-shadow(0 0 10px rgba(255, 255, 255, 0.75))
-    drop-shadow(0 0 18px rgba(255, 255, 255, 0.55))
-    drop-shadow(0 2px 4px rgba(15, 34, 61, 0.18));
 }
 
 /* "Stěhování výrobních strojů" – ikona je široká/plochá (stroj + šipky po
@@ -2339,12 +2338,10 @@ p {
   margin-bottom: var(--space-8);
 }
 
-/* Jak elektrorevize probíhá — číslované kroky s vlastními ikonami čísel
-   (stejný efekt jako ikony karet "Co nabízíme" – .offer-grid
-   .feature-item-icon: bez kolečka, jen jemná bílá glow), propojené
-   šipkou/chevronem mezi jednotlivými kroky (vodorovně v řádku od tabletu,
-   svisle mezi kroky pod sebou na mobilu) – čitelný postup "1 → 2 → 3"
-   místo pouhých čísel vedle sebe. */
+/* Jak elektrorevize probíhá — číslované kroky s vlastními ikonami čísel,
+   propojené šipkou/chevronem mezi jednotlivými kroky (vodorovně v řádku od
+   tabletu, svisle mezi kroky pod sebou na mobilu) – čitelný postup
+   "1 → 2 → 3" místo pouhých čísel vedle sebe. */
 .steps {
   display: grid;
   grid-template-columns: 1fr;
@@ -2372,11 +2369,13 @@ p {
   height: 100%;
   width: auto;
   display: block;
-  filter:
-    drop-shadow(0 0 4px rgba(255, 255, 255, 0.85))
-    drop-shadow(0 0 10px rgba(255, 255, 255, 0.75))
-    drop-shadow(0 0 18px rgba(255, 255, 255, 0.55))
-    drop-shadow(0 2px 4px rgba(15, 34, 61, 0.18));
+  /* BEZ glow filtru — na rozdíl od karet "Co nabízíme" (.offer-grid
+     .feature-item-icon), které leží na tmavé fotce v přesahu heroa, čísla
+     kroků jsou vždy v bílé .revize-section. Původně sdílený vícevrstvý
+     drop-shadow (bílá glow + tmavý stín rgba(15,34,61,0.18)) tam na bílém
+     pozadí bílou složku ztratil úplně a zbyl viditelný šedavý "flek" kolem
+     číslice, hlášeno jako "ikony mají jakoby pozadí a je ořezané" na
+     mobilu. Na bílém pozadí žádný filtr netřeba. */
 }
 
 .step-item h4 { color: var(--color-primary-dark); margin-bottom: var(--space-3); }
