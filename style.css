@@ -1569,6 +1569,193 @@ p {
   }
 }
 
+/* Kontakt (kontakt.html) používá STEJNOU .contact-section komponentu jako
+   homepage, včetně dekorativní fotky na pozadí (.contact-section::before
+   výše, Obrazky/web/contact-bg.jpg) – na uživatelčino přání 2026-09-10 má
+   sekce "Nezávazná poptávka" vypadat stejně jako na homepage. (Dřív měla
+   tahle stránka vlastní modifikátor .contact-section--plain, který tuhle
+   fotku vypínal – hero sekce tehdy používala TUTÉŽ fotku, takže by se
+   opakovala dvakrát. Hero teď používá jinou fotku, karta-kontakt.jpg,
+   takže důvod pro vypnutí zmizel a modifikátor byl odstraněný i z HTML.) */
+
+/* Kontakt — 3 karty (Kontaktní údaje / Sídlo+Sledujte nás / Fakturační
+   údaje): stejná .feature-item skleněná karta jako všude jinde na webu,
+   3 stejně velké sloupce (mobil 1, tablet 2, desktop 3) – stejný vzor jako
+   u ostatních trojkových výjimek .feature-grid na webu. Karta "Kontaktní
+   údaje" je díky 4 kontaktním metodám (telefon + 3 e-maily) přirozeně
+   vyšší než zbylé dvě karty – to je v pořádku (na uživatelčino přání
+   2026-09-10 zkoušena i varianta s širší kartou přes celou řádku, ale
+   nelíbila se, vráceno k jednoduchým stejným kartám). Zalomení dlouhých
+   e-mailů řeší štítek NAD odkazem (.contact-methods-grid níže), ne šířka
+   karty. */
+.contact-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+/* Vlastní ikony (Obrazky/Ikony/kontaktni-udaje.png, sidlo.png, fakturacni-
+   udaje.png, doplněné 2026-09-09, zpracované stejným vzorcem jako všechny
+   ostatní ikony na webu – canvas_side = round(max(content_h/0.85,
+   content_w))) jsou barevné navy/oranžové, ne bílý symbol – stejný důvod
+   jako u .offer-grid .feature-item-icon: bez kolečka, jinak by se bily
+   s vlastní oranžovou. Podsvícení (bílý glow + tmavý stín) na přání
+   uživatelky doplněno, stejné jako u .service-card-icon img na homepage
+   (na rozdíl od .offer-grid/.step-number, kde podobný filtr dřív dělal
+   viditelný šedý "flek" – viz komentář u .step-number – zkontrolováno
+   vizuálně, že se tu stejný problém neopakuje). */
+.contact-info-grid .feature-item-icon {
+  width: 2.625rem;
+  height: 2.625rem;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.contact-info-grid .feature-item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.85))
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.75))
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 1px 1.5px rgba(15, 34, 61, 0.18));
+}
+
+.contact-info-grid .feature-item h3 { font-size: 1.2rem; margin-bottom: var(--space-3); }
+
+.contact-info-grid address,
+.contact-info-grid p {
+  font-style: normal;
+  color: var(--color-text);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.contact-info-grid address { line-height: 1.7; }
+
+.contact-info-grid a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-info-grid a:hover { color: var(--color-accent); }
+
+.contact-info-grid a svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+
+@media (min-width: 768px) {
+  .contact-info-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .contact-info-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Malý štítek "Sledujte nás" uvnitř karty "Sídlo" – druhý blok obsahu ve
+   stejné kartě (adresa nahoře, sociální sítě dole), potřebuje jen jemné
+   odlišení od adresy, ne plnohodnotný nadpis jako .feature-item h3.
+   Specificita MUSÍ být vyšší než ".contact-info-grid p" výše (jinak by
+   tahle barva prohrála a text by zdědil obecnou šedou barvu odstavců –
+   to byl přesně nahlášený bug "Sledujte nás má jinou barvu než ostatní
+   nadpisy"). */
+.contact-info-grid p.contact-card-subhead {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: var(--space-4) 0 var(--space-2) 0;
+}
+
+/* Kontaktní metody (telefon + 3 e-maily) v kartě "Kontaktní údaje" – každá
+   metoda má vlastní malý oranžový štítek NAD odkazem (Poptávky/Servis/
+   Fakturace), natrvalo (ne jen jako fallback při nedostatku místa). Dřívější
+   pokus mít štítek INLINE před e-mailem (2026-09-10) se na menším monitoru
+   znovu zalamoval – 3sloupcová mřížka dělá kartu užší při každé šířce mezi
+   1024–~1440px, takže "administrace@raskaengineering.cz" (a na užších
+   monitorech i další e-maily) se štítkem na stejném řádku nikdy spolehlivě
+   nevejdou; žádná rozumná velikost písma to nevyřeší pro všechny šířky.
+   Nadřazený řádek/sloupec proto NENÍ podmíněný flex-wrapem – je to natrvalo
+   sloupcové uspořádání, stejné na jakémkoliv monitoru. Telefon (bez
+   štítku, viz HTML) je zvýrazněný oranžově místo tmavě modře, ať je na
+   první pohled odlišený od 3 e-mailů pod ním. */
+.contact-methods-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.contact-method {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+
+.contact-method--phone a {
+  color: var(--color-accent);
+}
+
+.contact-method--phone a:hover {
+  color: var(--color-accent-dark);
+}
+
+.contact-tag {
+  display: inline-block;
+  flex-shrink: 0;
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-orange);
+  color: var(--color-accent-dark);
+  font-size: 0.6625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  width: fit-content;
+}
+
+/* Sledujte nás — stejný princip jako .footer-social (kolečko, hover přejde
+   na oranžový gradient), jen invertované barvy: tahle karta je na SVĚTLÉM
+   skle (na rozdíl od tmavé patičky), takže výchozí kolečko je světle modré
+   se tmavě modrou ikonou místo bílé na průhledné tmavé. */
+.social-links {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--color-bg-blue);
+  color: var(--color-primary-dark);
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+.social-links a:hover {
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+.social-links a:hover .icon-linkedin-mark { fill: var(--color-accent); }
+
+.social-links svg { width: 1.25rem; height: 1.25rem; }
+
+/* LinkedIn ikona má vlastní tmavě modré detaily napevno (.icon-linkedin-
+   mark, viz sprite) – na tomtéž tmavě modrém `currentColor` pozadí (jako
+   zbylé 3 ikony) by splynula do jedné tmavé plochy. Podklad ikony proto
+   zůstává bílý (stejný princip jako v patičce, kde je pozadí .footer-social
+   tmavé a ikona naopak světlá), zbytek kolečka (pozadí, hover) beze změny. */
+.social-links a.social-link-linkedin { color: var(--color-white); }
+
 /* --------------------------------------------------------------------------
    12. Patička
    -------------------------------------------------------------------------- */
@@ -2127,12 +2314,14 @@ p {
    ikony jsou barevné (navy/oranžová), stejně jako u velkých karet služeb
    (.service-card-icon), takže by se v kolečku bily s vlastní oranžovou.
    Místo toho ikona bez kolečka, zmenšená – karty "Co nabízíme" jsou dost
-   menší než karty služeb na homepage. BEZ glow filtru (na rozdíl od
-   .service-card-icon) – karta je neprůhledné bílé sklo (rgba(255,255,255,
-   0.5) + blur), takže žádná fotka pod ikonou nikdy nesvítí a bílá/tmavá
-   glow tam dělala jen viditelný šedavý oválný "flek" kolem ikony (hlášeno
-   na mobilu jako "ikony mají jakoby pozadí a je ořezané" – stejná příčina
-   jako u .step-number, viz komentář tam). */
+   menší než karty služeb na homepage. Podsvícení (bílý glow + tmavý stín)
+   PŮVODNĚ dělalo na téhle menší 48px ikoně viditelný šedavý "flek"
+   (hlášeno na mobilu jako "ikony mají jakoby pozadí a je ořezané") –
+   příčina byl PŘÍLIŠ VELKÝ poloměr rozostření (4/10/18/2px) vzhledem
+   k velikosti ikony, ne glow samotný. Na uživatelčino přání 2026-09-10
+   vrácen zpět v mnohem menší, ikoně úměrné síle (stejné hodnoty jako
+   .contact-info-grid .feature-item-icon img, viz komentář tam) – ověřeno
+   přiblíženým screenshotem i na mobilu, že se flek neopakuje. */
 .offer-grid .feature-item-icon {
   width: 3rem;
   height: 3rem;
@@ -2145,6 +2334,11 @@ p {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  filter:
+    drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.85))
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.75))
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 1px 1.5px rgba(15, 34, 61, 0.18));
 }
 
 /* "Stěhování výrobních strojů" – ikona je široká/plochá (stroj + šipky po
@@ -2157,6 +2351,20 @@ p {
 .offer-grid .feature-item-icon--wide {
   width: 4.97rem;
   height: 2.65rem;
+}
+
+/* "5,0★ hodnocení klientů" (O nás, Fakta o firmě) – ikona o kousek
+   zvětšená oproti standardním 3rem (na přání uživatelky 2026-09-12),
+   poměr stran zachovaný (čtverec). Zvětšení přidává výšku jen dolů (box
+   je nahoře zarovnaný stejně jako ostatní), takže bez korekce vizuálně
+   "klesá" níž a nadpis pod ním sedí níž než u sousedních karet – posunuto
+   zpět nahoru záporným margin-top a odečteno z margin-bottom, ať boxík
+   zůstane vystředěný na stejné ose jako ty menší a nadpisy dál lícují. */
+.offer-grid .feature-item-icon--lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-top: -0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Elektrorevize — bez fotky (dřívější fotka montáže tematicky neseděla
@@ -2577,4 +2785,228 @@ p {
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .page-cta { padding-block: var(--space-16); }
+}
+
+/* --------------------------------------------------------------------------
+   18. Stránka O nás — profilová karta, certifikáty
+   -------------------------------------------------------------------------- */
+
+/* "Fakta o firmě" (karty přesahující hero) – plain .feature-item/.offer-grid
+   skleněná karta, stejná jako "Co nabízíme" na ostatních podstránkách
+   (2026-09-12: dřív měly vlastní velké oranžové číslo nad nadpisem přes
+   .stat-value/.stat-card, na přání uživatelky zrušeno – hodnota je teď
+   součástí textu nadpisu). Ikony viz .feature-item-icon--lg níže. Karty
+   dřív měly i inline odkaz uvnitř <p> ("Přečtěte si reference/více ↓",
+   vlastní stylování `.offer-grid .feature-item p a`) – odstraněno
+   2026-09-12 na přání uživatelky, CSS pravidlo smazáno jako nepoužívané. */
+
+/* "Kdo za Raška engineering stojí" – jedna centrovaná karta (bez fotky,
+   iniciálový avatar), stejná skleněná receptura jako .feature-item, jen
+   větší/širší. Na .section--blue (plná barva, ne fotka) blur nemá co
+   rozostřovat, ale poloprůhledná bílá i tak dá vizuálně odlišenou kartu
+   od pozadí – přijatelné, stejný princip jako .contact-form-card. */
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  max-width: 40rem;
+  margin-inline: auto;
+  padding: var(--space-8);
+  text-align: center;
+  /* Jemně světlemodré sklo (ne bílé) – sekce je od 2026-09-11 plain bílá
+     (dřív .section--blue), karta musí barvu nést sama, aby se odlišila. */
+  background: rgba(220, 230, 242, 0.55);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 0.5px solid rgba(190, 210, 235, 0.6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.profile-avatar {
+  flex-shrink: 0;
+  width: 5.5rem;
+  height: 5.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: var(--color-white);
+  font-size: 1.5rem;
+  font-weight: 700;
+  box-shadow: 0 8px 18px -8px rgba(224, 106, 44, 0.6);
+}
+
+.profile-body h3 { color: var(--color-primary-dark); margin-bottom: var(--space-1); }
+
+.profile-role {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-accent-dark);
+  margin-bottom: var(--space-4);
+}
+
+.profile-bio { color: var(--color-text); margin-bottom: var(--space-6); }
+
+.profile-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .profile-card { flex-direction: row; align-items: flex-start; text-align: left; }
+  .profile-role { margin-bottom: var(--space-3); }
+  .profile-contact { justify-content: flex-start; }
+}
+
+/* "Zkušenosti a certifikace" (O nás) – reálné naskenované certifikáty (ne
+   ikony), proto vlastní jednodušší karta na PLAIN bílém pozadí (ne
+   skleněná .feature-item receptura – ta je laděná na to, že pod ní něco
+   prosvítá; tady je fotka certifikátu vždy uvnitř karty, ne pod ní).
+   Pojmenováno "credential-*", NE "cert-*" – fotovoltaika.html už má
+   VLASTNÍ, jinak stavěnou "Certifikace a odborná způsobilost" sekci se
+   třídami .cert-grid/.cert-card/.cert-thumb (viz sekce výš, "CERTIFIKACE
+   A ODBORNÁ ZPŮSOBILOST"); dřívější použití stejných jmen na téhle
+   stránce se s ní v cascade tiše bilo (např. .cert-card p přepisovalo
+   fotovoltaika.html fs-base na fs-small) – opraveno přejmenováním, ne
+   přejmenováním té starší sekce. */
+.credential-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .credential-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.credential-card {
+  padding: var(--space-4);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.credential-card > a {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+.credential-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-sm);
+  cursor: zoom-in;
+}
+
+.credential-card h3 { font-size: 1.05rem; color: var(--color-primary-dark); margin-bottom: var(--space-2); }
+
+.credential-card p { font-size: var(--fs-small); color: var(--color-muted); margin: 0; }
+
+/* Prostřední karta (osvědčení o kvalifikaci) – jen přední strana je vidět
+   jako náhled, zadní strana je "jen zadní strana" a otevře se až po
+   kliknutí jako mini galerie (#cert-lightbox, obsluha ve script.js). */
+.cert-gallery-trigger {
+  display: block;
+  width: 100%;
+  margin-bottom: var(--space-4);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: zoom-in;
+}
+
+/* Kotvy pro odkazy "Přečtěte si reference"/"Přečtěte si více" v kartách
+   "Hodnocení klientů"/"Odborná způsobilost" nad hero (viz o-nas.html) —
+   stejný scroll-margin-top vzorec jako #sluzby na homepage
+   (.services-overlap), ať sekce nezmizí pod fixní hlavičkou. */
+#reference,
+#certifikace {
+  scroll-margin-top: calc(var(--header-height) + var(--space-6));
+}
+
+/* -- Reference (recenze z Firmy.cz) -- */
+
+/* Souhrnná karta (skóre + hvězdy + "10 hodnocení" + odkaz na Firmy.cz) je
+   od 2026-09-12 (na přání uživatelky) jedna ze 4 rovnocenných karet
+   v .review-grid, ne samostatná karta nad ním – .review-card--summary je
+   modifikátor .review-card, ne vlastní komponenta. Všechny 4 karty mají
+   stejné jemně světlemodré sklo (sekce je plain bílá, karta musí barvu
+   nést sama, stejný princip jako .profile-card). */
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .review-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .review-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.review-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: rgba(220, 230, 242, 0.55);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 0.5px solid rgba(190, 210, 235, 0.6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.review-card--summary {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.review-card--summary p {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+}
+
+.review-summary-score {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  line-height: 1;
+}
+
+.review-stars {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.15rem;
+  color: var(--color-accent);
+}
+
+.review-card--summary .review-stars { justify-content: center; }
+
+.review-stars svg { width: 1.1rem; height: 1.1rem; }
+
+.review-text {
+  flex-grow: 1;
+  color: var(--color-text);
+  font-style: italic;
+  margin: 0;
+}
+
+.review-author {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin: 0;
 }
