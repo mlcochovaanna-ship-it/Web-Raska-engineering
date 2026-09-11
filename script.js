@@ -6,6 +6,7 @@
    4) cookie lišta (Přijmout / Odmítnout / Nastavit)
    5) lightbox galerie realizací + mini-lightbox certifikátu (O nás)
    6) honeypot antispam kontrola formuláře
+   7) carousel recenzí (O nás)
    ========================================================================== */
 
 (function () {
@@ -216,4 +217,34 @@
       }
     });
   });
+
+  /* 7) Carousel recenzí (O nás) ---------------------------------------------- */
+  /* .review-track je nativně scrollovatelný (scroll-snap, funguje i bez JS
+     přes swipe/trackpad) – šipky jen posunou o šířku 1 karty a hlídají
+     disabled stav na začátku/konci, ať carousel funguje i bez myši s
+     trackpadem/dotykem. */
+  const reviewTrack = document.querySelector('.review-track');
+  if (reviewTrack) {
+    const prevBtn = document.querySelector('.review-carousel-nav--prev');
+    const nextBtn = document.querySelector('.review-carousel-nav--next');
+
+    const updateNavState = () => {
+      const maxScroll = reviewTrack.scrollWidth - reviewTrack.clientWidth;
+      if (prevBtn) prevBtn.disabled = reviewTrack.scrollLeft <= 4;
+      if (nextBtn) nextBtn.disabled = reviewTrack.scrollLeft >= maxScroll - 4;
+    };
+
+    const scrollByCard = (direction) => {
+      const card = reviewTrack.querySelector('.review-card');
+      if (!card) return;
+      const gap = parseFloat(getComputedStyle(reviewTrack).gap) || 0;
+      reviewTrack.scrollBy({ left: direction * (card.getBoundingClientRect().width + gap), behavior: 'smooth' });
+    };
+
+    prevBtn?.addEventListener('click', () => scrollByCard(-1));
+    nextBtn?.addEventListener('click', () => scrollByCard(1));
+    reviewTrack.addEventListener('scroll', updateNavState, { passive: true });
+    window.addEventListener('resize', updateNavState);
+    updateNavState();
+  }
 })();

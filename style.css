@@ -2935,23 +2935,103 @@ p {
 /* -- Reference (recenze z Firmy.cz) -- */
 
 /* Souhrnná karta (skóre + hvězdy + "10 hodnocení" + odkaz na Firmy.cz) je
-   od 2026-09-12 (na přání uživatelky) jedna ze 4 rovnocenných karet
-   v .review-grid, ne samostatná karta nad ním – .review-card--summary je
-   modifikátor .review-card, ne vlastní komponenta. Všechny 4 karty mají
+   od 2026-09-12 (na přání uživatelky) jedna z rovnocenných karet
+   v .review-track, ne samostatná karta nad ním – .review-card--summary je
+   modifikátor .review-card, ne vlastní komponenta. Všechny karty mají
    stejné jemně světlemodré sklo (sekce je plain bílá, karta musí barvu
-   nést sama, stejný princip jako .profile-card). */
-.review-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+   nést sama, stejný princip jako .profile-card).
+   2026-09-11: přibyly 2 další recenze (celkem 6 karet vč. souhrnné) – na
+   4 sloupce v gridu se přestaly vejít přehledně na 1 řádek, takže mřížka
+   (.review-grid) nahrazena horizontálním carouselem (.review-carousel =
+   šipky + .review-track). Šířka jednotlivé karty zůstala STEJNÁ jako dřív
+   dávala grid-column šablona (1/2/4 na mobil/tablet/desktop) – jen teď je
+   karet víc, než se vejde, a přebytek se odscrolluje (swipe/scroll-snap)
+   nebo šipkami .review-carousel-nav (JS v script.js, sekce 7). */
+.review-carousel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.review-track {
+  display: flex;
   gap: var(--space-6);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  flex: 1 1 auto;
+  min-width: 0;
+  /* overflow-x:auto počítá i overflow-y jako auto (spec: pokud jedna osa
+     není visible, obě se chovají jako auto) – karty se tak ořezávaly
+     přesně v hraně tracku a jejich box-shadow (--shadow-md, dosahuje
+     přes hranu karty) byl nahoře/dole i po stranách vidět jen z půlky.
+     Padding dá stínu místo, kam "dopadnout", než ho overflow ustřihne. */
+  padding: var(--space-6) var(--space-4) var(--space-8);
+  margin: calc(var(--space-6) * -1) calc(var(--space-4) * -1) calc(var(--space-8) * -1);
+  /* Skrytý nativní scrollbar – navigace je přes šipky/swipe, ne přes
+     viditelný pruh (stejný princip jako .showcase-track by mělo mít,
+     kdyby scrollbar vadil i tam – tady konzistentně schovaný). */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.review-track::-webkit-scrollbar { display: none; }
+
+.review-track .review-card {
+  scroll-snap-align: start;
+  flex: 0 0 100%;
+  /* Bez min-width:0 by defaultní "min-width:auto" flex položky nechal
+     kartu se souhrnným tlačítkem ("Zobrazit všechna hodnocení", .btn má
+     white-space:nowrap) roztáhnout na šířku textu tlačítka namísto
+     zadané flex-basis – karta pak byla širší než track a rozbíjela
+     rozvržení (přetékala přes šipky na mobilu). */
+  min-width: 0;
+}
+
+.review-card--summary .btn {
+  /* Uvnitř úzké karty by nowrap z .btn tlačítko roztáhl přes okraj karty
+     (viz komentář u min-width výše) – tady se text má směle zalomit. */
+  white-space: normal;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
-  .review-grid { grid-template-columns: repeat(2, 1fr); }
+  .review-track .review-card { flex: 0 0 calc((100% - var(--space-6)) / 2); }
 }
 
 @media (min-width: 1024px) {
-  .review-grid { grid-template-columns: repeat(4, 1fr); }
+  .review-track .review-card { flex: 0 0 calc((100% - 3 * var(--space-6)) / 4); }
+}
+
+.review-carousel-nav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-primary);
+  background: var(--color-white);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.review-carousel-nav:hover {
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-color: transparent;
+  color: var(--color-white);
+}
+
+.review-carousel-nav svg { width: 1.25rem; height: 1.25rem; }
+
+.review-carousel-nav--prev svg { transform: rotate(180deg); }
+
+.review-carousel-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
 }
 
 .review-card {

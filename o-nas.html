@@ -153,9 +153,18 @@
          Průmyslu (.offer-overlap, margin-top: -4rem = přesně tahle
          .page-hero padding-bottom rezerva). Instrukce.md pro O nás žádné
          karty pod hero nezmiňuje, ale bez nich by tahle rezerva zůstala
-         prázdná (modrý pruh bez fotky/karet). Fotka Obrazky/web/karta-o-nas.jpg
-         (průmyslová hala, z Obrazky/Dalsi foto/, dosud nikde na webu
-         nepoužitá). -->
+         prázdná (modrý pruh bez fotky/karet).
+         Fotka Obrazky/web/karta-o-nas.jpg (2026-09-11, na přání uživatelky):
+         dřív fotka průmyslové haly, teď firemní dodávka s brandingem (logo,
+         "Raška engineering", "Elektromontáže · Elektroinstalace ·
+         Elektrorevize", raskaengineering.cz) zaparkovaná před domem
+         s instalovanou fotovoltaikou – zdroj Obrazky/Fotovoltaika/IMG_3388.jpeg
+         (5712×4284). Na přání uživatelky (2026-09-11, "méně oblohy, auto
+         větší, o dům až tak nejde") oříznuto (ne jen object-position).
+         První ořez (0.18w, 0.33h) byl podle uživatelky "zase moc" (moc
+         zoomu) – finální kompromis mezi neořezanou verzí a tímhle prvním
+         pokusem: crop (0.09w, 0.165h) až (1.0w, 1.0h), výsledných
+         5198×3578 zmenšeno na 1600×1101. -->
     <section class="page-hero">
       <div class="page-hero-split" data-reveal>
         <div class="page-hero-content">
@@ -171,7 +180,7 @@
       </div>
 
       <div class="page-hero-media" data-reveal>
-        <img src="Obrazky/web/karta-o-nas.jpg" width="1600" height="1199" alt="Průmyslová hala s technologickým zařízením, ve kterém má Raška engineering své zkušenosti" loading="eager" fetchpriority="high">
+        <img src="Obrazky/web/karta-o-nas.jpg" width="1600" height="1101" alt="Firemní dodávka Raška engineering s.r.o. s brandingem u&nbsp;domu s instalovanou fotovoltaikou" loading="eager" fetchpriority="high">
       </div>
     </section>
 
@@ -362,24 +371,29 @@
     <!-- ============================= REFERENCE ============================= -->
     <!-- Reálná hodnocení z Firmy.cz, přepsaná z veřejně viditelných recenzí na
          https://www.firmy.cz/detail/13315367-raska-engineering-s-r-o-olsany-u-prostejova.html#hodnoceni
-         Celkové skóre 5,0/5 z 10 hodnocení. Zobrazeny VŠECHNY recenze, které
-         mají u sebe text (ověřeno 2026-09-12 přímo v syrovém zdrojovém HTML
-         Firmy.cz, ne přes AI shrnutí – v HTML se reálně vyskytují jen tyto
-         3 recenze s textem, zbylých 7 z 10 hodnocení jsou buď jen hvězdy
-         bez textu, nebo skryté za přihlášením, takže víc jich odsud nejde
-         získat). Poslední textová recenze je z 29. 6. 2023, žádná novější
-         zatím není. Text recenzí je doslovný (ověřeno přímo ze zdrojového
-         HTML, ne přes AI shrnutí, které při opakovaných dotazech vracelo
-         mírně odlišně přeformulovaný text) – přesné znění včetně neobvyklé
-         interpunkce zákazníků samotných, neopravovat/nevyhlazovat. Datum
-         u jednotlivých recenzí (na přání uživatelky 2026-09-12) NENÍ
-         zobrazeno, jen jméno. id="reference" – dřív cíl kotevního odkazu
-         z karty "Hodnocení klientů" ve "Fakta o firmě" (ten odkaz byl
-         2026-09-12 odstraněn, kotva zůstává pro případný budoucí odkaz
-         odjinud). Sekce je bílá – souhrnná karta skóre je JEDNA ze 4
-         rovnocenných karet v gridu, ne samostatná karta nad ním; všechny
-         4 mají stejné jemně světlemodré sklo (stejný princip jako
-         .profile-card). -->
+         Celkové skóre 5,0/5 z 10 hodnocení. Bez přihlášení bylo v syrovém
+         zdrojovém HTML vidět jen 3 recenze s textem (ověřeno 2026-09-12,
+         zbylých 7 bylo za "Pro zobrazení dalších hodnocení se přihlaste").
+         2026-09-11 uživatelka (přihlášená) poslala screenshoty 2 dalších
+         recenzí s textem (Marek V., Obchod Engl) – přidány. Celkem teď
+         5 z 10 hodnocení má text, 5 zbývá za přihlášením/bez textu. Text
+         recenzí je doslovný (přesné znění včetně neobvyklé interpunkce
+         zákazníků samotných, neopravovat/nevyhlazovat). Datum u jednotlivých
+         recenzí (na přání uživatelky 2026-09-12) NENÍ zobrazeno, jen jméno.
+         id="reference" – dřív cíl kotevního odkazu z karty "Hodnocení
+         klientů" ve "Fakta o firmě" (ten odkaz byl 2026-09-12 odstraněn,
+         kotva zůstává pro případný budoucí odkaz odjinud). Sekce je bílá –
+         souhrnná karta skóre je JEDNA z rovnocenných karet, ne samostatná
+         karta nad nimi; všechny mají stejné jemně světlemodré sklo (stejný
+         princip jako .profile-card).
+         2026-09-11: s 5 recenzemi + souhrnnou kartou (6 karet) se grid na
+         desktopu už nevešel na 1 řádek přehledně, tak přepsáno na carousel
+         (.review-carousel/.review-track, horizontální scroll-snap + šipky
+         .review-carousel-nav, stejná šipka jako lightbox – #icon-arrow-right
+         otočená o 180° pro "prev"). Karty mají stejnou šířku jako dřív měl
+         grid (1/2/4 na mobil/tablet/desktop), jen teď je jich víc než se
+         vejde a zbytek se odscrolluje/šipkami. JS engine v script.js,
+         sekce 7. -->
     <section class="section" id="reference">
       <div class="container">
         <div class="section-head section-head--center">
@@ -387,7 +401,11 @@
           <p class="lead">Co o&nbsp;nás říkají klienti na Firmy.cz.</p>
         </div>
 
-        <div class="review-grid">
+        <div class="review-carousel">
+          <button class="review-carousel-nav review-carousel-nav--prev" type="button" aria-label="Předchozí recenze">
+            <svg aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+          </button>
+          <div class="review-track">
           <div class="review-card review-card--summary" data-reveal>
             <div class="review-summary-score">5,0</div>
             <div class="review-stars" aria-hidden="true">
@@ -399,7 +417,7 @@
             </div>
             <p>10 hodnocení na <strong>Firmy.cz</strong></p>
             <a class="btn btn-outline-dark" href="https://www.firmy.cz/detail/13315367-raska-engineering-s-r-o-olsany-u-prostejova.html#hodnoceni" target="_blank" rel="noopener">
-              Zobrazit všechna hodnocení
+              Všechna hodnocení
             </a>
           </div>
           <div class="review-card" data-reveal>
@@ -435,6 +453,32 @@
             <p class="review-text">„Velice rychlá a&nbsp;super domluva, precizní práce, rovnou i&nbsp;s&nbsp;p.&nbsp;revizákem, přijeli téměř ihned, vše udělali, zprávy co jsem potřebovala byly napsány také ihned, takže bomba, doporučuji všem. Super a&nbsp;hlavně rychlé s&nbsp;fér jednání, vřele doporučuji všem.“</p>
             <p class="review-author">Filakova Renda</p>
           </div>
+          <div class="review-card" data-reveal>
+            <div class="review-stars" aria-hidden="true">
+              <svg><use href="#icon-star"></use></svg>
+              <svg><use href="#icon-star"></use></svg>
+              <svg><use href="#icon-star"></use></svg>
+              <svg><use href="#icon-star"></use></svg>
+              <svg><use href="#icon-star"></use></svg>
+            </div>
+            <p class="review-text">„Rychlá a&nbsp;příjemná domluva i&nbsp;během víkendového odpoledne (vyhořela jedna z&nbsp;hlavních domovních pojistek). Pan Raška - co řekne, tak platí. S&nbsp;klidem mohu doporučit.“</p>
+            <p class="review-author">Marek V.</p>
+          </div>
+          <div class="review-card" data-reveal>
+            <div class="review-stars" aria-hidden="true">
+              <svg><use href="#icon-star"></use></svg>
+              <svg><use href="#icon-star"></use></svg>
+              <svg><use href="#icon-star"></use></svg>
+              <svg><use href="#icon-star"></use></svg>
+              <svg><use href="#icon-star"></use></svg>
+            </div>
+            <p class="review-text">„Naprostá spokojenost, profesionální přístup, (kompletní instalace úsporných LED osvětlení na&nbsp;hale + protipožární ucpávky) vše v&nbsp;termínu, můžu s&nbsp;klidem doporučit.“</p>
+            <p class="review-author">Obchod Engl</p>
+          </div>
+          </div>
+          <button class="review-carousel-nav review-carousel-nav--next" type="button" aria-label="Další recenze">
+            <svg aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+          </button>
         </div>
       </div>
     </section>
