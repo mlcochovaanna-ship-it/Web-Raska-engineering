@@ -2964,10 +2964,28 @@ p {
   /* overflow-x:auto počítá i overflow-y jako auto (spec: pokud jedna osa
      není visible, obě se chovají jako auto) – karty se tak ořezávaly
      přesně v hraně tracku a jejich box-shadow (--shadow-md, dosahuje
-     přes hranu karty) byl nahoře/dole i po stranách vidět jen z půlky.
-     Padding dá stínu místo, kam "dopadnout", než ho overflow ustřihne. */
-  padding: var(--space-6) var(--space-4) var(--space-8);
-  margin: calc(var(--space-6) * -1) calc(var(--space-4) * -1) calc(var(--space-8) * -1);
+     přes hranu karty) byl nahoře/dole vidět jen z půlky. Padding dá
+     stínu místo, kam "dopadnout", než ho overflow ustřihne – ale JEN
+     nahoře/dole (padding-inline zůstává 0, viz níže proč). Záporný
+     margin vyrovnává padding, ať se okolní layout neposune. */
+  padding-block: var(--space-6) var(--space-8);
+  margin-block: calc(var(--space-6) * -1) calc(var(--space-8) * -1);
+  /* Horizontální padding se sem záměrně NEDÁVÁ (byly 2 problémy):
+     1) scroll-snap container se svým paddingem nekamarádí – Chromium
+        při načtení stránky sám odscrolloval přesně o tolik, o kolik byl
+        padding-left, aby "start" hrana 1. karty seděla na hraně tracku
+        (scrollLeft vyšel 8px místo 0) – levá a pravá mezera k šipkám
+        pak vyšly různě (4px vs 20px), přesně bug, který uživatelka
+        nahlásila ("proč je levá a pravá šipka jinak daleko"). Na
+        vertikální (nescrollovanou) osu se tohle netýká, proto tam
+        padding zůstal.
+     2) Boční stín karet (co by ten padding měl zachránit) stejně nemá
+        kam "dopadnout" smysluplně – u karty uprostřed tracku ho stejně
+        pohltí gap (var(--space-6), 24px) k sousední kartě, a u krajní
+        (scrollnuté) karty je stín beztak vidět jen do půlky, což
+        vypadá jako artefakt. Uživatelka proto navrhla boční stín
+        rovnou nechat ořezávat (žádná zvláštní CSS úprava stínu není
+        potřeba – stačí tenhle padding nedávat). */
   /* Skrytý nativní scrollbar – navigace je přes šipky/swipe, ne přes
      viditelný pruh (stejný princip jako .showcase-track by mělo mít,
      kdyby scrollbar vadil i tam – tady konzistentně schovaný). */
