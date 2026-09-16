@@ -2215,6 +2215,30 @@ p {
   display: block;
 }
 
+/* O nás – hero fotka dodávky (2026-09-15). Karta-o-nas.jpg je zvenku
+   zarámovaná tak, že auto je nalevo a dům/plot napravo (uživatelka chtěla
+   auto celé a větší, dům nemusí být celý – posléze doladěno, ať dům/plot
+   nebyl úplně pryč, viz komentář u <img> v o-nas.html pro celou historii
+   ořezu vč. zdrojové fotky IMG_0909.jpeg). Se sdíleným
+   object-position:center 25% by .page-hero-media img na desktopu ořezávalo
+   ROVNOMĚRNĚ z obou stran a uřezalo by kus auta vlevo i domu vpravo
+   zároveň. Modifikátor jen pro tuhle stránku (base pravidlo pro ostatní
+   podstránky beze změny) posouvá ořez na levou hranu – auto (levá část
+   fotky) tak zůstává celé (nebo s minimální ztrátou vzadu na nejužší
+   1024px) na všech šířkách, ořezává se především napravo (dům/plot).
+   Box .page-hero-media na desktopu NENÍ jeden pevný poměr stran – kvůli
+   layoutu (levý textový sloupec fixní %, box vpravo doplňuje zbytek,
+   výška section je ale daná hlavně výškou TEXTU, ne šířkou) vychází box
+   od cca 0,70:1 (1024px, portrétový) do 1,37:1 (1920px, na šířku) – ověřeno
+   Playwright getBoundingClientRect na 1024/1100/1280/1440/1920px. Zdrojová
+   fotka (1760×1160, poměr 1,52:1) je proto na 1024px ořezaná víc než na
+   1920px – akceptovaný kompromis, stejný princip jako komentář u fotky
+   rozvaděče výš ("jedno object-position nesedí úplně stejně na všech
+   šířkách"). */
+.page-hero-media--van img {
+  object-position: left 25%;
+}
+
 .page-hero-media::after {
   content: '';
   position: absolute;
@@ -2367,6 +2391,52 @@ p {
   margin-bottom: 0.5rem;
 }
 
+/* "7+ let na trhu" – po --lg (3.5rem) uživatelka chtěla ještě větší, "podle
+   ostatních ikon" (2026-09-15). Stejný princip zarovnání jako u --lg výš,
+   jen s větším přírůstkem (3rem → 4.25rem výšky, delta 1.25rem): margin-top
+   -delta/2, margin-bottom = základních 0.75rem (--space-3, viz
+   .feature-item-icon) minus delta/2, ať nadpis pod ikonou zůstane na
+   stejné ose jako u sousedních karet.
+   2026-09-15, doladění: ikona (kalendář+hodiny) má vlastní obsah "na
+   výšku" (847×1097px po ořezu) – dřívější verze PNG dávala tenhle obsah
+   na ČTVERCOVÉ plátno vycentrovaný, což vypadalo v pořádku velikostně,
+   ale nechávalo průhlednou mezeru VLEVO od reálné kresby → ikona
+   působila posunutá doprava a její levý okraj (skutečná kresba, ne
+   okraj PNG) nelícoval s levým okrajem nadpisu/textu pod ní. Icon PNG
+   teď těsný ořez na obsah (bez odsazení, viz komentář u <img> v HTML),
+   takže width místo dalšího čtverce odpovídá reálnému poměru stran
+   obsahu (847:1097 → při výšce 4.25rem šířka 3.28rem), ať kresba
+   vyplňuje box 100 % v obou směrech a její levý okraj sedí přesně na
+   ose ostatního obsahu karty. */
+.offer-grid .feature-item-icon--xl {
+  /* 2026-09-15: 4.25rem bylo na přání uživatelky "zase moc velké" –
+     zmenšeno na 3.75rem (poměr stran 847:1097 zachovaný, width
+     dopočítaná stejně jako výš), margin dopočítán stejnou formulí se
+     zmenšeným delta (0.75rem místo 1.25rem). */
+  width: 2.9rem;
+  height: 3.75rem;
+  margin-top: -0.375rem;
+  margin-bottom: 0.375rem;
+}
+
+/* "Hromosvody a ochrana před bleskem" (Elektro služby, Co nabízíme) –
+   ikona (blesk+dům) má obsah "na výšku" (773×1047px), na standardním
+   čtvercovém 3rem plátně vyplňovala jen 63 % šířky (fill_w 0.627 proti
+   0.85-0.95 u sousedních ikon) → i po dodržení stejné formule vypadala
+   tenčí a menší. Uživatelka 2026-09-15 potvrdila "vypadá dost malá" a
+   požádala o zvětšení. Řešení jako u --xl výš: ikona uložena jako těsný
+   ořez na obsah (bez odsazení), CSS box odpovídá reálnému poměru stran
+   obsahu (773:1097 → 2.51rem:3.4rem, o kousek větší než základních 3rem),
+   ať kresba vyplňuje box na 100 % a je viditelně větší. Zarovnání stejnou
+   formulí jako --lg/--xl (margin-top -delta/2, margin-bottom 0.75rem -
+   delta/2, delta = 0.4rem). */
+.offer-grid .feature-item-icon--tall {
+  width: 2.51rem;
+  height: 3.4rem;
+  margin-top: -0.2rem;
+  margin-bottom: 0.55rem;
+}
+
 /* Elektrorevize — bez fotky (dřívější fotka montáže tematicky neseděla
    k revizím a byla příliš dominantní). Karty "Provádíme revize" používají
    STEJNOU skleněnou recepturu jako .feature-item/.service-card všude jinde
@@ -2417,6 +2487,44 @@ p {
 .revize-section .about-media img { object-position: center 90%; }
 
 .revize-section .feature-grid { margin-top: -2.5rem; }
+
+/* 5 karet (po přidání "Fotovoltaické systémy" 2026-09-15) – základní
+   .feature-grid počítá se 4 (repeat(4,1fr) od 640px), takže by v posledním
+   řádku zbyla 1 karta osamocená vedle prázdného sloupce (stejný problém
+   jako u .fve-section/.cleaning-section, viz komentáře tam). Vlastní počet
+   sloupců: 2 na tabletu (rows 2+2+1, poslední osamocená karta bez
+   sousedního prázdna vedle je vizuálně v pořádku), 5 od desktopu (všech 5
+   karet v jednom řádku, žádné zalomení). */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .revize-section .feature-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .revize-section .feature-grid { grid-template-columns: repeat(5, 1fr); }
+
+  /* Užší sloupce (5 karet v řádku) způsobují, že se některé nadpisy
+     zalomí na 2 řádky a jiné (kratší) ne – ve stejném řádku pak text pod
+     nimi nezačíná ve stejné výšce a řádek karet vypadá nesourodě. Na
+     tabletu/mobilu se všechny nadpisy vejdou na 1 řádek přirozeně (širší
+     sloupec/plná šířka), takže tam k nesouladu nedochází a min-height by
+     jen přidal zbytečnou mezeru – proto opravu omezujeme jen na tuhle
+     šířku. Bez zásahu do textu (nadpisy se nemají přepisovat) sjednocena
+     výška nadpisu na 2 řádky (min-height = 2 × font-size 1.05rem ×
+     --lh-heading 1.2), ať i jednořádkové nadpisy zaberou stejný prostor
+     a text pod nimi lícuje. */
+  .revize-section .feature-item h3 { min-height: 2.52rem; }
+}
+
+/* "Fotovoltaické systémy" – ikona (panel + sluneční paprsky) má i po
+   ořezu na obsah dost "vzdušna" kolem hlavní hmoty (paprsky jsou tenké a
+   trčí do stran), takže i se stejným fill_h/fill_w jako sousední ikony
+   opticky působí menší/řidší. Uživatelka 2026-09-15 potvrdila "malinká v
+   tom kolečku" – zvětšeno jen tady (zbytek ikon v téhle mřížce sedí),
+   základ .feature-item-icon img je 2,3rem. */
+.revize-section .feature-item-icon--lg img {
+  width: 3.1rem;
+  height: 3.1rem;
+}
 
 @media (max-width: 767px) {
   /* Fotka (1024×768) má PŘESNĚ stejný poměr stran 4:3 jako výchozí
@@ -2539,6 +2647,46 @@ p {
 @media (min-width: 1024px) {
   .cleaning-section .feature-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* ============================= PRŮMYSLOVÁ ŘEŠENÍ – "VÝROBA A OPRAVA TOPNÝCH TĚLES" =============================
+   Stejná komponenta jako .cleaning-section výš (.about-section/.about-split,
+   fotka+text + .feature-grid karty přesahující přes spodní hranu fotky).
+   Karty mají stejnou ikonu (icon-topna-telesa-bila.png) na všech 6 kartách
+   – žádné vlastní ikony pro jednotlivé typy těles nebyly dodané, tak se
+   opakuje ikona z úvodní karty "Výroba a opravy topných těles" (offer-grid
+   výš na téže stránce), jen předělaná na bílou do oranžového kolečka jako
+   ostatní feature-grid ikony (viz komentář u icon-topna-telesa-bila.png
+   v `stav.md`). 6 karet (sudé číslo) – na rozdíl od cleaning-section (3) tu
+   base .feature-grid 4 sloupce nesedí ani náhodou, vlastní počet: 2 na
+   tabletu (2×3 řádky).
+   Na desktopu PŮVODNĚ 6 sloupců v jednom řádku (na přání uživatelky
+   2026-09-16), ale po doplnění ikon uživatelka usoudila, že užší 1/6 karty
+   mají "málo obsahu" – změněno na 4+2 (2026-09-16, druhá žádost): žádný
+   vlastní `grid-template-columns` přepis, jen zdědí základní `.feature-grid`
+   4 sloupce (viz pravidlo výš na řádku ~1140), takže 6 karet přirozeně
+   zalomí do 4+2. Spodní 2 karty vycentrované doprostřed (`grid-column`
+   na 2.–3. sloupec ze 4) přes `nth-child(5)`/`nth-child(6)` – proto je i
+   pořadí karet v HTML upravené tak, aby na pozici 5–6 byly ty s
+   NEJKRATŠÍM názvem ("Topné patrony" a "Čidla"), ať krátký text
+   nepůsobí v osamocené vycentrované dvojici zbytečně prázdně. */
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .topeni-section .feature-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .topeni-section .feature-item:nth-child(5) { grid-column: 2 / 3; }
+  .topeni-section .feature-item:nth-child(6) { grid-column: 3 / 4; }
+}
+
+/* Pod kartami zůstal jen 40px bílého prostoru do konce sekce (bez vlastní
+   dolní mezery pod .container), zatímco třeba pod FAQ (.section--blue) je
+   to plných 64px (= --space-16, base .section padding-block) – rozdíl
+   24px. Uživatelka nejdřív chtěla mezeru zaplnit galerií fotek (zkusili
+   jsme kruhové náhledy, ale nakonec se jí to nelíbilo a galerii jsme
+   odstranili), takže místo obsahu jen dorovnaná mezera na stejnou
+   velikost jako pod FAQ (2026-09-16). */
+.topeni-section .container { padding-bottom: var(--space-6); }
 
 .revize-subhead {
   color: var(--color-primary-dark);
@@ -2810,7 +2958,12 @@ p {
   flex-direction: column;
   align-items: center;
   gap: var(--space-6);
-  max-width: 40rem;
+  /* 48rem (dřív 40rem) – 2026-09-15, medailonek dostal delší finální
+     text (Zdeňkova vlastní slova, 4 věty v 1. osobě) a v původní úzké
+     kartě se zbytečně vysoko zalamoval na mnoho řádků; širší karta ho
+     rozloží do méně řádků, aniž by na desktopu (row layout, viz media
+     query níže) působila nepřirozeně široká vůči textu vedle avataru. */
+  max-width: 48rem;
   margin-inline: auto;
   padding: var(--space-8);
   text-align: center;
@@ -3050,6 +3203,31 @@ p {
   opacity: 0.35;
   cursor: default;
   pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  /* Na přání uživatelky (2026-09-14): pole s textem recenze má být na
+     mobilu co nejširší, šipky jen tak velké, ať se vejdou. .review-carousel
+     proto na mobilu vybočí ven z .container (ten má width:85%, takže po
+     stranách nechává 7,5vw prázdna) – stejný princip "tunelu" jako
+     .about-content jinde na webu, jen záporným marginem místo paddingu.
+     -4,5vw znamená, že z původních 7,5vw mezery zbydou po stranách 3vw,
+     zbytek připadne kartám. Šipky se zároveň zmenší (44px → 36px) a gap
+     k nim se zúží, ať uberou trocku ze šířky, kterou dostane .review-track. */
+  .review-carousel {
+    margin-inline: -4.5vw;
+    gap: var(--space-2);
+  }
+
+  .review-carousel-nav {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .review-carousel-nav svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 .review-card {

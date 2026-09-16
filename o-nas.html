@@ -154,17 +154,36 @@
          .page-hero padding-bottom rezerva). Instrukce.md pro O nás žádné
          karty pod hero nezmiňuje, ale bez nich by tahle rezerva zůstala
          prázdná (modrý pruh bez fotky/karet).
-         Fotka Obrazky/web/karta-o-nas.jpg (2026-09-11, na přání uživatelky):
-         dřív fotka průmyslové haly, teď firemní dodávka s brandingem (logo,
-         "Raška engineering", "Elektromontáže · Elektroinstalace ·
-         Elektrorevize", raskaengineering.cz) zaparkovaná před domem
-         s instalovanou fotovoltaikou – zdroj Obrazky/Fotovoltaika/IMG_3388.jpeg
-         (5712×4284). Na přání uživatelky (2026-09-11, "méně oblohy, auto
-         větší, o dům až tak nejde") oříznuto (ne jen object-position).
-         První ořez (0.18w, 0.33h) byl podle uživatelky "zase moc" (moc
-         zoomu) – finální kompromis mezi neořezanou verzí a tímhle prvním
-         pokusem: crop (0.09w, 0.165h) až (1.0w, 1.0h), výsledných
-         5198×3578 zmenšeno na 1600×1101. -->
+         Fotka (2026-09-15, na přání uživatelky): dřívější karta-o-nas.jpg
+         (dodávka s brandingem, zdroj IMG_3388.jpeg) nejdřív nahrazena
+         přímo souborem Obrazky/web/o-nas-van.jpg (STEJNÝ soubor, který
+         používá homepage v sekci "O nás") beze změny/kopie. Uživatelka
+         ale chtěla foto přiblížit, ať je auto celé a větší (dům nemusí
+         být celý, jen jeho větší část) – protože .page-hero-media img
+         je NAPŘÍČ VŠEMI podstránkami sdílené (object-fit:cover,
+         object-position:center 25%, viz CSS), nejde tohle vyřešit jen
+         CSS úpravou (dotklo by se to i homepage).
+         1. ořez (crop z o-nas-van.jpg, 1600×870) byl podle uživatelky
+         moc přiblížený – "autu chybí čumák" a "auto zabírá celý
+         prostor, chci tam i dům, silnice může být méně". Uživatelka
+         nabídla lepší zdroj: Obrazky/Fotovoltaika/IMG_0909.jpeg
+         (5712×4284, NEkomprimovaný originál stejné scény, ostřejší než
+         zmenšený o-nas-van.jpg). Finální ořez z něj: crop box
+         (0,700)–(4400,3600) – auto (bbox x:60–2745, y:1747–3135 vč.
+         žebříku na střeše) celé s rezervou vlevo/vpravo, méně silnice
+         pod autem (jen ~465px rezervy pod koly místo cca 530px+ dřív)
+         a včetně kusu domu vpravo (střecha s panely, část fasády,
+         plot), zvětšeno/uloženo jako 1760×1160 do
+         Obrazky/web/karta-o-nas.jpg (název recyklovaný). homepage's
+         o-nas-van.jpg zůstává beze změny (jiný soubor).
+         DŮLEŽITÉ pro budoucí úpravy: .page-hero-media box má na
+         desktopu (1024–1919px) VELMI proměnlivý poměr stran (0,70 na
+         1024px až 1,37 na 1920px, měřeno Playwright getBoundingClientRect
+         – viz komentář u .page-hero-media--van v CSS) – na 1024px se
+         auto i s touhle rezervou už lehce ořeže vzadu (okrajový případ,
+         accepted trade-off), na 1280px+ je celé i s kusem domu. Při
+         další úpravě ořezu vždy ověřit na 1024/1280/1440/1920 desktop
+         + tablet/mobil, ne jen na jedné šířce. -->
     <section class="page-hero">
       <div class="page-hero-split" data-reveal>
         <div class="page-hero-content">
@@ -179,8 +198,8 @@
         </div>
       </div>
 
-      <div class="page-hero-media" data-reveal>
-        <img src="Obrazky/web/karta-o-nas.jpg" width="1600" height="1101" alt="Firemní dodávka Raška engineering s.r.o. s brandingem u&nbsp;domu s instalovanou fotovoltaikou" loading="eager" fetchpriority="high">
+      <div class="page-hero-media page-hero-media--van" data-reveal>
+        <img src="Obrazky/web/karta-o-nas.jpg" width="1760" height="1160" alt="Firemní dodávka Raška engineering s.r.o. s brandingem u&nbsp;domu s instalovanou fotovoltaikou" loading="eager" fetchpriority="high">
       </div>
     </section>
 
@@ -189,8 +208,57 @@
          uživatelky (2026-09-10) nahrazeno 3 stručnými fakty o samotné
          firmě, ne o tom, co dělá (to už řeší "Náš příběh" níže i ostatní
          podstránky). Fakta jsou reálná, ověřená, ne vymyšlená:
-         - "5+ let na trhu" – Raška engineering s.r.o. má podle veřejného
-           rejstříku (ARES, IČO 10790659) datum vzniku 1. 5. 2021.
+         - "7+ let na trhu" (2026-09-15 přepsáno z "5+", na přání
+           uživatelky/zadavatele – dřív se počítalo jen od vzniku s.r.o.
+           podle ARES, IČO 10790659, datum vzniku 1. 5. 2021; zadavatel
+           ale podniká už od prosince 2019 jako OSVČ, viz stejný zdroj
+           použitý pro `.profile-bio` níže. Číslo 7 je zadavatelovo
+           vlastní zaokrouhlení/počítání let podnikání od r. 2019, ne
+           přesný počet uplynulých celých let – ověřovat/needit dál,
+           je to jeho rozhodnutí o vlastní firmě).
+           IKONA hotová (2026-09-15): uživatelka nahrála
+           Obrazky/Ikony/7-let-na-trhu.png (na rozdíl od prvního
+           balíčku ikon už s průhledným pozadím, ne černým podkladem –
+           žádná extrakce alfy nebyla potřeba, jen crop na obsah),
+           zpracováno stejnou formulí jako ostatní ikony (canvas_side =
+           round(max(content_h/0.85, content_w)) → 1291×1291, stejný
+           postup jako u icon-hodnoceni.png/icon-certifikace.png).
+           Mezi-pokus: kvůli portrétovému obsahu (847×1097px) vyšla na
+           čtverci úzčeji (fill_w ~66&nbsp;% vs. ~85&nbsp;% fill_h) a
+           uživatelka ji na tomhle rozměru shledala "menší, než byla ta
+           původní" – zkusmo nahrazeno nečtvercovým plátnem/CSS boxem,
+           ale uživatelka pak chtěla ikonu naopak VĘTŠÍ a "použij
+           původní ikonu" (tedy zpět na standardní čtvercové zpracování
+           jako sousední ikony, ne na vlastní přizpůsobený poměr stran).
+           Po `.feature-item-icon--lg` (3.5rem, stejný modifikátor jako
+           "Výborné hodnocení klientů") ještě jedno kolo – uživatelka
+           chtěla "ještě větší, podle ostatních ikon". Přidán nový
+           modifikátor `.feature-item-icon--xl` (4,25rem, jen pro tuhle
+           kartu, `--lg` zůstává nedotčený pro kartu s hodnocením) se
+           stejným principem zarovnávací korekce (margin-top/-bottom)
+           jen s větším přírůstkem – ověřeno, že nadpisy všech 3 karet
+           zůstávají na stejné výšce (getBoundingClientRect().top shodné
+           pro všechny 3 <h3>).
+           2026-09-15, poslední doladění: na čtvercovém plátně (1291×1291,
+           obsah vycentrovaný) zůstávala průhledná mezera VLEVO od
+           reálné kresby – uživatelka: "je posunutá moc doprava... okraj
+           té čáry, co je v png, ne okraj png". Ikona proto přeuložena
+           jako TĚSNÝ ořez na obsah (847×1097px, žádné odsazení) a CSS
+           box `.feature-item-icon--xl` dostal místo čtverce poměr
+           stran obsahu (3,28rem×4,25rem) – kresba teď vyplňuje box
+           100&nbsp;% (žádné object-fit:contain letterboxing) a její
+           levý okraj lícuje přesně s levým okrajem nadpisu/textu pod
+           ní. Ověřeno Playwright měřením: `imgLeft` ikony = `h3Left`
+           u všech 3 karet, výška ikony (68px) skutečně větší než
+           u sousedních (56px, 48px).
+           2026-09-15, ještě jedno malé doladění: 4,25rem bylo podle
+           uživatelky "zase moc velké" – zmenšeno na 3,75rem (výška
+           v boxu vyšla 60px, pořád nejvyšší ze všech 3, ale ne tak
+           nápadně), width dopočítaná stejným poměrem 847:1097, margin
+           korekce přepočtena se zmenšeným delta. Levé zarovnání
+           s textem zůstává zachované, ověřeno znovu.
+           Uloženo jako Obrazky/web/icon-7-let-na-trhu.png (896×896
+           verze icon-5-let-na-trhu.png smazána, nahrazena).
          - "Výborné hodnocení klientů" (nadpis upraven 2026-09-12, dřív
            "5,0★ hodnocení klientů") – z 10 hodnocení na Firmy.cz, odkazuje
            dolů na sekci Reference na téže stránce.
@@ -228,8 +296,8 @@
         <h2 class="sr-only">Fakta o&nbsp;firmě</h2>
         <div class="offer-grid" data-reveal>
           <div class="feature-item">
-            <div class="feature-item-icon"><img src="Obrazky/web/icon-5-let-na-trhu.png" width="48" height="48" alt="" loading="lazy"></div>
-            <h3>5+ let na&nbsp;trhu</h3>
+            <div class="feature-item-icon feature-item-icon--xl"><img src="Obrazky/web/icon-7-let-na-trhu.png" width="37" height="48" alt="" loading="lazy"></div>
+            <h3>7+ let na&nbsp;trhu</h3>
             <p>Začínali jsme v&nbsp;průmyslu a&nbsp;postupně jsme se vypracovali mezi odborníky na&nbsp;elektroinstalace a&nbsp;fotovoltaiku. Roky praxe tak dnes spojujeme s&nbsp;moderními technologiemi a&nbsp;zkušenostmi v&nbsp;oboru.</p>
           </div>
           <div class="feature-item">
@@ -268,10 +336,21 @@
          Na přání uživatelky vrácen jasně označený placeholder: "Zde
          bude medailonek o 3 až 4 větách." + lorem ipsum výplň (ne
          prázdný odstavec, ať je v náhledu vidět odhad délky/rozvržení).
-         Čeká se, až uživatelka pošle pár skutečných vět od Zdeňka –
-         až dorazí, nahradit celý text `.profile-bio` odstavce. Jméno,
-         role, telefon a e-mail jsou reálné údaje a zůstávají beze
-         změny. -->
+         2026-09-15: placeholder nahrazen FINÁLNÍM textem – zadavatel
+         (Zdeněk) poslal přes uživatelku vlastní kariérní historii
+         (screenshoty z LinkedInu: technik elektroúdržby od 1995 přes
+         více firem, koordinátor a vedoucí oddělení údržby, OSVČ od
+         2019, Raška engineering s.r.o. od 2021) a explicitně požádal
+         nejmenovat žádné konkrétní dřívější zaměstnavatele, jen popsat
+         čím se zabýval. První návrh (parafráze 3. osobou) uživatelka
+         nepoužila – zadavatel místo něj poslal VLASTNÍ text v 1. osobě
+         ("Začínal jsem jako elektromechanik..."), který je teď v HTML
+         přesně tak, jak přišel (jen doplněné &nbsp; podle typografické
+         konvence webu, žádné jiné úpravy znění). `.profile-card` kvůli
+         délce textu rozšířena (viz komentář u .profile-card ve
+         style.css), ať odstavec nepůsobí jako úzký vysoký sloupec.
+         Jméno, role, telefon a e-mail jsou reálné údaje a zůstávají
+         beze změny. -->
     <section class="section">
       <div class="container">
         <div class="section-head section-head--center">
@@ -283,7 +362,7 @@
           <div class="profile-body">
             <h3>Zdeněk Raška</h3>
             <p class="profile-role">Majitel společnosti Raška engineering s.r.o.</p>
-            <p class="profile-bio">Zde bude medailonek o&nbsp;3 až&nbsp;4 větách. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud exercitation.</p>
+            <p class="profile-bio">V&nbsp;elektrotechnice a&nbsp;technické údržbě se pohybuji od&nbsp;poloviny 90. let. Začínal jsem jako elektromechanik, následně jsem řadu let pracoval v&nbsp;elektroúdržbě a&nbsp;postupně se posunul ke&nbsp;koordinaci a&nbsp;vedení údržby v&nbsp;průmyslovém prostředí. V&nbsp;roce 2019 jsem začal podnikat samostatně a&nbsp;v&nbsp;roce 2021 založil společnost Raška engineering s.r.o. Dnes své zkušenosti využívám při realizaci elektroinstalací, elektrorevizí, fotovoltaických systémů i&nbsp;technických zakázek pro průmysl.</p>
             <div class="profile-contact">
               <a class="btn btn-outline-dark" href="tel:+420733686898">
                 <svg aria-hidden="true"><use href="#icon-phone"></use></svg>
@@ -306,7 +385,7 @@
           <h2>Náš příběh</h2>
           <p>Kořeny našich zkušeností sahají především do průmyslového prostředí. Dlouholetá práce s&nbsp;výrobními technologiemi, elektroinstalacemi a&nbsp;technickými systémy nám dala široký přehled, který dnes využíváme při řešení zakázek pro domácnosti, firmy i&nbsp;výrobní provozy.</p>
           <p>Postupně jsme své služby rozšířili o&nbsp;kompletní elektroinstalační práce, elektrorevize a&nbsp;fotovoltaické systémy. Právě elektro služby a&nbsp;fotovoltaika dnes tvoří hlavní část naší práce.</p>
-          <p>Zkušenosti z&nbsp;průmyslu zůstávají důležitou součástí firmy. Patří mezi ně servis vstřikovacích a&nbsp;vytlačovacích technologií, pneumatických a&nbsp;hydraulických systémů i&nbsp;stěhování výrobních strojů v&nbsp;České republice a&nbsp;zahraničí.</p>
+          <p>Zkušenosti z&nbsp;průmyslu zůstávají důležitou součástí firmy. Patří mezi ně servis vstřikovacích a&nbsp;vytlačovacích technologií, pneumatických a&nbsp;hydraulických systémů, čištění vodních a&nbsp;chladicích okruhů i&nbsp;výroba a&nbsp;opravy topných těles.</p>
         </div>
 
         <div class="about-watermark" aria-hidden="true"></div>
