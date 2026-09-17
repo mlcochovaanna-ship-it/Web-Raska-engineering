@@ -542,21 +542,20 @@ p {
   background: linear-gradient(0deg, rgba(11, 27, 48, 0.4) 0%, rgba(11, 27, 48, 0.15) 30%, rgba(11, 27, 48, 0.1) 60%, rgba(11, 27, 48, 0.2) 100%);
 }
 
-@media (min-width: 1024px) and (max-width: 1399px) {
-  /* Menší notebooky (1024–1399px): sloupec s textem má pevnou šířku (~29rem),
-     ale koláž je vždy nalepená na pravý okraj CELÉ obrazovky (full-bleed) —
-     velký gutter kolem textu vzniká až u .container na širokých monitorech
-     (85 % šířky, max 1280px). V tomhle okně je to moc úzké a fotka (jističe)
-     zasahovala pod tlačítko s telefonním číslem (ověřeno, mizí to až kolem
-     ~1400px). Fix: pevně omezit levý okraj koláže, ať začíná až za tlačítky —
-     šířka koláže se tak přirozeně zvětšuje se šířkou okna (right zůstává 0),
-     jen její levý okraj je fixní. Pro tablety (768–1023px) viz samostatný
-     blok níže — tam se stejný problém řeší jinak (jako na mobilu). */
-  .hero-media {
-    left: 34rem;
-    width: auto;
-  }
-}
+/* 2026-09-17: bývalý fix pro 1024–1399px (.hero-media { left: 34rem;
+   width: auto }) byl odstraněn – řešil drobné zasahování fotky pod tlačítko,
+   ale zmenšením boxu rozbil object-fit: cover ořez pevně kalibrované
+   koláže (viz [[project_hero_collage]] – obrázek má přesnou úhlopříčnou
+   geometrii navrženou pro box na celou šířku). Důsledek: v celém okně
+   1024–1399px se místo fotky zobrazoval kus jejího vlastního "modrého"
+   panelu jako falešná mezera mezi textem a fotkami (odhaleno až přes
+   screenshot pro Open Graph, ale je to živá chyba pro reálné návštěvníky –
+   1366×768 a 1280×800 jsou běžná rozlišení notebooků). Bez fixu (box na
+   celou šířku, left: 0, stejně jako od 1400px výš) se text jen nepatrně
+   dotýká úhlopříčného švu na 1024px (ověřeno zoomovaným screenshotem,
+   čitelnost není narušená) – mnohem menší problém než ta mezera. Pro
+   tablety (768–1023px) viz samostatný blok níže — tam se stejný problém
+   řeší jinak (jako na mobilu). */
 
 @media (max-width: 767px) {
   /* Mobil: koláž už NENÍ pozadí za textem, ale samostatný pruh
