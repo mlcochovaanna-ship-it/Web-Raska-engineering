@@ -1,5 +1,10 @@
 RewriteEngine On
 
+# Přesměrování z verze www na bez www – kanonická doména je bez www
+# (http→https přesměrování řeší hosting, sem se nedává).
+RewriteCond %{HTTP_HOST} ^www\.raskaengineering\.cz$ [NC]
+RewriteRule ^(.*)$ https://raskaengineering.cz/$1 [L,R=301]
+
 # Kdyby si někdo otevřel adresu s .html (např. /elektro-sluzby.html),
 # přesměruj ho na hezkou adresu bez přípony (/elektro-sluzby).
 RewriteCond %{THE_REQUEST} /([^.\s]+)\.html[\s?] [NC]
@@ -10,3 +15,20 @@ RewriteRule ^ /%1 [NC,L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^([^.]+)$ $1.html [NC,L]
+
+# Vlastní chybová stránka pro neexistující adresy.
+ErrorDocument 404 /404.html
+
+# Bezpečnostní hlavičky.
+<IfModule mod_headers.c>
+  # Web nelze vložit do cizího iframu (ochrana před clickjackingem).
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # Prohlížeč nebude hádat typ souboru podle obsahu.
+  Header always set X-Content-Type-Options "nosniff"
+  # Po prvním HTTPS spojení prohlížeč vždy použije jen HTTPS.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # Při přechodu na jiný web se odesílá jen doména, ne celá URL.
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # Web mikrofon, kameru ani geolokaci nepoužívá.
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>

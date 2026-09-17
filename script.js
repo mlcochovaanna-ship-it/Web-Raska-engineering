@@ -3,10 +3,9 @@
    1) sticky hlavička při scrollu
    2) mobilní menu
    3) scroll-reveal animace
-   4) cookie lišta (Přijmout / Odmítnout / Nastavit)
-   5) lightbox galerie realizací + mini-lightbox certifikátu (O nás)
-   6) honeypot antispam kontrola formuláře
-   7) carousel recenzí (O nás)
+   4) lightbox galerie realizací + mini-lightbox certifikátu (O nás)
+   5) honeypot antispam kontrola formuláře
+   6) carousel recenzí (O nás)
    ========================================================================== */
 
 (function () {
@@ -70,62 +69,7 @@
     revealEls.forEach((el) => el.classList.add('is-visible'));
   }
 
-  /* 4) Cookie lišta ---------------------------------------------------------- */
-  const CONSENT_KEY = 'raska-cookie-consent';
-  const banner = document.querySelector('.cookie-banner');
-
-  if (banner) {
-    const settingsPanel = banner.querySelector('.cookie-settings');
-    const acceptBtn = banner.querySelector('[data-cookie-accept]');
-    const rejectBtn = banner.querySelector('[data-cookie-reject]');
-    const settingsBtn = banner.querySelector('[data-cookie-settings]');
-    const saveBtn = banner.querySelector('[data-cookie-save]');
-    const statsCheckbox = banner.querySelector('#cookie-stats');
-    const marketingCheckbox = banner.querySelector('#cookie-marketing');
-
-    const hideBanner = () => banner.classList.remove('is-visible');
-
-    const storeConsent = (value) => {
-      try {
-        localStorage.setItem(CONSENT_KEY, JSON.stringify(value));
-      } catch (e) {
-        /* localStorage nemusí být dostupný, souhlas se pak jen neuloží */
-      }
-      hideBanner();
-    };
-
-    let stored = null;
-    try {
-      stored = JSON.parse(localStorage.getItem(CONSENT_KEY));
-    } catch (e) {
-      stored = null;
-    }
-
-    if (!stored) {
-      requestAnimationFrame(() => banner.classList.add('is-visible'));
-    }
-
-    acceptBtn?.addEventListener('click', () => {
-      storeConsent({ statistics: true, marketing: true });
-    });
-
-    rejectBtn?.addEventListener('click', () => {
-      storeConsent({ statistics: false, marketing: false });
-    });
-
-    settingsBtn?.addEventListener('click', () => {
-      settingsPanel.classList.toggle('is-open');
-    });
-
-    saveBtn?.addEventListener('click', () => {
-      storeConsent({
-        statistics: !!statsCheckbox?.checked,
-        marketing: !!marketingCheckbox?.checked,
-      });
-    });
-  }
-
-  /* 5) Lightbox galerie realizací + mini-lightbox certifikátu ---------------- */
+  /* 4) Lightbox galerie realizací + mini-lightbox certifikátu ---------------- */
   /* Společný "engine" pro libovolný .lightbox element — otevře se se seznamem
      fotek {src, alt, caption} a indexem, na kterém se má otevřít. Použito
      dvakrát níž: #showcase-lightbox (fotky z DOM, .showcase-photo > img) a
@@ -207,7 +151,7 @@
     certTrigger.addEventListener('click', () => certLightbox.open(certPhotos, 0));
   }
 
-  /* 6) Honeypot antispam kontrola ------------------------------------------- */
+  /* 5) Honeypot antispam kontrola ------------------------------------------- */
   const forms = document.querySelectorAll('form[data-honeypot]');
   forms.forEach((form) => {
     form.addEventListener('submit', (e) => {
@@ -218,7 +162,7 @@
     });
   });
 
-  /* 7) Carousel recenzí (O nás) ---------------------------------------------- */
+  /* 6) Carousel recenzí (O nás) ---------------------------------------------- */
   /* .review-track je nativně scrollovatelný (scroll-snap, funguje i bez JS
      přes swipe/trackpad) – šipky jen posunou o šířku 1 karty a hlídají
      disabled stav na začátku/konci, ať carousel funguje i bez myši s
