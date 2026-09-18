@@ -1,33 +1,23 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stránka nenalezena | Raška engineering s.r.o.</title>
+  <title>Page Not Found | Raška engineering s.r.o.</title>
   <meta name="robots" content="noindex, follow">
 
   <!-- Favicon -->
-  <link rel="icon" href="Obrazky/Spolecne/favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="Obrazky/Spolecne/favicon.png">
+  <link rel="icon" href="../Obrazky/Spolecne/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../Obrazky/Spolecne/favicon.png">
 
   <!-- Styly -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <a class="skip-link" href="#hlavni-obsah">Přeskočit na hlavní obsah</a>
+  <a class="skip-link" href="#hlavni-obsah">Skip to main content</a>
 
   <!-- Sprite s ikonami (skryté, znovupoužitelné přes <use>) – stejný minimální
-       výběr jako na Kontaktu (jen hlavička/patička/tlačítko). Ikona pro
-       samotnou chybovou hlášku (instrukce.md: "místo '404' dej ikonu") NENÍ
-       v tomto spritu – uživatelka 2026-09-17 dodala vlastní vygenerovanou
-       PNG ikonu (Obrazky/Ikony/chybova-stranka-1.png, přerušená/odpojená
-       zástrčka – odkaz na obor podnikání, dvoubarevná navy/oranžová verze
-       v barvách webu, bez kolečka/pozadí kolem), zpracovanou stejným
-       vzorcem jako ostatní vlastní ikony (ořez na obsah + jednotné
-       odsazení, aby výška
-       vyplňovala 85 % plátna) a uloženou jako Obrazky/Ikony/icon-chybova-
-       stranka.png. Barva zůstala beze změny (bílá, jak dodáno) – jen ořez a
-       doplnění průhledného okraje, žádný zásah do kresby samotné. -->
+       výběr jako na Kontaktu (jen hlavička/patička/tlačítko). -->
   <svg xmlns="http://www.w3.org/2000/svg" class="sr-only" aria-hidden="true">
     <defs>
       <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -68,36 +58,31 @@
   </svg>
 
   <!-- ============================= HLAVIČKA ============================= -->
-  <!-- Jen na téhle stránce: .site-header--solid – za hlavičkou je hned bílé
-       pozadí sekce (ne temná fotka/gradient jako u hero na ostatních
-       stránkách), takže by běžný "nescrollovaný" poloprůhledný stav
-       (rgba(...,0.6)) působil moc světle/vymyté. Vzhled je proto natvrdo
-       stejný jako .is-scrolled i před scrollem (viz sekce 5 v CSS). -->
   <header class="site-header site-header--solid">
     <div class="nav-shell">
       <div class="nav-shell-inner">
-        <a class="brand" href="/" aria-label="Raška engineering – domovská stránka">
-          <img class="brand-logo" src="Obrazky/Spolecne/logo-white.png" width="616" height="532" alt="Raška engineering s.r.o. – logo">
+        <a class="brand" href="/en/" aria-label="Raška engineering – homepage">
+          <img class="brand-logo" src="../Obrazky/Spolecne/logo-white.png" width="616" height="532" alt="Raška engineering s.r.o. – logo">
         </a>
 
-        <nav aria-label="Hlavní navigace">
+        <nav aria-label="Main navigation">
           <ul class="nav-list">
-            <li><a href="/">Domů</a></li>
-            <li><a href="/elektro-sluzby">Elektro služby</a></li>
-            <li><a href="/fotovoltaika">Fotovoltaika</a></li>
-            <li><a href="/prumyslova-reseni">Průmyslová řešení</a></li>
-            <li><a href="/o-nas">O nás</a></li>
-            <li><a href="/kontakt">Kontakt</a></li>
+            <li><a href="/en/">Home</a></li>
+            <li><a href="/en/electrical-services">Electrical Services</a></li>
+            <li><a href="/en/photovoltaics">Solar Power</a></li>
+            <li><a href="/en/industrial-solutions">Industrial Solutions</a></li>
+            <li><a href="/en/about-us">About Us</a></li>
+            <li><a href="/en/contact">Contact</a></li>
           </ul>
         </nav>
 
         <div class="nav-actions">
-          <a class="lang-switch" href="/en/404.html" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
+          <a class="lang-switch" href="/404.html" hreflang="cs" lang="cs" aria-label="Switch to Czech">CS</a>
           <a class="btn btn-accent nav-phone-cta" href="tel:+420733686898">
             <svg aria-hidden="true"><use href="#icon-phone"></use></svg>
             <span>+420&nbsp;733&nbsp;686&nbsp;898</span>
           </a>
-          <button class="nav-toggle" aria-expanded="false" aria-controls="mobilni-menu" aria-label="Otevřít menu">
+          <button class="nav-toggle" aria-expanded="false" aria-controls="mobilni-menu" aria-label="Open menu">
             <svg class="icon-open" aria-hidden="true"><use href="#icon-menu"></use></svg>
             <svg class="icon-close" aria-hidden="true"><use href="#icon-close"></use></svg>
           </button>
@@ -105,14 +90,14 @@
       </div>
     </div>
 
-    <nav id="mobilni-menu" class="mobile-nav" aria-label="Mobilní navigace">
+    <nav id="mobilni-menu" class="mobile-nav" aria-label="Mobile navigation">
       <ul>
-        <li><a href="/">Domů</a></li>
-        <li><a href="/elektro-sluzby">Elektro služby</a></li>
-        <li><a href="/fotovoltaika">Fotovoltaika</a></li>
-        <li><a href="/prumyslova-reseni">Průmyslová řešení</a></li>
-        <li><a href="/o-nas">O nás</a></li>
-        <li><a href="/kontakt">Kontakt</a></li>
+        <li><a href="/en/">Home</a></li>
+        <li><a href="/en/electrical-services">Electrical Services</a></li>
+        <li><a href="/en/photovoltaics">Solar Power</a></li>
+        <li><a href="/en/industrial-solutions">Industrial Solutions</a></li>
+        <li><a href="/en/about-us">About Us</a></li>
+        <li><a href="/en/contact">Contact</a></li>
       </ul>
       <a class="btn btn-accent btn-block" href="tel:+420733686898">
         <svg aria-hidden="true"><use href="#icon-phone"></use></svg>
@@ -125,12 +110,12 @@
     <section class="section error-page">
       <div class="container">
         <div class="error-page-icon" aria-hidden="true">
-          <img src="Obrazky/Ikony/icon-chybova-stranka.png" width="1117" height="818" alt="" loading="eager">
+          <img src="../Obrazky/Ikony/icon-chybova-stranka.png" width="1117" height="818" alt="" loading="eager">
         </div>
-        <h1>Stránka nenalezena</h1>
-        <p class="lead">Omlouváme se, požadovaná stránka neexistuje nebo byla přesunuta. Vraťte se na hlavní stránku nebo si projděte nabídku našich služeb.</p>
-        <a class="btn btn-accent" href="/">
-          Zpět na hlavní stránku
+        <h1>Page Not Found</h1>
+        <p class="lead">Sorry, the page you&rsquo;re looking for doesn&rsquo;t exist or has been moved. Go back to the homepage or take a look at our services.</p>
+        <a class="btn btn-accent" href="/en/">
+          Back to Homepage
           <svg class="btn-arrow" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
         </a>
       </div>
@@ -141,8 +126,8 @@
   <footer class="site-footer">
     <div class="container footer-top">
       <div class="footer-brand">
-        <a class="brand" href="/" aria-label="Raška engineering – domovská stránka">
-          <img class="brand-logo" src="Obrazky/Spolecne/logo-white-footer.png" width="616" height="532" alt="Raška engineering s.r.o. – logo">
+        <a class="brand" href="/en/" aria-label="Raška engineering – homepage">
+          <img class="brand-logo" src="../Obrazky/Spolecne/logo-white-footer.png" width="616" height="532" alt="Raška engineering s.r.o. – logo">
         </a>
         <div class="footer-social">
           <a href="https://www.facebook.com/raskaengineering.cz" aria-label="Facebook Raška engineering" target="_blank" rel="noopener">
@@ -161,7 +146,7 @@
       </div>
 
       <div class="footer-col">
-        <h3>Kontakt</h3>
+        <h3>Contact</h3>
         <div class="footer-contact-primary">
           <a href="tel:+420733686898">
             <svg aria-hidden="true"><use href="#icon-phone"></use></svg>
@@ -183,37 +168,39 @@
       </div>
 
       <div class="footer-col">
-        <h3>Identifikační údaje</h3>
+        <h3>Company Details</h3>
         <address class="footer-address">
           Raška engineering s.r.o.<br>
           Olšany u&nbsp;Prostějova 24<br>
-          798&nbsp;14 Olšany u&nbsp;Prostějova
+          798&nbsp;14 Olšany u&nbsp;Prostějova<br>
+          Czech Republic
         </address>
         <p class="footer-legal">
-          IČO: 10790659 &nbsp;•&nbsp; DIČ: CZ10790659<br>
-          Zapsaná u&nbsp;Krajského soudu v&nbsp;Brně, oddíl C, vložka 122874
+          Company ID: 10790659<br>
+          VAT ID: CZ10790659<br>
+          Registered with the Regional Court in Brno, Section C, File No. 122874
         </p>
       </div>
 
       <div class="footer-col footer-nav-col">
-        <h3>Navigace</h3>
+        <h3>Navigation</h3>
         <ul>
-          <li><a href="/">Domů</a></li>
-          <li><a href="/elektro-sluzby">Elektro služby</a></li>
-          <li><a href="/fotovoltaika">Fotovoltaika</a></li>
-          <li><a href="/prumyslova-reseni">Průmyslová řešení</a></li>
-          <li><a href="/o-nas">O nás</a></li>
-          <li><a href="/kontakt">Kontakt</a></li>
+          <li><a href="/en/">Home</a></li>
+          <li><a href="/en/electrical-services">Electrical Services</a></li>
+          <li><a href="/en/photovoltaics">Solar Power</a></li>
+          <li><a href="/en/industrial-solutions">Industrial Solutions</a></li>
+          <li><a href="/en/about-us">About Us</a></li>
+          <li><a href="/en/contact">Contact</a></li>
         </ul>
       </div>
     </div>
 
     <div class="container footer-bottom">
-      <p>Copyright &copy; 2026 Raška engineering s.r.o. Webdesign <a href="https://harmonickyweb.cz" target="_blank" rel="noopener">harmonickyweb.cz</a></p>
+      <p>Copyright &copy; 2026 Raška engineering s.r.o. Web design by <a href="https://harmonickyweb.cz" target="_blank" rel="noopener">harmonickyweb.cz</a></p>
     </div>
   </footer>
 
 
-  <script src="script.js"></script>
+  <script src="../script.js"></script>
 </body>
 </html>

@@ -1,39 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://raskaengineering.cz/</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/"/>
+  </url>
+  <url>
+    <loc>https://raskaengineering.cz/en/</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/"/>
   </url>
   <url>
     <loc>https://raskaengineering.cz/elektro-sluzby</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/elektro-sluzby"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/electrical-services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/elektro-sluzby"/>
+  </url>
+  <url>
+    <loc>https://raskaengineering.cz/en/electrical-services</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/elektro-sluzby"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/electrical-services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/elektro-sluzby"/>
   </url>
   <url>
     <loc>https://raskaengineering.cz/fotovoltaika</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/fotovoltaika"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/photovoltaics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/fotovoltaika"/>
+  </url>
+  <url>
+    <loc>https://raskaengineering.cz/en/photovoltaics</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/fotovoltaika"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/photovoltaics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/fotovoltaika"/>
   </url>
   <url>
     <loc>https://raskaengineering.cz/prumyslova-reseni</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/prumyslova-reseni"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/industrial-solutions"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/prumyslova-reseni"/>
+  </url>
+  <url>
+    <loc>https://raskaengineering.cz/en/industrial-solutions</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/prumyslova-reseni"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/industrial-solutions"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/prumyslova-reseni"/>
   </url>
   <url>
     <loc>https://raskaengineering.cz/o-nas</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/o-nas"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/about-us"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/o-nas"/>
+  </url>
+  <url>
+    <loc>https://raskaengineering.cz/en/about-us</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/o-nas"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/about-us"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/o-nas"/>
   </url>
   <url>
     <loc>https://raskaengineering.cz/kontakt</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/kontakt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/kontakt"/>
+  </url>
+  <url>
+    <loc>https://raskaengineering.cz/en/contact</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raskaengineering.cz/kontakt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://raskaengineering.cz/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raskaengineering.cz/kontakt"/>
   </url>
 </urlset>
