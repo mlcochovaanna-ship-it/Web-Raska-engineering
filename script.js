@@ -151,14 +151,41 @@
     certTrigger.addEventListener('click', () => certLightbox.open(certPhotos, 0));
   }
 
-  /* 5) Honeypot antispam kontrola ------------------------------------------- */
+  /* 5) Odeslání formuláře + honeypot antispam -------------------------------- */
+  /* Vlastní děkovací stránku (Formspree _next) umí Formspree jen na placených
+     plánech, proto se formulář odesílá přes fetch (AJAX, dostupné na všech
+     plánech) a na děkovací stránku (data-thanks) přesměruje až tenhle skript.
+     Když fetch selže (síť, 403 např. kvůli reCAPTCHA na formuláři), spadne to
+     na běžné odeslání formuláře, takže poptávka se neztratí. */
   const forms = document.querySelectorAll('form[data-honeypot]');
   forms.forEach((form) => {
     form.addEventListener('submit', (e) => {
       const honeypot = form.querySelector('input[name="_gotcha"]');
       if (honeypot && honeypot.value !== '') {
         e.preventDefault();
+        return;
       }
+
+      const thanksUrl = form.dataset.thanks;
+      if (!thanksUrl || !window.fetch) return;
+
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      })
+        .then((res) => {
+          if (res.ok) {
+            window.location.href = thanksUrl;
+          } else {
+            form.submit();
+          }
+        })
+        .catch(() => form.submit());
     });
   });
 

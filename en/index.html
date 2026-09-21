@@ -430,19 +430,17 @@
 
         <div class="contact-form-card">
           <h3>Send Us an Enquiry</h3>
-          <form data-honeypot action="https://formspree.io/f/mdekkldj" method="POST">
+          <form data-honeypot data-thanks="/en/thank-you" action="https://formspree.io/f/mdekkldj" method="POST">
             <!-- Honeypot antispam pole – pro běžné uživatele skryté -->
             <div class="form-honeypot" aria-hidden="true">
               <label for="jmeno_en">Leave this field empty</label>
               <input type="text" id="jmeno_en" name="_gotcha" tabindex="-1" autocomplete="off">
             </div>
             <!-- _subject = notification email subject on Formspree's side,
-                 no effect on the form or page behaviour. _next = where
-                 Formspree redirects after a successful submission (must be
-                 an absolute URL, since the redirect originates from
-                 formspree.io, not our own domain). -->
+                 no effect on the form or page behaviour. The thank-you page
+                 is opened by script.js (data-thanks on the <form>), not by
+                 Formspree, since a custom redirect (_next) is a paid-plan feature. -->
             <input type="hidden" name="_subject" value="New website enquiry (Homepage)">
-            <input type="hidden" name="_next" value="https://raskaengineering.cz/en/thank-you">
 
             <div class="form-grid form-grid--3">
               <div class="form-group">

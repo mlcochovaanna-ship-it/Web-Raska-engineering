@@ -311,19 +311,17 @@
 
         <div class="contact-form-card">
           <h3>Kontaktní formulář</h3>
-          <form data-honeypot action="https://formspree.io/f/mdekkldj" method="POST">
+          <form data-honeypot data-thanks="/dekujeme" action="https://formspree.io/f/mdekkldj" method="POST">
             <!-- Honeypot antispam pole – pro běžné uživatele skryté -->
             <div class="form-honeypot" aria-hidden="true">
               <label for="_gotcha">Nevyplňujte toto pole</label>
               <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
             </div>
             <!-- _subject = předmět notifikačního e-mailu na straně Formspree,
-                 nemá vliv na formulář/chování stránky. _next = kam Formspree
-                 po úspěšném odeslání přesměruje (musí být absolutní URL, ne
-                 relativní – jde o přesměrování z formspree.io, ne z naší
-                 domény). -->
+                 nemá vliv na formulář/chování stránky. Děkovací stránku po
+                 odeslání otevírá script.js (data-thanks na <form>), ne
+                 Formspree – vlastní redirect (_next) je jen na placených plánech. -->
             <input type="hidden" name="_subject" value="Nová poptávka z webu (Kontakt)">
-            <input type="hidden" name="_next" value="https://raskaengineering.cz/dekujeme">
 
             <div class="form-grid form-grid--3">
               <div class="form-group">
