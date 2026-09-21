@@ -1846,16 +1846,11 @@ p {
   transform: translateY(-2px);
 }
 
-.social-links a:hover .icon-linkedin-mark { fill: var(--color-accent); }
-
 .social-links svg { width: 1.25rem; height: 1.25rem; }
 
-/* LinkedIn ikona má vlastní tmavě modré detaily napevno (.icon-linkedin-
-   mark, viz sprite) – na tomtéž tmavě modrém `currentColor` pozadí (jako
-   zbylé 3 ikony) by splynula do jedné tmavé plochy. Podklad ikony proto
-   zůstává bílý (stejný princip jako v patičce, kde je pozadí .footer-social
-   tmavé a ikona naopak světlá), zbytek kolečka (pozadí, hover) beze změny. */
-.social-links a.social-link-linkedin { color: var(--color-white); }
+/* LinkedIn ikona v této kartě používá vlastní symbol #icon-linkedin-cutout:
+   tmavě modrý čtverec s PRŮHLEDNÝM "in" (evenodd výřez, prosvítá kolečko –
+   světle modré, při hoveru oranžový gradient), stejně jako ostatní ikony. */
 
 /* --------------------------------------------------------------------------
    12. Patička
