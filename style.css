@@ -2956,6 +2956,31 @@ p {
   .faq-col { display: flex; flex-direction: column; gap: var(--space-6); flex: 1; min-width: 0; }
 }
 
+/* Tablet ve 2 sloupcích: při lichém počtu karet zůstávala poslední osamocená
+   vlevo vedle prázdného místa. Teď se vycentruje – stejná šířka jako ostatní
+   karty (polovina řádku bez poloviny mezery), jen posunutá doprostřed přes
+   celý řádek (grid-column: 1 / -1). Vzhled karty se nemění. Feature-gridy
+   (mezera space-4) jsou ve 2 sloupcích od 640px, offer/contact-info (mezera
+   space-6) od 768px; od 1024px jsou 3 a víc sloupců, tam se to netýká. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .revize-section .feature-grid > :last-child:nth-child(odd),
+  .fve-section .feature-grid > :last-child:nth-child(odd),
+  .cleaning-section .feature-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - var(--space-4)) / 2);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .offer-grid > :last-child:nth-child(odd),
+  .contact-info-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - var(--space-6)) / 2);
+  }
+}
+
 /* CTA pás před kontaktem na podstránkách — stejný jazyk jako kontaktní
    sekce na homepage (světle modré pozadí, tmavě modré nadpisy), jen bez
    formuláře. Tmavý gradient (dřívější verze) byl identický s pozadím
