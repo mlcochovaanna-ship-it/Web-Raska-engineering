@@ -2863,8 +2863,8 @@ p {
 .cert-card p { font-size: var(--fs-base); color: var(--color-muted); margin: 0; }
 
 /* Otázky a odpovědi — accordion na <details>/<summary>, šipka rotuje při
-   otevření; 4 položky → od tabletu ve dvou sloupcích. Sloupce jsou od
-   tabletu dva NEZÁVISLÉ flex kontejnery (.faq-col), ne jeden grid o 2
+   otevření; od 1024px ve dvou sloupcích (mobil a tablet pod sebou). Sloupce jsou od
+   1024px dva NEZÁVISLÉ flex kontejnery (.faq-col), ne jeden grid o 2
    sloupcích/2 řádcích – ve sdíleném gridu roztažení jedné karty zvětšilo
    výšku celého řádku a posunulo dolů i kartu ve vedlejším sloupci ve
    stejném řádku (byť samotná neroztažená karta zůstávala nahoře díky
@@ -2880,24 +2880,34 @@ p {
   margin-bottom: var(--space-6);
 }
 
-/* Na mobilu (1 sloupec) je .faq-col jen obalový element bez vizuálního
-   významu – display:contents ho z box tree odstraní, takže karty (details)
-   se stanou přímými grid items v .faq-grid. V HTML jsou ale seřazené po
-   sloupcích (1., 3. otázka v prvním <div>, 2., 4. ve druhém – kvůli
-   desktopu, viz komentář výše), takže bez zásahu by na mobilu vyšlo
-   pořadí 1, 3, 2, 4 místo čtenářského 1, 2, 3, 4 – opraveno přes `order`
-   níž. */
+/* Na mobilu a tabletu (1 sloupec, do 1023px) je .faq-col jen obalový element
+   bez vizuálního významu – display:contents ho z box tree odstraní, takže
+   karty (details) se stanou přímými grid items v .faq-grid. V HTML jsou ale
+   seřazené po sloupcích (1., 3. otázka v prvním <div>, 2., 4. ve druhém –
+   kvůli desktopu, viz komentář výše), takže bez zásahu by vyšlo pořadí
+   1, 3, 2, 4 místo čtenářského 1, 2, 3, 4 – opraveno přes `order` níž
+   (k-tá položka 1. sloupce = 2k-1, 2. sloupce = 2k; pokryto do 5 položek
+   na sloupec, dřív jen 3+2, takže osmice otázek na Průmyslu byla na mobilu
+   promíchaná). Od 1024px se karty vracejí do dvou sloupců. */
 .faq-col { display: contents; }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .faq-col:first-of-type > .faq-item:nth-of-type(1) { order: 1; }
   .faq-col:last-of-type > .faq-item:nth-of-type(1) { order: 2; }
   .faq-col:first-of-type > .faq-item:nth-of-type(2) { order: 3; }
   .faq-col:last-of-type > .faq-item:nth-of-type(2) { order: 4; }
-  /* 5. otázka (liché FAQ, např. Fotovoltaika: 3+2 sloupce místo 2+2 u
-     Elektro služeb) – bez efektu na stránky se 4 otázkami, kde první
-     sloupec 3. položku nemá. */
   .faq-col:first-of-type > .faq-item:nth-of-type(3) { order: 5; }
+  .faq-col:last-of-type > .faq-item:nth-of-type(3) { order: 6; }
+  .faq-col:first-of-type > .faq-item:nth-of-type(4) { order: 7; }
+  .faq-col:last-of-type > .faq-item:nth-of-type(4) { order: 8; }
+  .faq-col:first-of-type > .faq-item:nth-of-type(5) { order: 9; }
+  .faq-col:last-of-type > .faq-item:nth-of-type(5) { order: 10; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet: jeden sloupec, stejné pravidelné rozestupy jako mezi kartami ve
+     dvou sloupcích na desktopu. */
+  .faq-grid { gap: var(--space-6); }
 }
 
 .faq-item {
@@ -2941,7 +2951,7 @@ p {
   margin: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .faq-grid { display: flex; align-items: flex-start; gap: var(--space-6); }
   .faq-col { display: flex; flex-direction: column; gap: var(--space-6); flex: 1; min-width: 0; }
 }
