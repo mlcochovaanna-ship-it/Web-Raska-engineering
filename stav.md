@@ -907,7 +907,7 @@ Uživatelka: "co bychom měly ještě zkontrolovat před spuštěním?" – pož
 
 **🔴 Musí se udělat před spuštěním (blokující):**
 1. **Odstranit dočasný `<meta name="robots" content="noindex, nofollow">`** ze všech 6 hlavních stránek (přidán 2026-09-17, protože web běží na subdoméně) – bez odstranění Google web nezaindexuje na finální doméně. Řádek je vždy hned za `<title>`, má u sebe komentář "DOČASNÉ: subdoména, odstranit před spuštěním na finální doméně" – lze snadno dohledat `grep -rn "DOČASNÉ: subdoména"`.
-2. **Doplnit skutečné Formspree ID** – kontaktní formulář na `index.html` i `kontakt.html` má stále placeholder `action="https://formspree.io/f/VASE_ID"`. Bez reálného ID se poptávky nikam neodešlou.
+2. ~~**Doplnit skutečné Formspree ID**~~ – hotovo 2026-09-18, ID `mdekkldj` doplněno do `index.html`, `kontakt.html`, `en/index.html` a `en/contact.html`.
 
 **🟡 Otestovat, jakmile bude web živý (i na subdoméně, i přes noindex):**
 3. PageSpeed Insights (pagespeed.web.dev) – potřebuje veřejnou URL.
@@ -920,3 +920,22 @@ Uživatelka: "co bychom měly ještě zkontrolovat před spuštěním?" – pož
 - V gitu je dost neuložených změn – commit zatím neproběhl, čeká na pokyn.
 - `Obrazky/.DS_Store` je omylem sledovaný v gitu z dřívějška (`.gitignore` chrání jen nové soubory) – kosmetická drobnost.
 - Žádné placeholdery ani zapomenutý text jsme nenašly – všechny texty na webu jsou finální.
+
+## Formulář a děkovací stránky (2026-09-19)
+
+- **`_subject` a `_next` skrytá pole doplněna** do všech 4 formulářů (`index.html`, `kontakt.html`, `en/index.html`, `en/contact.html`). `_subject` jen nastavuje předmět notifikačního e-mailu (na chování formuláře nemá vliv), `_next` je absolutní URL, kam Formspree po úspěšném odeslání přesměruje – CS formuláře na `/dekujeme`, EN na `/en/thank-you`.
+- **Nové děkovací stránky** `dekujeme.html` a `en/thank-you.html` – stejná `.page-hero`/`.page-hero-split` konstrukce jako Kontakt, ale bez `.page-hero-media` (žádná fotka). Nový CSS modifikátor `.page-hero-content--wide` (style.css, u `.page-hero-media--van`) na 1024px+ zruší fixní 58% textový sloupec a vycentruje obsah přes celou šířku. `noindex, follow` (stejně jako `404.html`), nejsou v `sitemap.xml` (noindex stránky tam nepatří) ani v `robots.txt`.
+  - **Chyba cestou:** v `dekujeme.html` byl HTML komentář omylem zavřený CSS syntaxí (`*/` místo `-->`), což spolklo celou hero sekci i `</main>` – zjištěno až Python `html.parser` kontrolou stromu (Playwright `querySelector` tiše vracel `null`, `.content()` ale text ukazoval správně, matoucí symptom). Opraveno, ověřeno – prázdný stack/žádné chyby na obou souborech.
+- **Formspree "Restrict to Domain"** vysvětleno uživatelce, kde v dashboardu je (úroveň **projektu**, ne formuláře – Settings → Restrict to Domain) – zatím vědomě nevyplněno, protože web běží na pracovní subdoméně. Přidáno do bodu 8 níže, připomenout při přechodu na ostrou doménu.
+- **Nové OG obrázky pro EN stránky** – 6 souborů `Obrazky/OpenGraph/og-*-en.jpg` (1200×630), stejnou technikou jako české (Playwright screenshot, viewport 1200×630, `device_scale_factor:2`, zmenšeno LANCZOS). Původní EN stránky předtím omylem odkazovaly na **české** OG obrázky (screenshoty s českým menu/nadpisem) – teď mají vlastní anglické. `og:image` přepsán na všech 6 `en/*.html`.
+
+**🔴 Doplněno k blokujícím bodům před spuštěním:**
+8. **Formspree "Restrict to Domain"** (Settings projektu, ne formuláře) – nastavit na `raskaengineering.cz` po přechodu na ostrou doménu. Bez toho formulář funguje, jde jen o ochranu proti zneužití Formspree ID na cizím webu.
+
+## Homepage hero na užších noteboocích (2026-09-21)
+
+- **Problém:** na oknech 1024–1300 px text hera zasahoval do fotky (CS až ~90 px na 1024, EN až ~127 px kvůli delšímu nowrap eyebrow). Šev koláže leží pevně na ~42 % šířky obrázku, text se škáluje jinak. Od ~1366 px přesah není.
+- **Řešení (obrázek):** dvě nové varianty koláže, stejná `hero-collage-desktop.jpg` vodorovně stlačená k pravému okraji (modrý panel vlevo širší, šev dál vpravo; modrá `#153a67` je plochá, takže doplnění zleva je bez švu): `Obrazky/Domov/hero-collage-laptop-narrow.jpg` (×0,85, `<source>` pro 1024–1159 px) a `hero-collage-laptop.jpg` (×0,93, 1160–1279 px). Přidané `<source>` před původním ≥1024 v `index.html` i `en/index.html`. Zkoušeno i levé kotvení (`object-position: left`), pomáhá jen na nejužších oknech, zamítnuto.
+- **Řešení (text):** `style.css` – `html[lang="en"] .hero-content .eyebrow { white-space: normal }` na 1024–1439 px, ať se EN eyebrow zalomí místo zajetí do fotky.
+- **Ověřeno** měřením přesahu na 700/800/900 px výšky okna: přesah pryč na 1024–1279 px (CS i EN). Zbývá jen zanedbatelných 4–15 px na ~1280 px (dřív bez změny, netknuto).
+- OG obrázky homepage (`og-domov.jpg`, `og-domov-en.jpg`) přefoceny na 1200×630 (stejná technika), teď bez přesahu.

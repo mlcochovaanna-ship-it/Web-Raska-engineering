@@ -21,7 +21,7 @@
   <meta property="og:title" content="Contact | Raška engineering s.r.o.">
   <meta property="og:description" content="Contact Raška engineering by phone, email or enquiry form. Electrical services, solar power and industrial solutions for homes, businesses and manufacturing facilities across the Czech Republic.">
   <meta property="og:url" content="https://raskaengineering.cz/en/contact">
-  <meta property="og:image" content="https://raskaengineering.cz/Obrazky/OpenGraph/og-kontakt.jpg">
+  <meta property="og:image" content="https://raskaengineering.cz/Obrazky/OpenGraph/og-kontakt-en.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="en_US">
@@ -273,12 +273,19 @@
 
         <div class="contact-form-card">
           <h3>Contact Form</h3>
-          <form data-honeypot action="https://formspree.io/f/VASE_ID" method="POST">
+          <form data-honeypot action="https://formspree.io/f/mdekkldj" method="POST">
             <!-- Honeypot antispam pole – pro běžné uživatele skryté -->
             <div class="form-honeypot" aria-hidden="true">
               <label for="jmeno_en2">Leave this field empty</label>
               <input type="text" id="jmeno_en2" name="_gotcha" tabindex="-1" autocomplete="off">
             </div>
+            <!-- _subject = notification email subject on Formspree's side,
+                 no effect on the form or page behaviour. _next = where
+                 Formspree redirects after a successful submission (must be
+                 an absolute URL, since the redirect originates from
+                 formspree.io, not our own domain). -->
+            <input type="hidden" name="_subject" value="New website enquiry (Contact)">
+            <input type="hidden" name="_next" value="https://raskaengineering.cz/en/thank-you">
 
             <div class="form-grid form-grid--3">
               <div class="form-group">

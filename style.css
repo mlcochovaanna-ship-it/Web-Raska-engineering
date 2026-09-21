@@ -682,6 +682,12 @@ p {
   .hero-content .eyebrow { white-space: nowrap; }
 }
 
+@media (min-width: 1024px) and (max-width: 1439px) {
+  /* Anglický eyebrow je delší než český sloupec (max-width výš) – s nowrap by
+     "SOLUTIONS" zajíždělo do fotky. Na širších obrazovkách se vejde. */
+  html[lang="en"] .hero-content .eyebrow { white-space: normal; }
+}
+
 .hero-content h1 {
   color: var(--color-white);
   font-size: clamp(2.8rem, 2.6rem + 0.5vw, 3rem);
@@ -2291,6 +2297,27 @@ p {
 
   .page-hero-media::after {
     background: linear-gradient(100deg, rgba(11, 27, 48, 0.35) 0%, transparent 22%);
+  }
+}
+
+/* Děkovací stránka po odeslání formuláře (/dekujeme, /en/thank-you) – jediná
+   .page-hero-split BEZ .page-hero-media (na rozdíl od ostatních podstránek
+   tu není žádná relevantní fotka). Bez tohohle modifikátoru by textový
+   sloupec zůstal na fixních 58 % šířky z pravidla výš (počítá s fotkou v
+   pravé polovině) a napravo by na desktopu zela prázdná tmavá plocha. */
+.page-hero-content--wide {
+  text-align: center;
+}
+
+.page-hero-content--wide .hero-actions {
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .page-hero-content--wide {
+    flex: 1 1 auto;
+    align-items: center;
+    padding: var(--space-24) var(--tunnel-inset);
   }
 }
 

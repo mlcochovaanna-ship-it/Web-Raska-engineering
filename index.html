@@ -204,6 +204,12 @@
            na mobilu jen pruh tří oborů pod textem – modrá plocha nad ním je čistě CSS gradient (viz .hero) -->
       <div class="hero-media">
         <picture>
+          <!-- Na užších noteboocích (1024–1279 px) sahal text do fotky, protože šev
+               koláže leží pevně na ~42 % šířky, ale text se škáluje jinak. Tyhle dvě
+               varianty jsou stejná koláž vodorovně stlačená doprava (širší modrý panel
+               vlevo, šev dál vpravo) – viz project_hero_collage. -->
+          <source media="(min-width: 1024px) and (max-width: 1159px)" srcset="Obrazky/Domov/hero-collage-laptop-narrow.jpg">
+          <source media="(min-width: 1160px) and (max-width: 1279px)" srcset="Obrazky/Domov/hero-collage-laptop.jpg">
           <source media="(min-width: 1024px)" srcset="Obrazky/Domov/hero-collage-desktop.jpg">
           <source media="(min-width: 768px)" srcset="Obrazky/Domov/hero-photos-mobile.jpg">
           <img
@@ -427,12 +433,19 @@
 
         <div class="contact-form-card">
           <h3>Nezávazná poptávka</h3>
-          <form data-honeypot action="https://formspree.io/f/VASE_ID" method="POST">
+          <form data-honeypot action="https://formspree.io/f/mdekkldj" method="POST">
             <!-- Honeypot antispam pole – pro běžné uživatele skryté -->
             <div class="form-honeypot" aria-hidden="true">
               <label for="_gotcha">Nevyplňujte toto pole</label>
               <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
             </div>
+            <!-- _subject = předmět notifikačního e-mailu na straně Formspree,
+                 nemá vliv na formulář/chování stránky. _next = kam Formspree
+                 po úspěšném odeslání přesměruje (musí být absolutní URL, ne
+                 relativní – jde o přesměrování z formspree.io, ne z naší
+                 domény). -->
+            <input type="hidden" name="_subject" value="Nová poptávka z webu (Domů)">
+            <input type="hidden" name="_next" value="https://raskaengineering.cz/dekujeme">
 
             <div class="form-grid form-grid--3">
               <div class="form-group">

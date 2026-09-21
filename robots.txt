@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /dekujeme
+Disallow: /en/thank-you
 
 Sitemap: https://raskaengineering.cz/sitemap.xml
