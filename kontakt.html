@@ -28,7 +28,7 @@
   <meta property="og:locale:alternate" content="en_US">
 
   <!-- Styly -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260921b">
 
   <!-- Strukturovaná data: LocalBusiness -->
   <script type="application/ld+json">
@@ -311,7 +311,7 @@
 
         <div class="contact-form-card">
           <h3>Kontaktní formulář</h3>
-          <form data-honeypot data-thanks="/dekujeme" action="https://formspree.io/f/mdekkldj" method="POST">
+          <form data-honeypot novalidate data-msg-incomplete="Formulář není kompletní. Doplňte prosím označená pole." data-thanks="/dekujeme" action="https://formspree.io/f/mdekkldj" method="POST">
             <!-- Honeypot antispam pole – pro běžné uživatele skryté -->
             <div class="form-honeypot" aria-hidden="true">
               <label for="_gotcha">Nevyplňujte toto pole</label>
@@ -325,21 +325,24 @@
 
             <div class="form-grid form-grid--3">
               <div class="form-group">
-                <label for="jmeno">Jméno a&nbsp;příjmení</label>
+                <label for="jmeno">Jméno a&nbsp;příjmení <span class="form-req" aria-hidden="true">*</span></label>
                 <input type="text" id="jmeno" name="jmeno" autocomplete="name" required>
+                <p class="form-error-msg">Vyplňte jméno a příjmení.</p>
               </div>
               <div class="form-group">
-                <label for="telefon">Telefon</label>
+                <label for="telefon">Telefon <span class="form-req" aria-hidden="true">*</span></label>
                 <input type="tel" id="telefon" name="telefon" autocomplete="tel" required>
+                <p class="form-error-msg">Vyplňte telefonní číslo.</p>
               </div>
               <div class="form-group">
-                <label for="email">E-mail</label>
+                <label for="email">E-mail <span class="form-req" aria-hidden="true">*</span></label>
                 <input type="email" id="email" name="email" autocomplete="email" required>
+                <p class="form-error-msg">Zadejte platný e-mail.</p>
               </div>
             </div>
 
-            <div class="form-group">
-              <span class="form-group-label">O&nbsp;jakou službu máte zájem?</span>
+            <div class="form-group" data-required-group>
+              <span class="form-group-label">O&nbsp;jakou službu máte zájem? <span class="form-req" aria-hidden="true">*</span></span>
               <div class="checkbox-grid">
                 <label class="checkbox-item">
                   <input type="checkbox" name="sluzba" value="Elektro služby">
@@ -358,12 +361,18 @@
                   <span>Jiné</span>
                 </label>
               </div>
+              <p class="form-error-msg">Vyberte prosím alespoň jednu službu.</p>
             </div>
 
             <div class="form-group">
-              <label for="zprava">Vaše zpráva</label>
+              <label for="zprava">Vaše zpráva <span class="form-req" aria-hidden="true">*</span></label>
               <textarea id="zprava" name="zprava" rows="3" required></textarea>
+              <p class="form-error-msg">Napište prosím zprávu.</p>
             </div>
+
+            <p class="form-required-note">Pole označená <span class="form-req">*</span> jsou povinná.</p>
+
+            <div class="form-alert-box" role="alert" aria-live="assertive"></div>
 
             <button type="submit" class="btn btn-accent btn-block">Odeslat poptávku</button>
             <p class="form-note">Odesláním formuláře souhlasíte se zpracováním uvedených údajů za účelem vyřízení poptávky.</p>
@@ -451,6 +460,6 @@
   </footer>
 
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260921b"></script>
 </body>
 </html>

@@ -1610,6 +1610,48 @@ p {
   margin-bottom: 0;
 }
 
+/* Validace formuláře (script.js, sekce 5): hvězdička u povinných polí, chybová
+   hláška pod polem a souhrnný rámeček nad tlačítkem. Formulář má novalidate,
+   takže prohlížečové bubliny nejsou vidět a chyby ukazuje jen tohle. */
+.form-req {
+  color: var(--color-accent-dark);
+  font-style: normal;
+}
+
+.form-required-note {
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+  margin: var(--space-4) 0 var(--space-3);
+}
+
+.form-error-msg {
+  display: none;
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-small);
+  color: #b3261e;
+}
+
+.form-error-msg.visible { display: block; }
+
+.form-group.has-error input:not([type="checkbox"]),
+.form-group.has-error textarea {
+  border-color: #b3261e;
+}
+
+.form-alert-box { display: none; }
+
+.form-alert-box:not(:empty) {
+  display: block;
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: rgba(179, 38, 30, 0.08);
+  border: 1px solid rgba(179, 38, 30, 0.35);
+  color: #b3261e;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
 @media (min-width: 1024px) {
   .contact-grid { grid-template-columns: 0.8fr 1.3fr; align-items: start; }
 

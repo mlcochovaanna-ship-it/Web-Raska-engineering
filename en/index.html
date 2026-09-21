@@ -28,7 +28,7 @@
   <meta property="og:locale:alternate" content="cs_CZ">
 
   <!-- Styly -->
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../style.css?v=20260921b">
 
   <!-- Strukturovaná data: LocalBusiness -->
   <script type="application/ld+json">
@@ -430,7 +430,7 @@
 
         <div class="contact-form-card">
           <h3>Send Us an Enquiry</h3>
-          <form data-honeypot data-thanks="/en/thank-you" action="https://formspree.io/f/mdekkldj" method="POST">
+          <form data-honeypot novalidate data-msg-incomplete="The form is incomplete. Please fill in the highlighted fields." data-thanks="/en/thank-you" action="https://formspree.io/f/mdekkldj" method="POST">
             <!-- Honeypot antispam pole – pro běžné uživatele skryté -->
             <div class="form-honeypot" aria-hidden="true">
               <label for="jmeno_en">Leave this field empty</label>
@@ -444,21 +444,24 @@
 
             <div class="form-grid form-grid--3">
               <div class="form-group">
-                <label for="jmeno-en">Full name</label>
+                <label for="jmeno-en">Full name <span class="form-req" aria-hidden="true">*</span></label>
                 <input type="text" id="jmeno-en" name="jmeno" autocomplete="name" required>
+                <p class="form-error-msg">Please enter your full name.</p>
               </div>
               <div class="form-group">
-                <label for="telefon-en">Phone</label>
+                <label for="telefon-en">Phone <span class="form-req" aria-hidden="true">*</span></label>
                 <input type="tel" id="telefon-en" name="telefon" autocomplete="tel" required>
+                <p class="form-error-msg">Please enter your phone number.</p>
               </div>
               <div class="form-group">
-                <label for="email-en">Email</label>
+                <label for="email-en">Email <span class="form-req" aria-hidden="true">*</span></label>
                 <input type="email" id="email-en" name="email" autocomplete="email" required>
+                <p class="form-error-msg">Please enter a valid email address.</p>
               </div>
             </div>
 
-            <div class="form-group">
-              <span class="form-group-label">Which service are you interested in?</span>
+            <div class="form-group" data-required-group>
+              <span class="form-group-label">Which service are you interested in? <span class="form-req" aria-hidden="true">*</span></span>
               <div class="checkbox-grid">
                 <label class="checkbox-item">
                   <input type="checkbox" name="sluzba" value="Electrical services">
@@ -477,12 +480,18 @@
                   <span>Other</span>
                 </label>
               </div>
+              <p class="form-error-msg">Please select at least one service.</p>
             </div>
 
             <div class="form-group">
-              <label for="zprava-en">Your message</label>
+              <label for="zprava-en">Your message <span class="form-req" aria-hidden="true">*</span></label>
               <textarea id="zprava-en" name="zprava" rows="3" required></textarea>
+              <p class="form-error-msg">Please enter your message.</p>
             </div>
+
+            <p class="form-required-note">Fields marked <span class="form-req">*</span> are required.</p>
+
+            <div class="form-alert-box" role="alert" aria-live="assertive"></div>
 
             <button type="submit" class="btn btn-accent btn-block">Send enquiry</button>
             <p class="form-note">By submitting this form, you consent to the processing of the information provided for the purpose of responding to your enquiry.</p>
@@ -588,6 +597,6 @@
     </button>
   </div>
 
-  <script src="../script.js"></script>
+  <script src="../script.js?v=20260921b"></script>
 </body>
 </html>

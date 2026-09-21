@@ -157,19 +157,60 @@
      plánech) a na děkovací stránku (data-thanks) přesměruje až tenhle skript.
      Když fetch selže (síť, 403 např. kvůli reCAPTCHA na formuláři), spadne to
      na běžné odeslání formuláře, takže poptávka se neztratí. */
+  /* Formulář má novalidate, povinnost polí hlídá tenhle skript: každá
+     .form-group s .form-error-msg je povinná (skupina s data-required-group =
+     aspoň jedno zaškrtnuté políčko). Texty hlášek jsou v HTML, ať skript
+     nezávisí na jazyce. */
+  const validateGroup = (group) => {
+    const err = group.querySelector('.form-error-msg');
+    if (!err) return true;
+    let ok;
+    if (group.hasAttribute('data-required-group')) {
+      ok = !!group.querySelector('input:checked');
+    } else {
+      const field = group.querySelector('input, textarea');
+      ok = field.value.trim() !== '' && (field.type !== 'email' || /\S+@\S+\.\S+/.test(field.value));
+      field.setAttribute('aria-invalid', String(!ok));
+    }
+    group.classList.toggle('has-error', !ok);
+    err.classList.toggle('visible', !ok);
+    return ok;
+  };
+
   const forms = document.querySelectorAll('form[data-honeypot]');
   forms.forEach((form) => {
+    const alertBox = form.querySelector('.form-alert-box');
+
+    form.addEventListener('input', (e) => {
+      const group = e.target.closest('.form-group');
+      if (!group || !group.classList.contains('has-error')) return;
+      validateGroup(group);
+      if (alertBox && !form.querySelector('.has-error')) alertBox.textContent = '';
+    });
+
     form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
       const honeypot = form.querySelector('input[name="_gotcha"]');
-      if (honeypot && honeypot.value !== '') {
-        e.preventDefault();
+      if (honeypot && honeypot.value !== '') return;
+
+      const invalid = Array.from(form.querySelectorAll('.form-group')).filter((g) => !validateGroup(g));
+      if (invalid.length) {
+        if (alertBox) alertBox.textContent = form.dataset.msgIncomplete || '';
+        const first = invalid[0];
+        first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const target = first.querySelector('input, textarea');
+        if (target) target.focus({ preventScroll: true });
+        return;
+      }
+      if (alertBox) alertBox.textContent = '';
+
+      const thanksUrl = form.dataset.thanks;
+      if (!thanksUrl || !window.fetch) {
+        form.submit();
         return;
       }
 
-      const thanksUrl = form.dataset.thanks;
-      if (!thanksUrl || !window.fetch) return;
-
-      e.preventDefault();
       const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
 
@@ -182,10 +223,14 @@
           if (res.ok) {
             window.location.href = thanksUrl;
           } else {
+            console.warn('Formspree odmítl odeslání přes fetch, HTTP', res.status);
             form.submit();
           }
         })
-        .catch(() => form.submit());
+        .catch((err) => {
+          console.warn('Odeslání přes fetch selhalo', err);
+          form.submit();
+        });
     });
   });
 
