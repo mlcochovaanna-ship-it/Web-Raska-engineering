@@ -1902,8 +1902,9 @@ p {
   transform: translateY(-2px);
 }
 
-.icon-linkedin-mark { transition: fill var(--transition); }
-.footer-social a:hover .icon-linkedin-mark { fill: var(--color-accent); }
+/* LinkedIn ikona (karta na Kontaktu i patička) je symbol #icon-linkedin-cutout:
+   čtverec s PRŮHLEDNÝM "in", takže "in" má vždy barvu kolečka pod ikonou
+   (v patičce tmavá průhledná, po najetí myší oranžový gradient). */
 
 .footer-social svg { width: 1.15rem; height: 1.15rem; }
 
