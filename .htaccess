@@ -5,6 +5,22 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.raskaengineering\.cz$ [NC]
 RewriteRule ^(.*)$ https://raskaengineering.cz/$1 [L,R=301]
 
+# Přesměrování starých adres ze starého WordPress webu (301 = trvale, předá
+# váhu stránky Googlu). Pravidla jsou před ostatními, ať jde o jediný skok.
+# Podstránky průmyslu vedou na přehled průmyslových řešení, elektroinstalace
+# na Elektro služby, zrušená plynová zařízení na úvodní stránku.
+RewriteRule ^komplexni-servis-v-oblasti-prumyslu/elektroinstalace-a-elektrorevize/?$ /elektro-sluzby [R=301,L]
+RewriteRule ^komplexni-servis-v-oblasti-prumyslu(/.*)?$ /prumyslova-reseni [R=301,L]
+RewriteRule ^plynova-zarizeni/?$ / [R=301,L]
+RewriteRule ^en/complex-services-in-the-field-of-industry/wiring-and-electrical-inspection/?$ /en/electrical-services [R=301,L]
+RewriteRule ^en/complex-services-in-the-field-of-industry(/.*)?$ /en/industrial-solutions [R=301,L]
+RewriteRule ^en/gas-devices/?$ /en/ [R=301,L]
+
+# Stará adresa s lomítkem na konci (/kontakt/, /fotovoltaika/, /en/contact/)
+# vede na stejnou adresu bez lomítka. Skutečné složky (/en/) se nemění.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
 # Kdyby si někdo otevřel adresu s .html (např. /elektro-sluzby.html),
 # přesměruj ho na hezkou adresu bez přípony (/elektro-sluzby).
 RewriteCond %{THE_REQUEST} /([^.\s]+)\.html[\s?] [NC]
@@ -31,4 +47,20 @@ ErrorDocument 404 /404.html
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   # Web mikrofon, kameru ani geolokaci nepoužívá.
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# Cache statických souborů v prohlížeči (PageSpeed: "efektivní cache").
+# CSS a JS mají v HTML číslo verze (?v=...), takže po změně se načtou nové;
+# obrázky nemají, proto jen měsíc. HTML se necachuje, aby se změny projevily hned.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/javascript "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
