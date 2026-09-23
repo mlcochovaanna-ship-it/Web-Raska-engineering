@@ -3043,9 +3043,10 @@ p {
    vlastní stylování `.offer-grid .feature-item p a`) – odstraněno
    2026-09-12 na přání uživatelky, CSS pravidlo smazáno jako nepoužívané. */
 
-/* "Kdo za Raška engineering stojí" – jedna centrovaná karta (bez fotky,
-   iniciálový avatar), stejná skleněná receptura jako .feature-item, jen
-   větší/širší. Na .section--blue (plná barva, ne fotka) blur nemá co
+/* "Kdo za Raška engineering stojí" – jedna centrovaná karta se skutečnou
+   fotkou Zdeňka (dřív iniciálový avatar "ZR", nahrazeno 2026-09-23, jakmile
+   uživatelka dodala portrét), stejná skleněná receptura jako .feature-item,
+   jen větší/širší. Na .section--blue (plná barva, ne fotka) blur nemá co
    rozostřovat, ale poloprůhledná bílá i tak dá vizuálně odlišenou kartu
    od pozadí – přijatelné, stejný princip jako .contact-form-card. */
 .profile-card {
@@ -3053,12 +3054,7 @@ p {
   flex-direction: column;
   align-items: center;
   gap: var(--space-6);
-  /* 48rem (dřív 40rem) – 2026-09-15, medailonek dostal delší finální
-     text (Zdeňkova vlastní slova, 4 věty v 1. osobě) a v původní úzké
-     kartě se zbytečně vysoko zalamoval na mnoho řádků; širší karta ho
-     rozloží do méně řádků, aniž by na desktopu (row layout, viz media
-     query níže) působila nepřirozeně široká vůči textu vedle avataru. */
-  max-width: 48rem;
+  max-width: 53rem;
   margin-inline: auto;
   padding: var(--space-8);
   text-align: center;
@@ -3072,19 +3068,40 @@ p {
   box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
+/* .profile-top drží avatar + text (nadpis/role/medailonek). Kontaktní
+   tlačítka jsou 2026-09-23 vyvedena jako samostatný řádek pod tímto blokem
+   (ne uvnitř .profile-body), aby fotka na desktopu mohla být vysoká přesně
+   od nadpisu po konec medailonku, bez tlačítek – viz .profile-avatar níže. */
+.profile-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+/* Kontejner má overflow:hidden a obrázek uvnitř je jemně přiblížený
+   transformem (scale) – schová to tenký polopropustný okraj kruhového
+   výřezu fotky (viditelný jako světlý prstýnek), aniž by se musel
+   samotný soubor fotky oříznout/upravit. Fotka je od zdroje kruhový
+   výřez (viz komentář u .profile-card), proto zůstává kruhová i na
+   desktopu (jen větší) – NE zaoblený obdélník, ten by s kruhovým
+   výřezem fotky neseděl (2026-09-23, na přání uživatelky vráceno zpět
+   z předchozí "vysoký obdélník" varianty). */
 .profile-avatar {
   flex-shrink: 0;
-  width: 5.5rem;
-  height: 5.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 10rem;
+  height: 10rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
-  color: var(--color-white);
-  font-size: 1.5rem;
-  font-weight: 700;
-  box-shadow: 0 8px 18px -8px rgba(224, 106, 44, 0.6);
+  overflow: hidden;
+  box-shadow: 0 8px 18px -8px rgba(15, 23, 42, 0.45);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
 }
 
 .profile-body h3 { color: var(--color-primary-dark); margin-bottom: var(--space-1); }
@@ -3096,19 +3113,27 @@ p {
   margin-bottom: var(--space-4);
 }
 
-.profile-bio { color: var(--color-text); margin-bottom: var(--space-6); }
+.profile-bio { color: var(--color-text); margin: 0; }
 
 .profile-contact {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-3);
+  width: 100%;
 }
 
 @media (min-width: 768px) {
-  .profile-card { flex-direction: row; align-items: flex-start; text-align: left; }
+  /* align-items zděděné z mobilní verze bylo "center" – u .profile-contact
+     s width:100% + margin-left to řádek jen vycentrovalo (posun o polovinu
+     zamýšlené vzdálenosti), místo aby ho posunulo přesně pod text. */
+  .profile-card { text-align: left; align-items: flex-start; }
+  .profile-top { flex-direction: row; align-items: center; }
+  .profile-avatar { width: 14rem; height: 14rem; border-radius: 50%; }
   .profile-role { margin-bottom: var(--space-3); }
-  .profile-contact { justify-content: flex-start; }
+  /* Odsazeno o šířku avataru + mezeru, ať tlačítka začínají pod textem,
+     ne pod fotkou (ta je teď mimo .profile-body, viz .profile-top výš). */
+  .profile-contact { justify-content: flex-start; margin-left: calc(14rem + var(--space-6)); }
 }
 
 /* "Zkušenosti a certifikace" (O nás) – reálné naskenované certifikáty (ne
