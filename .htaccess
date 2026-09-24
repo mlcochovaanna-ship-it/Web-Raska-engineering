@@ -16,6 +16,31 @@ RewriteRule ^en/complex-services-in-the-field-of-industry/wiring-and-electrical-
 RewriteRule ^en/complex-services-in-the-field-of-industry(/.*)?$ https://raskaengineering.cz/en/industrial-solutions [R=301,L]
 RewriteRule ^en/gas-devices/?$ https://raskaengineering.cz/en/ [R=301,L]
 
+# Další staré adresy ze starého webu (zjištěné z webového archivu), aby
+# nekončily na 404. Česká verze:
+RewriteRule ^elektroinstalace-a-elektrorevize/?$ https://raskaengineering.cz/elektro-sluzby [R=301,L]
+RewriteRule ^led-prumyslove-a-verejne-osvetleni/?$ https://raskaengineering.cz/elektro-sluzby [R=301,L]
+RewriteRule ^protipozarni-ucpavky-hilti/?$ https://raskaengineering.cz/elektro-sluzby [R=301,L]
+RewriteRule ^(cisteni-vodnich-a-chladicich-okruhu|cisteni-vodnich-a-chladicih-okruhu|elektromotory-do-100-kw-a-cerpadla|hydraulika-pneumatika|instalace-rozvodu-energii|instalace-rozvodu-materialu-a-energii|konzultace-a-poradenstvi|nastrojarstvi|prumyslove-instalace|stehovani-stroju-a-zarizeni|stehovani-stroju-a-zarizeni-eu-do-100-tun|stehovani-stroju-a-zarizeni-eu-do-40-tun|zamecnicke-prace)/?$ https://raskaengineering.cz/prumyslova-reseni [R=301,L]
+RewriteRule ^(partneri|sitemap|tlumoceni)/?$ https://raskaengineering.cz/ [R=301,L]
+# Anglická verze ze starého webu (/en/...):
+RewriteRule ^en/elektroinstalace-a-elektrorevize/?$ https://raskaengineering.cz/en/electrical-services [R=301,L]
+RewriteRule ^en/kontakt-2/?$ https://raskaengineering.cz/en/contact [R=301,L]
+RewriteRule ^en/(cisteni-vodnich-a-chladicih-okruhu-en|instalace-rozvodu-materialu-a-energii-en|konzultace-a-poradenstvi-en|nastrojarstvi-en|prumyslove-instalace-en|stehovani-stroju-a-zarizeni-en)/?$ https://raskaengineering.cz/en/industrial-solutions [R=301,L]
+# Staré jazykové verze /gbr/ (angličtina) a /esp/ (španělština) vedou na anglický web:
+RewriteRule ^(gbr|esp)/(contact|contactos)/?$ https://raskaengineering.cz/en/contact [R=301,L]
+RewriteRule ^(gbr/wiring-and-electrical-inspection|esp/instalaciones-y-revisiones-electricas)/?$ https://raskaengineering.cz/en/electrical-services [R=301,L]
+RewriteRule ^(gbr|esp)/(interpretation|interpretacion|sitemap)/?$ https://raskaengineering.cz/en/ [R=301,L]
+RewriteRule ^(gbr|esp)/.+$ https://raskaengineering.cz/en/industrial-solutions [R=301,L]
+RewriteRule ^(gbr|esp)/?$ https://raskaengineering.cz/en/ [R=301,L]
+# Anglické adresy starého webu s /en/ i bez něj (Google je má v indexu):
+RewriteRule ^photovoltaics/?$ https://raskaengineering.cz/en/photovoltaics [R=301,L]
+RewriteRule ^contact/?$ https://raskaengineering.cz/en/contact [R=301,L]
+RewriteRule ^gas-devices/?$ https://raskaengineering.cz/en/ [R=301,L]
+RewriteRule ^(en/)?wiring-and-electrical-inspection/?$ https://raskaengineering.cz/en/electrical-services [R=301,L]
+RewriteRule ^(en/)?(complex-services-in-the-field-of-industry(/.*)?|industrial-installations|consultations-and-advice|cleaning-of-water-and-cooling-circuits|production-and-repair-of-heating-systems|installation-of-materials-and-energy-distribution|moving-machinery-and-equipment.*)/?$ https://raskaengineering.cz/en/industrial-solutions [R=301,L]
+RewriteRule ^vyroba-a-oprava-topnych-teles/?$ https://raskaengineering.cz/prumyslova-reseni [R=301,L]
+
 # Stará adresa s lomítkem na konci (/kontakt/, /fotovoltaika/, /en/contact/)
 # vede na stejnou adresu bez lomítka. Skutečné složky (/en/) se nemění.
 RewriteCond %{REQUEST_FILENAME} !-d
