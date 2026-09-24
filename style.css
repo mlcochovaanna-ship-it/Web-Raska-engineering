@@ -1361,7 +1361,7 @@ p {
 }
 
 .showcase-cta-lead {
-  font-size: var(--fs-lead);
+  font-size: clamp(1.15rem, 1.1rem + 0.25vw, 1.35rem);
   font-weight: 600;
   color: var(--color-primary-dark);
   margin-inline: auto;
@@ -1764,7 +1764,7 @@ p {
    to byl přesně nahlášený bug "Sledujte nás má jinou barvu než ostatní
    nadpisy"). */
 .contact-info-grid p.contact-card-subhead {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--color-primary-dark);
   margin: var(--space-4) 0 var(--space-2) 0;
@@ -1807,8 +1807,8 @@ p {
 .contact-tag {
   display: inline-block;
   flex-shrink: 0;
-  padding: 0.1em 0.35em;
-  border-radius: var(--radius-sm);
+  padding: 0.2em 0.7em 0.05em;
+  border-radius: var(--radius-pill);
   background: var(--color-bg-orange);
   color: var(--color-accent-dark);
   font-size: 0.6625rem;
