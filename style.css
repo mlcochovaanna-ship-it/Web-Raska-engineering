@@ -39,7 +39,6 @@
   --color-text: #333333;
   --color-muted: #666f7a;
   --color-white: #ffffff;
-  --color-bg-gray: #E8E8E8;
   --color-bg-blue: #DCE6F2;
   --color-bg-orange: #F6DCC7;
   --color-border: #e2e5ea;
@@ -179,11 +178,7 @@ p {
   padding-block: var(--space-16);
 }
 
-.section--tight { padding-block: var(--space-12); }
-
-.section--gray { background: var(--color-bg-gray); }
 .section--blue { background: var(--color-bg-blue); }
-.section--orange { background: var(--color-bg-orange); }
 
 .section-head {
   max-width: 44rem;
@@ -215,17 +210,7 @@ p {
   gap: var(--space-8);
 }
 
-.grid-2 { grid-template-columns: 1fr; }
 .grid-3 { grid-template-columns: 1fr; }
-.grid-4 { grid-template-columns: 1fr; }
-
-@media (min-width: 640px) {
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (min-width: 768px) {
-  .grid-2 { grid-template-columns: repeat(2, 1fr); }
-}
 
 @media (min-width: 1024px) {
   .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -255,8 +240,7 @@ p {
 .btn svg { width: 1.1em; height: 1.1em; flex-shrink: 0; }
 
 .btn-arrow { transition: transform 260ms ease; }
-.btn:hover .btn-arrow,
-.showcase-label:hover .btn-arrow { transform: translateX(4px); }
+.btn:hover .btn-arrow { transform: translateX(4px); }
 
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
@@ -271,16 +255,6 @@ p {
   box-shadow: 0 14px 24px -16px rgba(224, 106, 44, 0.6);
 }
 .btn-accent:hover { box-shadow: 0 18px 30px -14px rgba(224, 106, 44, 0.7); }
-
-.btn-primary {
-  border: none;
-  padding-block: calc(0.7rem + 2px);
-  padding-inline: calc(1.4rem + 2px);
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-white);
-  box-shadow: 0 14px 24px -16px rgba(22, 58, 104, 0.5);
-}
-.btn-primary:hover { box-shadow: 0 18px 30px -14px rgba(22, 58, 104, 0.6); }
 
 .btn-outline {
   background: transparent;
@@ -299,15 +273,6 @@ p {
   border-color: transparent;
   color: var(--color-white);
 }
-
-.btn-ghost {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.35);
-  color: var(--color-white);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-.btn-ghost:hover { background: rgba(255, 255, 255, 0.24); }
 
 .btn-block { width: 100%; }
 
@@ -1583,10 +1548,6 @@ p {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
-}
-
-@media (min-width: 560px) {
-  .form-grid--2 { grid-template-columns: 1fr 1fr; }
 }
 
 @media (min-width: 640px) {

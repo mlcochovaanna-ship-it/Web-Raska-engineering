@@ -35,6 +35,19 @@ RewriteRule ^([^.]+)$ $1.html [NC,L]
 # Vlastní chybová stránka pro neexistující adresy.
 ErrorDocument 404 /404.html
 
+# Interní pracovní poznámky (stav.md, instrukce.md) nejsou určené pro
+# veřejnost – kdyby se omylem nahrály na hosting spolu s webem, tohle
+# zajistí, že přes prohlížeč nepůjdou stáhnout.
+<FilesMatch "\.md$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
 # Bezpečnostní hlavičky.
 <IfModule mod_headers.c>
   # Web nelze vložit do cizího iframu (ochrana před clickjackingem).
