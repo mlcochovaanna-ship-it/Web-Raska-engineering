@@ -9,22 +9,22 @@ RewriteRule ^(.*)$ https://raskaengineering.cz/$1 [L,R=301]
 # váhu stránky Googlu). Pravidla jsou před ostatními, ať jde o jediný skok.
 # Podstránky průmyslu vedou na přehled průmyslových řešení, elektroinstalace
 # na Elektro služby, zrušená plynová zařízení na úvodní stránku.
-RewriteRule ^komplexni-servis-v-oblasti-prumyslu/elektroinstalace-a-elektrorevize/?$ /elektro-sluzby [R=301,L]
-RewriteRule ^komplexni-servis-v-oblasti-prumyslu(/.*)?$ /prumyslova-reseni [R=301,L]
-RewriteRule ^plynova-zarizeni/?$ / [R=301,L]
-RewriteRule ^en/complex-services-in-the-field-of-industry/wiring-and-electrical-inspection/?$ /en/electrical-services [R=301,L]
-RewriteRule ^en/complex-services-in-the-field-of-industry(/.*)?$ /en/industrial-solutions [R=301,L]
-RewriteRule ^en/gas-devices/?$ /en/ [R=301,L]
+RewriteRule ^komplexni-servis-v-oblasti-prumyslu/elektroinstalace-a-elektrorevize/?$ https://raskaengineering.cz/elektro-sluzby [R=301,L]
+RewriteRule ^komplexni-servis-v-oblasti-prumyslu(/.*)?$ https://raskaengineering.cz/prumyslova-reseni [R=301,L]
+RewriteRule ^plynova-zarizeni/?$ https://raskaengineering.cz/ [R=301,L]
+RewriteRule ^en/complex-services-in-the-field-of-industry/wiring-and-electrical-inspection/?$ https://raskaengineering.cz/en/electrical-services [R=301,L]
+RewriteRule ^en/complex-services-in-the-field-of-industry(/.*)?$ https://raskaengineering.cz/en/industrial-solutions [R=301,L]
+RewriteRule ^en/gas-devices/?$ https://raskaengineering.cz/en/ [R=301,L]
 
 # Stará adresa s lomítkem na konci (/kontakt/, /fotovoltaika/, /en/contact/)
 # vede na stejnou adresu bez lomítka. Skutečné složky (/en/) se nemění.
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)/$ /$1 [R=301,L]
+RewriteRule ^(.+)/$ https://raskaengineering.cz/$1 [R=301,L]
 
 # Kdyby si někdo otevřel adresu s .html (např. /elektro-sluzby.html),
 # přesměruj ho na hezkou adresu bez přípony (/elektro-sluzby).
 RewriteCond %{THE_REQUEST} /([^.\s]+)\.html[\s?] [NC]
-RewriteRule ^ /%1 [NC,L,R=301]
+RewriteRule ^ https://raskaengineering.cz/%1 [NC,L,R=301]
 
 # Adresu bez přípony (např. /elektro-sluzby) interně napoj na skutečný
 # soubor (elektro-sluzby.html), aniž by se to projevilo v adresním řádku.
