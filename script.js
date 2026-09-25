@@ -170,6 +170,16 @@
     } else {
       const field = group.querySelector('input, textarea');
       ok = field.value.trim() !== '' && (field.type !== 'email' || /\S+@\S+\.\S+/.test(field.value));
+      /* Zpráva bez odkazů: spam téměř vždy obsahuje URL. E-mailové adresy se
+         před kontrolou vyřadí, ať je běžný člověk (třeba podpis s e-mailem)
+         neblokuje. */
+      if (ok && field.hasAttribute('data-no-links')) {
+        err.dataset.defaultText = err.dataset.defaultText || err.textContent;
+        const text = field.value.replace(/\S+@\S+/g, ' ');
+        const hasLink = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|cz|sk|eu|li|io|ru|info|biz|xyz|top|shop|site|online|co|de|pl|ly|me|cc|club|app)\b)/i.test(text);
+        if (hasLink) { ok = false; err.textContent = field.dataset.linkMsg; }
+        else err.textContent = err.dataset.defaultText;
+      }
       field.setAttribute('aria-invalid', String(!ok));
     }
     group.classList.toggle('has-error', !ok);
