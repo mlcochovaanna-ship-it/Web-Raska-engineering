@@ -221,6 +221,7 @@
       })
         .then((res) => {
           if (res.ok) {
+            try { sessionStorage.setItem('formReturn', location.pathname + location.search + '#poptavka'); } catch (e) {}
             window.location.href = thanksUrl;
           } else {
             console.warn('Formspree odmítl odeslání přes fetch, HTTP', res.status);
@@ -262,5 +263,17 @@
     reviewTrack.addEventListener('scroll', updateNavState, { passive: true });
     window.addEventListener('resize', updateNavState);
     updateNavState();
+  }
+
+  /* 7) Děkovací stránka: tlačítko zpět vede na místo s formulářem, ze kterého
+     návštěvník přišel (adresu si uložil formulář výše). Bez uložené adresy
+     zůstane výchozí odkaz na úvodní stránku. */
+  const returnBtn = document.querySelector('[data-return]');
+  if (returnBtn) {
+    let back = null;
+    try { back = sessionStorage.getItem('formReturn'); } catch (e) {}
+    if (back && /^\/(?!\/)/.test(back)) {
+      returnBtn.setAttribute('href', back);
+    }
   }
 })();
