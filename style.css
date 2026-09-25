@@ -2201,6 +2201,8 @@ p {
   }
 }
 
+.page-hero-media picture { display: contents; }
+
 .page-hero-media img {
   /* Absolutní pozicování místo width/height:100% – v (column) flex
      kontejneru width/height:100% na img způsobovalo, že rodičovský

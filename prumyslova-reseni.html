@@ -27,7 +27,8 @@
   <meta property="og:locale:alternate" content="en_US">
 
   <!-- Styly -->
-  <link rel="stylesheet" href="style.css?v=20260921z">
+  <link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css?v=20260922a">
 
   <!-- Strukturovaná data: LocalBusiness -->
   <script type="application/ld+json">
@@ -294,7 +295,10 @@
       </div>
 
       <div class="page-hero-media" data-reveal>
-        <img src="Obrazky/Prumysl/karta-prumysl.jpg" width="1600" height="1201" alt="Technik Raška engineering při servisu výrobní technologie ve výrobní hale" loading="eager" fetchpriority="high">
+        <picture>
+          <source type="image/webp" srcset="Obrazky/Prumysl/karta-prumysl-800.webp 800w, Obrazky/Prumysl/karta-prumysl.webp 1600w" sizes="100vw">
+          <img src="Obrazky/Prumysl/karta-prumysl.jpg" width="1600" height="1201" alt="Technik Raška engineering při servisu výrobní technologie ve výrobní hale" loading="eager" fetchpriority="high">
+        </picture>
       </div>
     </section>
 
@@ -757,6 +761,6 @@
     </button>
   </div>
 
-  <script src="script.js?v=20260921z"></script>
+  <script src="script.js?v=20260922a"></script>
 </body>
 </html>

@@ -27,7 +27,8 @@
   <meta property="og:locale:alternate" content="cs_CZ">
 
   <!-- Styly -->
-  <link rel="stylesheet" href="../style.css?v=20260921z">
+  <link rel="preload" href="../fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../style.css?v=20260922a">
 
   <!-- Strukturovaná data: LocalBusiness -->
   <script type="application/ld+json">
@@ -264,7 +265,10 @@
       </div>
 
       <div class="page-hero-media" data-reveal>
-        <img src="../Obrazky/Fotovoltaika/hero-fotovoltaika.jpg" width="1800" height="1076" alt="Aerial view of solar panels installed on a family house roof" loading="eager" fetchpriority="high">
+        <picture>
+          <source type="image/webp" srcset="../Obrazky/Fotovoltaika/hero-fotovoltaika-900.webp 900w, ../Obrazky/Fotovoltaika/hero-fotovoltaika.webp 1800w" sizes="100vw">
+          <img src="../Obrazky/Fotovoltaika/hero-fotovoltaika.jpg" width="1800" height="1076" alt="Aerial view of solar panels installed on a family house roof" loading="eager" fetchpriority="high">
+        </picture>
       </div>
     </section>
 
@@ -602,6 +606,6 @@
     </button>
   </div>
 
-  <script src="../script.js?v=20260921z"></script>
+  <script src="../script.js?v=20260922a"></script>
 </body>
 </html>

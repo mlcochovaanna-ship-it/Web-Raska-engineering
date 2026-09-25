@@ -27,7 +27,8 @@
   <meta property="og:locale:alternate" content="en_US">
 
   <!-- Styly -->
-  <link rel="stylesheet" href="style.css?v=20260921z">
+  <link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css?v=20260922a">
 
   <!-- Strukturovaná data: LocalBusiness -->
   <script type="application/ld+json">
@@ -242,7 +243,10 @@
       </div>
 
       <div class="page-hero-media page-hero-media--van" data-reveal>
-        <img src="Obrazky/O-nas/karta-o-nas.jpg" width="1760" height="1160" alt="Firemní dodávka Raška engineering s.r.o. s brandingem u&nbsp;domu s instalovanou fotovoltaikou" loading="eager" fetchpriority="high">
+        <picture>
+          <source type="image/webp" srcset="Obrazky/O-nas/karta-o-nas-880.webp 880w, Obrazky/O-nas/karta-o-nas.webp 1760w" sizes="100vw">
+          <img src="Obrazky/O-nas/karta-o-nas.jpg" width="1760" height="1160" alt="Firemní dodávka Raška engineering s.r.o. s brandingem u&nbsp;domu s instalovanou fotovoltaikou" loading="eager" fetchpriority="high">
+        </picture>
       </div>
     </section>
 
@@ -732,6 +736,6 @@
     </button>
   </div>
 
-  <script src="script.js?v=20260921z"></script>
+  <script src="script.js?v=20260922a"></script>
 </body>
 </html>

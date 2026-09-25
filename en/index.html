@@ -27,7 +27,8 @@
   <meta property="og:locale:alternate" content="cs_CZ">
 
   <!-- Styly -->
-  <link rel="stylesheet" href="../style.css?v=20260921z">
+  <link rel="preload" href="../fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../style.css?v=20260922a">
 
   <!-- Strukturovaná data: LocalBusiness -->
   <script type="application/ld+json">
@@ -201,10 +202,15 @@
       <div class="hero-media">
         <picture>
           <!-- Laptop varianty koláže, viz komentář v index.html. -->
+          <source media="(min-width: 1024px) and (max-width: 1159px)" type="image/webp" srcset="../Obrazky/Domov/hero-collage-laptop-narrow-1600.webp 1600w, ../Obrazky/Domov/hero-collage-laptop-narrow.webp 2400w" sizes="100vw">
           <source media="(min-width: 1024px) and (max-width: 1159px)" srcset="../Obrazky/Domov/hero-collage-laptop-narrow.jpg">
+          <source media="(min-width: 1160px) and (max-width: 1279px)" type="image/webp" srcset="../Obrazky/Domov/hero-collage-laptop-1600.webp 1600w, ../Obrazky/Domov/hero-collage-laptop.webp 2400w" sizes="100vw">
           <source media="(min-width: 1160px) and (max-width: 1279px)" srcset="../Obrazky/Domov/hero-collage-laptop.jpg">
+          <source media="(min-width: 1024px)" type="image/webp" srcset="../Obrazky/Domov/hero-collage-desktop-1600.webp 1600w, ../Obrazky/Domov/hero-collage-desktop.webp 2400w" sizes="100vw">
           <source media="(min-width: 1024px)" srcset="../Obrazky/Domov/hero-collage-desktop.jpg">
+          <source media="(min-width: 768px)" type="image/webp" srcset="../Obrazky/Domov/hero-photos-mobile-800.webp 800w, ../Obrazky/Domov/hero-photos-mobile.webp 1200w" sizes="100vw">
           <source media="(min-width: 768px)" srcset="../Obrazky/Domov/hero-photos-mobile.jpg">
+          <source type="image/webp" srcset="../Obrazky/Domov/hero-photos-mobile-800.webp 800w, ../Obrazky/Domov/hero-photos-mobile.webp 1200w" sizes="100vw">
           <img
             src="../Obrazky/Domov/hero-photos-mobile.jpg"
             width="1200" height="1524"
@@ -593,6 +599,6 @@
     </button>
   </div>
 
-  <script src="../script.js?v=20260921z"></script>
+  <script src="../script.js?v=20260922a"></script>
 </body>
 </html>
