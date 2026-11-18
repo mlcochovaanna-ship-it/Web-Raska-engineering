@@ -273,6 +273,88 @@
     reviewTrack.addEventListener('scroll', updateNavState, { passive: true });
     window.addEventListener('resize', updateNavState);
     updateNavState();
+
+    /* Zkrácení dlouhých recenzí + "Číst více" (2026-11-18). Počet řádků,
+       na který se zkracuje, = kolik řádků zabere nejdelší recenze do
+       limitu data-clamp-chars při aktuální šířce karty. Recenze delší
+       než tolik řádků se zkrátí a dostanou tlačítko. Přepočítává se při
+       změně šířky okna (jinak by na jiném breakpointu nesedělo). */
+    const isEn = (document.documentElement.lang || '').toLowerCase().startsWith('en');
+    const labels = isEn ? ['Read more', 'Read less'] : ['Číst více', 'Číst méně'];
+    const clampChars = parseInt(reviewTrack.dataset.clampChars, 10) || 300;
+    const reviewTexts = [...reviewTrack.querySelectorAll('.review-text')];
+
+    const lineCount = (el) => {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      return new Set([...range.getClientRects()].map((r) => Math.round(r.top))).size;
+    };
+
+    reviewTexts.forEach((text) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'review-more';
+      const label = document.createElement('span');
+      label.textContent = labels[0];
+      btn.append(label);
+      btn.insertAdjacentHTML('beforeend', '<svg aria-hidden="true"><use href="#icon-arrow-right"></use></svg>');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.hidden = true;
+      btn.addEventListener('click', () => {
+        const expanded = text.classList.toggle('is-expanded');
+        label.textContent = labels[expanded ? 1 : 0];
+        btn.setAttribute('aria-expanded', String(expanded));
+      });
+      text.after(btn);
+    });
+
+    const layoutReviews = () => {
+      reviewTrack.classList.remove('is-clamp-ready');
+      reviewTrack.style.removeProperty('--review-card-h');
+      reviewTexts.forEach((t) => t.classList.remove('is-clamped'));
+
+      const lines = reviewTexts.map(lineCount);
+      const maxLines = Math.max(1, ...lines.filter((_, i) => reviewTexts[i].textContent.trim().length <= clampChars));
+
+      /* Zkrácená karta má navíc řádek s tlačítkem – o tolik řádků textu
+         míň, ať karta s tlačítkem nebude vyšší než ta nejdelší celá. */
+      const btnProbe = reviewTexts[0].nextElementSibling;
+      btnProbe.hidden = false;
+      const lineH = parseFloat(getComputedStyle(reviewTexts[0]).lineHeight) || 24;
+      const gap = parseFloat(getComputedStyle(reviewTexts[0].parentElement).rowGap) || 0;
+      const btnLines = Math.ceil((btnProbe.getBoundingClientRect().height + gap) / lineH);
+      btnProbe.hidden = true;
+      reviewTrack.style.setProperty('--review-lines', Math.max(2, maxLines - btnLines));
+
+      reviewTexts.forEach((t, i) => {
+        const tooLong = lines[i] > maxLines;
+        t.classList.toggle('is-clamped', tooLong);
+        t.nextElementSibling.hidden = !tooLong;
+      });
+
+      /* Výška karet ve sbaleném stavu (rozbalené dočasně sbalit, změřit
+         a vrátit), ať se po rozbalení natáhne jen ta jedna karta. */
+      const expanded = reviewTexts.filter((t) => t.classList.contains('is-expanded'));
+      expanded.forEach((t) => t.classList.remove('is-expanded'));
+      reviewTrack.classList.add('is-clamp-ready');
+      const cardH = Math.max(...[...reviewTrack.querySelectorAll('.review-card')].map((c) => c.getBoundingClientRect().height));
+      expanded.forEach((t) => t.classList.add('is-expanded'));
+      reviewTrack.style.setProperty('--review-card-h', `${Math.ceil(cardH)}px`);
+    };
+
+    let lastWidth = 0;
+    const relayout = () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      layoutReviews();
+    };
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(relayout, 150);
+    });
+    relayout();
+    document.fonts?.ready.then(() => { lastWidth = 0; relayout(); });
   }
 
   /* 7) Děkovací stránka: tlačítko zpět vede na místo s formulářem, ze kterého

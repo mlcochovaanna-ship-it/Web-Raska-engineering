@@ -3370,6 +3370,65 @@ p {
   margin: 0;
 }
 
+/* Zkrácení dlouhých recenzí + "Číst více" (2026-11-18). Výška karet má
+   zůstat stejná jako s původními recenzemi – měřítkem je nejdelší recenze
+   do limitu znaků (data-clamp-chars na .review-track, CZ 250 / EN 310,
+   odpovídá původní nejdelší recenzi Filakova). Delší recenze se zkrátí na
+   stejný počet řádků (--review-lines počítá JS podle šířky karty, proto ne
+   pevné číslo v CSS) a dostanou tlačítko. Bez JS se nic nezkracuje.
+   .is-clamp-ready přepne track na align-items:flex-start + min-height
+   karet, aby se po rozbalení natáhla JEN rozbalená karta, ne všechny. */
+.review-track.is-clamp-ready { align-items: flex-start; }
+.review-track.is-clamp-ready .review-card { min-height: var(--review-card-h, auto); }
+
+.review-text.is-clamped:not(.is-expanded) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--review-lines, 10);
+  line-clamp: var(--review-lines, 10);
+  overflow: hidden;
+  /* Bez toho by flex-grow z .review-text natáhl box přes zkrácené řádky
+     a pod "…" by z půlky prosvítal další řádek. Tlačítko pak drží
+     autora dole přes margin-bottom:auto. */
+  flex-grow: 0;
+}
+
+.review-text.is-clamped:not(.is-expanded) + .review-more { margin-bottom: auto; }
+
+.review-more {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  /* Nenápadné (2026-11-18, na přání uživatelky): šedá místo oranžové,
+     normální řez, bez podtržení, za textem šipka dolů (po rozbalení
+     otočená nahoru). Na hover tmavší modrá. */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+/* Šipka = stejná ikona jako v CTA tlačítku "Nezávazná poptávka"
+   (#icon-arrow-right ze sprite, vkládá ji JS), otočená dolů, po
+   rozbalení nahoru. */
+.review-more svg {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  transform: rotate(90deg);
+  transition: transform 260ms ease;
+}
+
+.review-more[aria-expanded="true"] svg { transform: rotate(-90deg); }
+
+.review-more:hover { color: var(--color-primary-dark); }
+.review-more[hidden] { display: none; }
+
 /* --------------------------------------------------------------------------
    19. Chybová stránka 404
    -------------------------------------------------------------------------- */
