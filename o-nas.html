@@ -252,42 +252,6 @@
 
   <main id="hlavni-obsah">
     <!-- ============================= HERO ============================= -->
-    <!-- Karty pod hero (níže) přesahují přes spodní hranu hero sekce stejným
-         mechanismem jako "Co nabízíme" na Elektro službách/Fotovoltaice/
-         Průmyslu (.offer-overlap, margin-top: -4rem = přesně tahle
-         .page-hero padding-bottom rezerva). Instrukce.md pro O nás žádné
-         karty pod hero nezmiňuje, ale bez nich by tahle rezerva zůstala
-         prázdná (modrý pruh bez fotky/karet).
-         Fotka (2026-09-15, na přání uživatelky): dřívější karta-o-nas.jpg
-         (dodávka s brandingem, zdroj IMG_3388.jpeg) nejdřív nahrazena
-         přímo souborem Obrazky/Spolecne/sluzebni-vuz.jpg (STEJNÝ soubor, který
-         používá homepage v sekci "O nás") beze změny/kopie. Uživatelka
-         ale chtěla foto přiblížit, ať je auto celé a větší (dům nemusí
-         být celý, jen jeho větší část) – protože .page-hero-media img
-         je NAPŘÍČ VŠEMI podstránkami sdílené (object-fit:cover,
-         object-position:center 25%, viz CSS), nejde tohle vyřešit jen
-         CSS úpravou (dotklo by se to i homepage).
-         1. ořez (crop z o-nas-van.jpg, 1600×870) byl podle uživatelky
-         moc přiblížený – "autu chybí čumák" a "auto zabírá celý
-         prostor, chci tam i dům, silnice může být méně". Uživatelka
-         nabídla lepší zdroj: Obrazky/Fotovoltaika/IMG_0909.jpeg
-         (5712×4284, NEkomprimovaný originál stejné scény, ostřejší než
-         zmenšený o-nas-van.jpg). Finální ořez z něj: crop box
-         (0,700)–(4400,3600) – auto (bbox x:60–2745, y:1747–3135 vč.
-         žebříku na střeše) celé s rezervou vlevo/vpravo, méně silnice
-         pod autem (jen ~465px rezervy pod koly místo cca 530px+ dřív)
-         a včetně kusu domu vpravo (střecha s panely, část fasády,
-         plot), zvětšeno/uloženo jako 1760×1160 do
-         Obrazky/O-nas/karta-o-nas.jpg (název recyklovaný). homepage's
-         o-nas-van.jpg zůstává beze změny (jiný soubor).
-         DŮLEŽITÉ pro budoucí úpravy: .page-hero-media box má na
-         desktopu (1024–1919px) VELMI proměnlivý poměr stran (0,70 na
-         1024px až 1,37 na 1920px, měřeno Playwright getBoundingClientRect
-         – viz komentář u .page-hero-media--van v CSS) – na 1024px se
-         auto i s touhle rezervou už lehce ořeže vzadu (okrajový případ,
-         accepted trade-off), na 1280px+ je celé i s kusem domu. Při
-         další úpravě ořezu vždy ověřit na 1024/1280/1440/1920 desktop
-         + tablet/mobil, ne jen na jedné šířce. -->
     <section class="page-hero">
       <div class="page-hero-split" data-reveal>
         <div class="page-hero-content">
@@ -311,93 +275,6 @@
     </section>
 
     <!-- ============================= FAKTA O FIRMĚ ============================= -->
-    <!-- Původně tu byly karty se službami (Elektro/FVE/Průmysl) – na přání
-         uživatelky (2026-09-10) nahrazeno 3 stručnými fakty o samotné
-         firmě, ne o tom, co dělá (to už řeší "Náš příběh" níže i ostatní
-         podstránky). Fakta jsou reálná, ověřená, ne vymyšlená:
-         - "7+ let na trhu" (2026-09-15 přepsáno z "5+", na přání
-           uživatelky/zadavatele – dřív se počítalo jen od vzniku s.r.o.
-           podle ARES, IČO 10790659, datum vzniku 1. 5. 2021; zadavatel
-           ale podniká už od prosince 2019 jako OSVČ, viz stejný zdroj
-           použitý pro `.profile-bio` níže. Číslo 7 je zadavatelovo
-           vlastní zaokrouhlení/počítání let podnikání od r. 2019, ne
-           přesný počet uplynulých celých let – ověřovat/needit dál,
-           je to jeho rozhodnutí o vlastní firmě).
-           IKONA hotová (2026-09-15): uživatelka nahrála
-           Obrazky/Ikony/7-let-na-trhu.png (na rozdíl od prvního
-           balíčku ikon už s průhledným pozadím, ne černým podkladem –
-           žádná extrakce alfy nebyla potřeba, jen crop na obsah),
-           zpracováno stejnou formulí jako ostatní ikony (canvas_side =
-           round(max(content_h/0.85, content_w)) → 1291×1291, stejný
-           postup jako u icon-hodnoceni.png/icon-certifikace.png).
-           Mezi-pokus: kvůli portrétovému obsahu (847×1097px) vyšla na
-           čtverci úzčeji (fill_w ~66&nbsp;% vs. ~85&nbsp;% fill_h) a
-           uživatelka ji na tomhle rozměru shledala "menší, než byla ta
-           původní" – zkusmo nahrazeno nečtvercovým plátnem/CSS boxem,
-           ale uživatelka pak chtěla ikonu naopak VĘTŠÍ a "použij
-           původní ikonu" (tedy zpět na standardní čtvercové zpracování
-           jako sousední ikony, ne na vlastní přizpůsobený poměr stran).
-           Po `.feature-item-icon--lg` (3.5rem, stejný modifikátor jako
-           "Výborné hodnocení klientů") ještě jedno kolo – uživatelka
-           chtěla "ještě větší, podle ostatních ikon". Přidán nový
-           modifikátor `.feature-item-icon--xl` (4,25rem, jen pro tuhle
-           kartu, `--lg` zůstává nedotčený pro kartu s hodnocením) se
-           stejným principem zarovnávací korekce (margin-top/-bottom)
-           jen s větším přírůstkem – ověřeno, že nadpisy všech 3 karet
-           zůstávají na stejné výšce (getBoundingClientRect().top shodné
-           pro všechny 3 <h3>).
-           2026-09-15, poslední doladění: na čtvercovém plátně (1291×1291,
-           obsah vycentrovaný) zůstávala průhledná mezera VLEVO od
-           reálné kresby – uživatelka: "je posunutá moc doprava... okraj
-           té čáry, co je v png, ne okraj png". Ikona proto přeuložena
-           jako TĚSNÝ ořez na obsah (847×1097px, žádné odsazení) a CSS
-           box `.feature-item-icon--xl` dostal místo čtverce poměr
-           stran obsahu (3,28rem×4,25rem) – kresba teď vyplňuje box
-           100&nbsp;% (žádné object-fit:contain letterboxing) a její
-           levý okraj lícuje přesně s levým okrajem nadpisu/textu pod
-           ní. Ověřeno Playwright měřením: `imgLeft` ikony = `h3Left`
-           u všech 3 karet, výška ikony (68px) skutečně větší než
-           u sousedních (56px, 48px).
-           2026-09-15, ještě jedno malé doladění: 4,25rem bylo podle
-           uživatelky "zase moc velké" – zmenšeno na 3,75rem (výška
-           v boxu vyšla 60px, pořád nejvyšší ze všech 3, ale ne tak
-           nápadně), width dopočítaná stejným poměrem 847:1097, margin
-           korekce přepočtena se zmenšeným delta. Levé zarovnání
-           s textem zůstává zachované, ověřeno znovu.
-           Uloženo jako Obrazky/Ikony/icon-7-let-na-trhu.png (896×896
-           verze icon-5-let-na-trhu.png smazána, nahrazena).
-         - "Výborné hodnocení klientů" (nadpis upraven 2026-09-12, dřív
-           "5,0★ hodnocení klientů") – z 20 hodnocení na Firmy.cz, odkazuje
-           dolů na sekci Reference na téže stránce.
-         - "Certifikovaní odborníci" – odkazuje dolů na sekci Zkušenosti a
-           certifikace. ZÁMĚRNĚ bez konkrétního počtu (2026-09-12,
-           uživatelka: certifikací možná mají víc, tohle jsou jen ty, co
-           se zatím dohledaly – nepsat počet explicitně, dokud není jistý).
-         2026-09-12 (na přání uživatelky) zrušen samostatný "orámovaný"
-         řádek s hodnotou (.stat-value, velké oranžové číslo nad nadpisem)
-         – hodnota je teď součástí nadpisu (h3) u každé karty. Ikony
-         (2026-09-12, dodala uživatelka do Obrazky/Ikony/) zpracovány
-         stejnou ověřenou metodou jako všechny ostatní ikony na webu
-         (extrakce z černého podkladu na navy/oranžovou dvoubarvu podle
-         --color-primary-dark/--color-accent, canvas_side =
-         round(max(content_h/0.85, content_w)), fill_h vždy přesně 0.85) –
-         uloženo do Obrazky/Ikony/icon-7-let-na-trhu.png,
-         icon-hodnoceni.png, icon-certifikace.png.
-         2026-09-12, další úprava: odstraněny odkazy "Přečtěte si
-         reference/více ↓" (na přání uživatelky – "ty odkazy bych tam
-         asi nedávala") a odstavce rozšířeny o další reálný text (žádné
-         nové vymyšlené údaje, jen doplnění/parafráze již existujícího
-         obsahu z "Náš příběh"/Reference/Zkušenosti a certifikace níže na
-         téže stránce). Kotvy #reference/#certifikace na sekcích níže
-         zůstávají (harmless, jen už na ně z těchto karet nic needkazuje).
-         2026-09-11, další úprava textů: uživatelka shledala předchozí
-         verzi (výčtová, "Z 10 hodnocení...", "Členství v ČFA, kvalifikace
-         ..., školení...") jako "dost divnou" a chtěla text lidštější,
-         plynulejší, méně konkrétní/výčtový, ale stále důvěryhodný a
-         poutavý. Přepsáno do souvislých vět bez vyjmenovávání (žádné
-         nové údaje, jen jiná formulace stejných faktů – u 3. karty
-         záměrně nezmíněny "revize", protože se k nim neváže žádný z
-         certifikátů v sekci Zkušenosti a certifikace níže). -->
     <section class="offer-overlap">
       <div class="container">
         <h2 class="sr-only">Fakta o&nbsp;firmě</h2>
@@ -422,42 +299,6 @@
     </section>
 
     <!-- ============================= KDO ZA FIRMOU STOJÍ ============================= -->
-    <!-- Přesunuto (2026-09-11) hned pod karty s fakty, na bílé pozadí
-         (dřív .section--blue, teď plain .section) – nové střídání pozadí
-         na téhle stránce: bílá (tahle sekce) → modrá s fotkou (Náš příběh)
-         → bílá (Zkušenosti a certifikace) → bílá (Reference) → modrá (CTA).
-         Karta samotná teď musí nést barvu sama (.profile-card má jemně
-         světlemodré sklo, aby se odlišila od bílého podkladu sekce –
-         dřív byla bílá karta na modré sekci, teď je to obráceně).
-         Bez fotky Zdeňka Rašky (na webu žádná k dispozici) – místo ní
-         iniciálový avatar ve stejném oranžovém gradientu jako
-         .feature-item-icon/.service-card-icon, ať zapadá do stávajícího
-         barevného jazyka webu. Medailonek (odstavec bio) byl zpočátku
-         LOREM IPSUM zástupný text (na přání uživatelky 2026-09-09).
-         2026-09-11: zkusmo nahrazen textem odvozeným z firemního
-         LinkedInu, ale uživatelka ho zamítla – jen opakoval výčet
-         služeb, který už na stránce je vícekrát, a chtěla něco
-         OSOBNÍHO o Zdeňkovi samotném (proč tuhle práci dělá, jaký má
-         přístup apod.), ne další shrnutí nabídky. Žádný takový osobní
-         text veřejně nikde není a nesmí se vymyslet (instrukce.md).
-         Na přání uživatelky vrácen jasně označený placeholder: "Zde
-         bude medailonek o 3 až 4 větách." + lorem ipsum výplň (ne
-         prázdný odstavec, ať je v náhledu vidět odhad délky/rozvržení).
-         2026-09-15: placeholder nahrazen FINÁLNÍM textem – zadavatel
-         (Zdeněk) poslal přes uživatelku vlastní kariérní historii
-         (screenshoty z LinkedInu: technik elektroúdržby od 1995 přes
-         více firem, koordinátor a vedoucí oddělení údržby, OSVČ od
-         2019, Raška engineering s.r.o. od 2021) a explicitně požádal
-         nejmenovat žádné konkrétní dřívější zaměstnavatele, jen popsat
-         čím se zabýval. První návrh (parafráze 3. osobou) uživatelka
-         nepoužila – zadavatel místo něj poslal VLASTNÍ text v 1. osobě
-         ("Začínal jsem jako elektromechanik..."), který je teď v HTML
-         přesně tak, jak přišel (jen doplněné &nbsp; podle typografické
-         konvence webu, žádné jiné úpravy znění). `.profile-card` kvůli
-         délce textu rozšířena (viz komentář u .profile-card ve
-         style.css), ať odstavec nepůsobí jako úzký vysoký sloupec.
-         Jméno, role, telefon a e-mail jsou reálné údaje a zůstávají
-         beze změny. -->
     <section class="section">
       <div class="container">
         <div class="section-head section-head--center">
@@ -508,21 +349,6 @@
     </section>
 
     <!-- ============================= ZKUŠENOSTI A CERTIFIKACE ============================= -->
-    <!-- Skutečné naskenované certifikáty (plné velikosti v Obrazky/O-nas/certifikat-*-plna-velikost.jpg,
-         zmenšené a komprimované do Obrazky/O-nas/certifikat-*-o-nas.jpg) – texty karet jsou
-         přepsané z reálného obsahu certifikátů (ne vymyšlené): certifikát
-         členství v ČFA, osvědčení o profesní kvalifikaci Zdeňka Rašky
-         (2 naskenované strany jednoho dokumentu – karta níže) a certifikát
-         ze školení SolaX Power. Krajní 2 karty vedou na fotku v plné
-         velikosti (target="_blank"). Prostřední karta (2026-09-11, na
-         přání uživatelky) ukazuje jen přední stranu dokumentu – zadní
-         strana je "jen zadní strana", proto se otevře až po kliknutí jako
-         mini galerie se šipkami (#cert-lightbox, data-photos JSON na
-         .cert-gallery-trigger, obsluha ve script.js). Bez viditelného
-         štítku/nápovědy na náhledu (odstraněno 2026-09-12 na přání
-         uživatelky – "to zjistí po rozkliknutí"). id="certifikace" cílí
-         kotevní odkaz z karty "Odborná způsobilost" ve "Fakta o firmě"
-         nad hero. -->
     <section class="section" id="certifikace">
       <div class="container">
         <div class="section-head section-head--center">
@@ -559,40 +385,6 @@
     </section>
 
     <!-- ============================= REFERENCE ============================= -->
-    <!-- Reálná hodnocení z Firmy.cz, přepsaná z veřejně viditelných recenzí na
-         https://www.firmy.cz/detail/13315367-raska-engineering-s-r-o-olsany-u-prostejova.html#hodnoceni
-         Celkové skóre 5,0/5 z 10 hodnocení. Bez přihlášení bylo v syrovém
-         zdrojovém HTML vidět jen 3 recenze s textem (ověřeno 2026-09-12,
-         zbylých 7 bylo za "Pro zobrazení dalších hodnocení se přihlaste").
-         2026-09-11 uživatelka (přihlášená) poslala screenshoty 2 dalších
-         recenzí s textem (Marek V., Obchod Engl) – přidány. Celkem teď
-         5 z 10 hodnocení má text, 5 zbývá za přihlášením/bez textu. Text
-         recenzí je doslovný (přesné znění včetně neobvyklé interpunkce
-         zákazníků samotných, neopravovat/nevyhlazovat). Datum u jednotlivých
-         recenzí (na přání uživatelky 2026-09-12) NENÍ zobrazeno, jen jméno.
-         2026-11-18: aktualizace – na Firmy.cz už 20 hodnocení (5,0), přibylo
-         10 nových recenzí s textem (9/2026–11/2026), přidány na začátek
-         carouselu od nejnovější. Plné znění převzato z Mapy.com (stejná
-         databáze hodnocení jako Firmy.cz, bez přihlášení vidět všech 20),
-         Firmy.cz ukazuje bez přihlášení jen zkrácené texty. U těchto 10
-         nových recenzí jsou (na přání uživatelky) OPRAVENÉ gramatické
-         chyby a interpunkce (shoda, pády, čárky), takže nejsou doslovně
-         jako na Firmy.cz. Starších 5 recenzí zůstává doslovně. Velké T ve
-         jméně "Tomáš Růžička". Celkem 15 recenzí s textem, 5 je jen hvězdičky.
-         id="reference" – dřív cíl kotevního odkazu z karty "Hodnocení
-         klientů" ve "Fakta o firmě" (ten odkaz byl 2026-09-12 odstraněn,
-         kotva zůstává pro případný budoucí odkaz odjinud). Sekce je bílá –
-         souhrnná karta skóre je JEDNA z rovnocenných karet, ne samostatná
-         karta nad nimi; všechny mají stejné jemně světlemodré sklo (stejný
-         princip jako .profile-card).
-         2026-09-11: s 5 recenzemi + souhrnnou kartou (6 karet) se grid na
-         desktopu už nevešel na 1 řádek přehledně, tak přepsáno na carousel
-         (.review-carousel/.review-track, horizontální scroll-snap + šipky
-         .review-carousel-nav, stejná šipka jako lightbox – #icon-arrow-right
-         otočená o 180° pro "prev"). Karty mají stejnou šířku jako dřív měl
-         grid (1/2/4 na mobil/tablet/desktop), jen teď je jich víc než se
-         vejde a zbytek se odscrolluje/šipkami. JS engine v script.js,
-         sekce 7. -->
     <section class="section" id="reference">
       <div class="container">
         <div class="section-head section-head--center">
@@ -893,12 +685,6 @@
     </div>
   </footer>
 
-
-  <!-- Mini-lightbox pro přední/zadní stranu certifikátu profesní kvalifikace
-       (viz .cert-gallery-trigger v sekci "Zkušenosti a certifikace") –
-       stejná vizuální komponenta jako #showcase-lightbox na jiných
-       podstránkách, jen s vlastním id a bez otevřeného seznamu fotek v DOM
-       (fotky přichází z data-photos, ne z .showcase-photo). -->
   <div class="lightbox" id="cert-lightbox" role="dialog" aria-modal="true" aria-label="Zvětšený certifikát">
     <button class="lightbox-close" type="button" aria-label="Zavřít">
       <svg aria-hidden="true"><use href="#icon-close"></use></svg>

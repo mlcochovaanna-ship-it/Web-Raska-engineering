@@ -60,10 +60,12 @@ RewriteRule ^([^.]+)$ $1.html [NC,L]
 # Vlastní chybová stránka pro neexistující adresy.
 ErrorDocument 404 /404.html
 
-# Interní pracovní poznámky (stav.md, instrukce.md) nejsou určené pro
-# veřejnost – kdyby se omylem nahrály na hosting spolu s webem, tohle
-# zajistí, že přes prohlížeč nepůjdou stáhnout.
-<FilesMatch "\.md$">
+# Interní pracovní poznámky (stav.md, instrukce.md) a skryté soubory
+# (.DS_Store z Macu, .gitignore apod.) nejsou určené pro veřejnost – kdyby
+# se omylem nahrály na hosting spolu s webem, tohle zajistí, že přes
+# prohlížeč nepůjdou stáhnout. Soubory uvnitř /.well-known/ (ověřování
+# SSL certifikátu) tím blokované nejsou, jejich názvy tečkou nezačínají.
+<FilesMatch "(^\.|\.md$)">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>

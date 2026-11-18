@@ -273,9 +273,6 @@
 
   <main id="hlavni-obsah">
     <!-- ============================= HERO ============================= -->
-    <!-- Stěhování výrobních strojů je zpět v hero sekci i v meta description/
-         og:description (na výslovné přání uživatelky, 2026-09-08 – dřívější
-         rozhodnutí mít stěhování mimo hero/meta bylo zrušeno). -->
     <section class="page-hero">
       <div class="page-hero-split" data-reveal>
         <div class="page-hero-content">
@@ -303,48 +300,10 @@
     </section>
 
     <!-- ============================= CO NABÍZÍME ============================= -->
-    <!-- 6 vlastních PNG ikon od uživatelky (Obrazky/Ikony/chladici-okruhy.png,
-         prumysl-elektro.png, topna-telesa.png, servis-vyrobnich-technologii.png,
-         rozvody-materialu.png, stehovani-stroju.png), zpracované do
-         Obrazky/Ikony/icon-*.png stejným vzorcem, jaký přesně používají
-         existující ikony "Co nabízíme" na Fotovoltaice (ověřeno zpětným
-         přeměřením icon-fve-systemy-na-miru.png a spol.): čtvercové plátno o
-         straně = zaokrouhleno na max(výška obsahu / 0,85; šířka obsahu). Tedy
-         výška ikony vyplňuje přesně 85 % plátna VŽDY, když se tam šířka
-         vejde; jen u opravdu širokých/plochých ikon (zde: Rozvody materiálů a
-         energií, Stěhování výrobních strojů) šířka výšku "přebije" a plátno
-         se zvětší na šířku obsahu (bez okraje, obsah sahá až ke krajům) – což
-         je stejný kompromis, jaký má na Fotovoltaice ikona "Bateriová
-         úložiště". U ikony "Stěhování výrobních strojů" byly zkoušené různé
-         ruční úpravy (oříznutí jedné šipky, zmenšení druhé), ale uživatelka
-         chtěla zpět původní nedotčenou ikonu (obě šipky, beze změny) – místo
-         zásahu do samotného obrázku je tahle jedna ikona výjimečně širší než
-         ostatní (třída .feature-item-icon--wide ve style.css, width 5,63rem
-         místo 3rem), ale se STEJNOU výškou 3rem jako ostatní, takže výškově
-         sedí a nic se nedeformuje ani neořezává. Zpracované PNG:
-         Obrazky/Ikony/icon-stehovani-stroju.png, 986×527px (výška obsahu
-         vyplňuje stejných 85 % jako u ostatních ikon, jen šířka plátna
-         odpovídá skutečnému poměru stran obsahu misto vynuceného čtverce). -->
     <section class="offer-overlap">
       <div class="container">
         <h2 class="sr-only">Co nabízíme</h2>
 
-        <!-- Pořadí karet záměrně neodpovídá instrukce.md (tam abecedně/dle
-             výčtu) – na výslovné přání uživatelky mají první tři karty být
-             Čištění okruhů, Elektroinstalace a elektrorevize, Výroba a
-             opravy topných těles (Čištění navíc má vlastní sekci níže).
-             "Stěhování výrobních strojů" má naopak být vidět nejméně (proto
-             poslední karta). Druhá věta u karet Výroba a opravy topných
-             těles, Servis výrobních technologií a Rozvody materiálů a
-             energií je doplněná z reálného obsahu stávajícího webu
-             raskaengineering.cz (podstránky "Komplexní servis v oblasti
-             průmyslu"), ne z instrukce.md. Na uživatelčino přání jsou teď
-             stejným způsobem doplněné i zbylé tři karty (Čištění, Elektro,
-             Stěhování), ať jsou popisky karet podobně dlouhé. Pořadí karet
-             (stěhování poslední) zůstává, i když stěhování je od 2026-09-08
-             zase zmíněné v hero sekci a meta popisech (viz komentář u hero
-             sekce výše) – jde jen o pořadí důrazu v nabídce karet, ne o
-             viditelnost stěhování na stránce jako takové. -->
         <div class="offer-grid" data-reveal>
           <div class="feature-item">
             <div class="feature-item-icon"><img src="Obrazky/Ikony/icon-chladici-okruhy.png" width="48" height="48" alt="" loading="lazy"></div>
@@ -381,17 +340,6 @@
     </section>
 
     <!-- ============================= ČIŠTĚNÍ VODNÍCH A CHLADICÍCH OKRUHŮ ============================= -->
-    <!-- Samostatná sekce navíc oproti instrukce.md, na výslovné přání
-         uživatelky – toto téma má být z celé průmyslové nabídky nejvíc
-         vidět. Text v .about-content je reálný obsah ze starého webu
-         (dodala uživatelka), ne vymyšlený placeholder. Tři karty níže
-         (zařízení, u kterých se čištění provádí) jsou taky reálný obsah ze
-         starého webu, jen sloučený z 5 položek do 3 karet. Stejná vizuální
-         komponenta (.about-section/.about-split + .feature-grid) jako "O
-         nás" na homepage a "Fotovoltaika na klíč" na Fotovoltaice. Fotka
-         (A35DDAA2 ze složky Obrazky/Cisteni) vybraná přímo uživatelkou,
-         zpracovaná do Obrazky/Prumysl/cisteni-okruhu-strojovna.jpg. Další fotky z téže
-         složky jsou v galerii "Ukázky naší práce" níže. -->
     <section class="about-section cleaning-section">
       <div class="about-split" data-reveal>
         <div class="about-content">
@@ -432,13 +380,6 @@
           </div>
         </div>
 
-        <!-- Doplněno, aby přechod ze tří karet rovnou do FAQ nebyl moc
-             náhlý – stejná .steps/.step-item komponenta a icon-krok-*
-             ilustrace jako "Jak spolupráce probíhá" na Elektro službách a
-             Fotovoltaice, jen s vlastním nadpisem pro čištění. Texty
-             kroků jsou reálný obsah přeformulovaný do procesu, žádná nová
-             fakta nad rámec toho, co je už výše (endoskop, kompatibilní
-             chemie, protokol) – viz uživatelčino zadání výše v sekci. -->
         <h3 class="revize-subhead">Jak čištění probíhá</h3>
         <ol class="steps" data-reveal>
           <li class="step-item">
@@ -461,20 +402,6 @@
     </section>
 
     <!-- ============================= VÝROBA A OPRAVA TOPNÝCH TĚLES ============================= -->
-    <!-- Reálný obsah ze starého webu (podstránka "Výroba a oprava topných
-         těles"). Stejná vizuální komponenta jako sekce čištění výš
-         (.about-section/.about-split, fotka+text + .feature-grid karty),
-         ale na přání uživatelky BEZ "Jak probíhá" kroků – výroba/oprava
-         topných těles se řeší případ od případu podle dokumentace nebo
-         vzorku, obecný postup by nedával smysl. Místo toho krátká poznámka,
-         že jde o velmi specifickou zakázkovou výrobu a zájemci ať pošlou
-         poptávku (viz 2. odstavec). Karty v mřížce jsou BEZ ikony (žádné
-         vlastní ikony pro jednotlivé typy těles nebyly dodané) – původně
-         tu byl prostý seznam, uživatelka ho ale vyměnila zpět za skleněné
-         karty (2026-09-15), i bez ikony. Fotka (3AC10D34... ze složky
-         Obrazky/Topeni) vybraná pro poměr stran 4:3, přesně odpovídající
-         výchozímu .about-media boxu (stejně jako u
-         revize-mereni.jpg/cisteni-okruhu.jpg). -->
     <section class="about-section topeni-section">
       <div class="about-split" data-reveal>
         <div class="about-content">
@@ -527,15 +454,6 @@
     </section>
 
     <!-- ============================= OTÁZKY A ODPOVĚDI ============================= -->
-    <!-- 3 otázky z instrukce.md + 1 doplněná uživatelkou (chemické látky
-         při čištění okruhů) – 2 sloupce po 2 (stejný .faq-grid/.faq-col
-         vzor jako na Elektro službách a Fotovoltaice, sloupce nezávislé na
-         výšce, viz feedback z dřívějška). -->
-    <!-- 4 otázky doplněné podle stávajícího webu raskaengineering.cz
-         (podstránky "Komplexní servis v oblasti průmyslu") – pojištění
-         odpovědnosti, doprava, termografické měření a preventivní údržba
-         se opakovaly na všech tamních podstránkách, takže jde zjevně o
-         důležitá témata pro tuto cílovou skupinu. -->
     <section class="section section--blue">
       <div class="container">
         <div class="section-head section-head--center">
@@ -615,11 +533,6 @@
         </div>
       </div>
 
-      <!-- 6 fotek (stejně jako na ostatních podstránkách), po jedné z každé
-           ze 6 nabízených služeb, ať se galerie zbytečně neopakuje. Vybrané
-           ze všech průmyslových podsložek (Cisteni, Stehovani, Topeni).
-           Pořadí – čištění okruhů (nejvíc propagované téma) jako první,
-           stěhování (jeřáb, nejméně propagované téma) naposled. -->
       <div class="showcase-gallery" data-reveal>
         <div class="showcase-photo showcase-item">
           <img src="Obrazky/Prumysl/cisteni-okruhu-carrier.jpg" width="1400" height="1049" alt="Mobilní jednotka pro chemické čištění napojená na chladicí zařízení Carrier" loading="lazy" data-caption="Čištění chladicího zařízení">
@@ -742,7 +655,6 @@
       <p>Copyright &copy; 2026 Raška engineering s.r.o. Webdesign <a href="https://harmonickyweb.cz" target="_blank" rel="noopener">harmonickyweb.cz</a></p>
     </div>
   </footer>
-
 
   <!-- ============================= LIGHTBOX GALERIE ============================= -->
   <div class="lightbox" id="showcase-lightbox" role="dialog" aria-modal="true" aria-label="Zvětšená fotografie realizace">

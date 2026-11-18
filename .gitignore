@@ -1,2 +1,5 @@
 .DS_Store
 obrazky-puvodni/
+Obrazky/Kontakt/zaloha/
+# Interní poznámky – nepatří do veřejného repozitáře ani na hosting
+*.md

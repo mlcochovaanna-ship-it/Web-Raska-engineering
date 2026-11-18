@@ -1,12 +1,3 @@
-/* ==========================================================================
-   Raška engineering s.r.o. — jemná interaktivita
-   1) sticky hlavička při scrollu
-   2) mobilní menu
-   3) scroll-reveal animace
-   4) lightbox galerie realizací + mini-lightbox certifikátu (O nás)
-   5) honeypot antispam kontrola formuláře
-   6) carousel recenzí (O nás)
-   ========================================================================== */
 
 (function () {
   'use strict';
@@ -70,11 +61,6 @@
   }
 
   /* 4) Lightbox galerie realizací + mini-lightbox certifikátu ---------------- */
-  /* Společný "engine" pro libovolný .lightbox element — otevře se se seznamem
-     fotek {src, alt, caption} a indexem, na kterém se má otevřít. Použito
-     dvakrát níž: #showcase-lightbox (fotky z DOM, .showcase-photo > img) a
-     #cert-lightbox na o-nas.html (fotky z JSON v data-photos, jen 2 strany
-     jednoho dokumentu). */
   const createLightbox = (lightbox) => {
     const img = lightbox.querySelector('.lightbox-img');
     const caption = lightbox.querySelector('.lightbox-caption');
@@ -152,15 +138,6 @@
   }
 
   /* 5) Odeslání formuláře + honeypot antispam -------------------------------- */
-  /* Vlastní děkovací stránku (Formspree _next) umí Formspree jen na placených
-     plánech, proto se formulář odesílá přes fetch (AJAX, dostupné na všech
-     plánech) a na děkovací stránku (data-thanks) přesměruje až tenhle skript.
-     Když fetch selže (síť, 403 např. kvůli reCAPTCHA na formuláři), spadne to
-     na běžné odeslání formuláře, takže poptávka se neztratí. */
-  /* Formulář má novalidate, povinnost polí hlídá tenhle skript: každá
-     .form-group s .form-error-msg je povinná (skupina s data-required-group =
-     aspoň jedno zaškrtnuté políčko). Texty hlášek jsou v HTML, ať skript
-     nezávisí na jazyce. */
   const validateGroup = (group) => {
     const err = group.querySelector('.form-error-msg');
     if (!err) return true;
@@ -170,9 +147,6 @@
     } else {
       const field = group.querySelector('input, textarea');
       ok = field.value.trim() !== '' && (field.type !== 'email' || /\S+@\S+\.\S+/.test(field.value));
-      /* Zpráva bez odkazů: spam téměř vždy obsahuje URL. E-mailové adresy se
-         před kontrolou vyřadí, ať je běžný člověk (třeba podpis s e-mailem)
-         neblokuje. */
       if (ok && field.hasAttribute('data-no-links')) {
         err.dataset.defaultText = err.dataset.defaultText || err.textContent;
         const text = field.value.replace(/\S+@\S+/g, ' ');
@@ -246,10 +220,6 @@
   });
 
   /* 6) Carousel recenzí (O nás) ---------------------------------------------- */
-  /* .review-track je nativně scrollovatelný (scroll-snap, funguje i bez JS
-     přes swipe/trackpad) – šipky jen posunou o šířku 1 karty a hlídají
-     disabled stav na začátku/konci, ať carousel funguje i bez myši s
-     trackpadem/dotykem. */
   const reviewTrack = document.querySelector('.review-track');
   if (reviewTrack) {
     const prevBtn = document.querySelector('.review-carousel-nav--prev');
@@ -274,11 +244,6 @@
     window.addEventListener('resize', updateNavState);
     updateNavState();
 
-    /* Zkrácení dlouhých recenzí + "Číst více" (2026-11-18). Počet řádků,
-       na který se zkracuje, = kolik řádků zabere nejdelší recenze do
-       limitu data-clamp-chars při aktuální šířce karty. Recenze delší
-       než tolik řádků se zkrátí a dostanou tlačítko. Přepočítává se při
-       změně šířky okna (jinak by na jiném breakpointu nesedělo). */
     const isEn = (document.documentElement.lang || '').toLowerCase().startsWith('en');
     const labels = isEn ? ['Read more', 'Read less'] : ['Číst více', 'Číst méně'];
     const clampChars = parseInt(reviewTrack.dataset.clampChars, 10) || 300;
@@ -316,8 +281,6 @@
       const lines = reviewTexts.map(lineCount);
       const maxLines = Math.max(1, ...lines.filter((_, i) => reviewTexts[i].textContent.trim().length <= clampChars));
 
-      /* Zkrácená karta má navíc řádek s tlačítkem – o tolik řádků textu
-         míň, ať karta s tlačítkem nebude vyšší než ta nejdelší celá. */
       const btnProbe = reviewTexts[0].nextElementSibling;
       btnProbe.hidden = false;
       const lineH = parseFloat(getComputedStyle(reviewTexts[0]).lineHeight) || 24;
@@ -332,8 +295,6 @@
         t.nextElementSibling.hidden = !tooLong;
       });
 
-      /* Výška karet ve sbaleném stavu (rozbalené dočasně sbalit, změřit
-         a vrátit), ať se po rozbalení natáhne jen ta jedna karta. */
       const expanded = reviewTexts.filter((t) => t.classList.contains('is-expanded'));
       expanded.forEach((t) => t.classList.remove('is-expanded'));
       reviewTrack.classList.add('is-clamp-ready');
@@ -357,9 +318,6 @@
     document.fonts?.ready.then(() => { lastWidth = 0; relayout(); });
   }
 
-  /* 7) Děkovací stránka: tlačítko zpět vede na místo s formulářem, ze kterého
-     návštěvník přišel (adresu si uložil formulář výše). Bez uložené adresy
-     zůstane výchozí odkaz na úvodní stránku. */
   const returnBtn = document.querySelector('[data-return]');
   if (returnBtn) {
     let back = null;

@@ -197,14 +197,8 @@
         </div>
       </div>
 
-      <!-- Fotokoláž: na desktopu tři obory + modrá plocha vedle sebe na šířku (pozadí za textem);
-           na mobilu jen pruh tří oborů pod textem – modrá plocha nad ním je čistě CSS gradient (viz .hero) -->
       <div class="hero-media">
         <picture>
-          <!-- Na užších noteboocích (1024–1279 px) sahal text do fotky, protože šev
-               koláže leží pevně na ~42 % šířky, ale text se škáluje jinak. Tyhle dvě
-               varianty jsou stejná koláž vodorovně stlačená doprava (širší modrý panel
-               vlevo, šev dál vpravo) – viz project_hero_collage. -->
           <source media="(min-width: 1024px) and (max-width: 1159px)" type="image/webp" srcset="Obrazky/Domov/hero-collage-laptop-narrow-1600.webp 1600w, Obrazky/Domov/hero-collage-laptop-narrow.webp 2400w" sizes="100vw">
           <source media="(min-width: 1024px) and (max-width: 1159px)" srcset="Obrazky/Domov/hero-collage-laptop-narrow.jpg">
           <source media="(min-width: 1160px) and (max-width: 1279px)" type="image/webp" srcset="Obrazky/Domov/hero-collage-laptop-1600.webp 1600w, Obrazky/Domov/hero-collage-laptop.webp 2400w" sizes="100vw">
@@ -296,10 +290,6 @@
     <!-- ============================= O NÁS ============================= -->
     <section class="about-section">
       <div class="about-split" data-reveal>
-        <!-- Pořadí v HTML: text → fotka. Na desktopu (1024px+) je fotka
-             position:absolute (viz CSS), takže pořadí v DOM tam nehraje roli
-             a vzhled zůstává stejný jako předtím; na mobilu ale díky tomu jde
-             text jako první, pak fotka a hned po ní navazují glass karty. -->
         <div class="about-content">
           <h2>O&nbsp;nás</h2>
           <p>Raška engineering s.r.o. je česká společnost se sídlem v&nbsp;Olšanech u&nbsp;Prostějova. Stavíme na odborných zkušenostech získaných při realizaci <strong>elektrotechnických zakázek, fotovoltaických systémů a&nbsp;technických projektů</strong> v&nbsp;průmyslovém prostředí.</p>
@@ -441,10 +431,6 @@
               <label for="_gotcha">Nevyplňujte toto pole</label>
               <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
             </div>
-            <!-- _subject = předmět notifikačního e-mailu na straně Formspree,
-                 nemá vliv na formulář/chování stránky. Děkovací stránku po
-                 odeslání otevírá script.js (data-thanks na <form>), ne
-                 Formspree – vlastní redirect (_next) je jen na placených plánech. -->
             <input type="hidden" name="_subject" value="Nová poptávka z webu (Domů)">
 
             <div class="form-grid form-grid--3">
@@ -581,7 +567,6 @@
       <p>Copyright &copy; 2026 Raška engineering s.r.o. Webdesign <a href="https://harmonickyweb.cz" target="_blank" rel="noopener">harmonickyweb.cz</a></p>
     </div>
   </footer>
-
 
   <!-- ============================= LIGHTBOX GALERIE ============================= -->
   <div class="lightbox" id="showcase-lightbox" role="dialog" aria-modal="true" aria-label="Zvětšená fotografie realizace">

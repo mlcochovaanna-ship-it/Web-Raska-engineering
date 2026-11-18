@@ -1,13 +1,4 @@
-/* ==========================================================================
-   Raška engineering s.r.o. — hlavní stylopis
-   Design systém: barvy, spacing, typografie, grid, komponenty
-   ========================================================================== */
 
-/* Font Outfit stažený lokálně (fonts/), ne z Google Fonts CDN – na přání
-   uživatelky (2026-09-17), aby web nevolal žádnou externí službu a nemusel
-   mít cookie lištu. Jde o variabilní font (jeden soubor pokrývá všechny
-   váhy 100–900), proto stačí jen 2 @font-face pravidla (latin + latin-ext
-   pro českou diakritiku), ne jedno na každou váhu. */
 @font-face {
   font-family: 'Outfit';
   font-style: normal;
@@ -289,9 +280,6 @@ p {
 
 .nav-shell {
   /* Přes celou šířku a až nahoru — žádná pilulka, jen poloprůhledné sklo */
-  /* position+z-index nutné, jinak tento (nepozicovaný) prvek podle pravidel
-     stackování vykreslí prohlížeč VŽDY pod .mobile-nav (i když .site-header
-     má z-index 100) a logo i zavírací tlačítko zmizí pod otevřeným menu */
   position: relative;
   z-index: 101;
   background: rgba(22, 58, 104, 0.6);
@@ -307,9 +295,6 @@ p {
   box-shadow: var(--shadow-lg);
 }
 
-/* Jen na 404.html (viz komentář u <header> tamtéž) – hned pod hlavičkou je
-   bílé pozadí, ne temná fotka/gradient, takže i výchozí (nescrollovaný)
-   stav má stejné plnější pozadí jako .is-scrolled jinde na webu. */
 .site-header--solid .nav-shell {
   background: rgba(22, 58, 104, 0.86);
   box-shadow: var(--shadow-lg);
@@ -397,13 +382,6 @@ p {
   .nav-phone-cta { display: inline-flex; }
 }
 
-/* Přepínač jazyků CZ/EN (2026-09-18) – zobrazuje kód CÍLOVÉHO jazyka (na
-   české stránce "EN" vede na anglickou verzi, na anglické "CS" zpátky na
-   českou) – jednodušší než pár "CZ | EN" vedle sebe. V .nav-actions, ne v
-   .nav-list, protože to je vždy vidět (i pod 1024px), na rozdíl od
-   .nav-list. Cesty jsou u každé stránky napevno (viz [[project_en_translation]]),
-   protože anglické URL mají jiné slugy než české (kontakt → contact), ne
-   jen /en/ prefix. */
 .lang-switch {
   display: inline-flex;
   align-items: center;
@@ -473,10 +451,6 @@ p {
 }
 
 .mobile-nav a.btn {
-  /* .mobile-nav a (display:block, velký font, spodní linka) má vyšší
-     specificitu než .btn (jen jedna třída) – bez tohoto přebití by tlačítko
-     ztratilo flex zarovnání ikony+textu a zdědilo by rozměry navigačního
-     odkazu místo vlastních button paddingů. */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -521,8 +495,6 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Vystředěno — na širokoúhlých obrazovkách se ořízne rovnoměrně z obou stran,
-     aby nezmizel poslední obrázek napravo */
   object-position: center center;
 }
 
@@ -533,29 +505,7 @@ p {
   background: linear-gradient(0deg, rgba(11, 27, 48, 0.4) 0%, rgba(11, 27, 48, 0.15) 30%, rgba(11, 27, 48, 0.1) 60%, rgba(11, 27, 48, 0.2) 100%);
 }
 
-/* 2026-09-17: bývalý fix pro 1024–1399px (.hero-media { left: 34rem;
-   width: auto }) byl odstraněn – řešil drobné zasahování fotky pod tlačítko,
-   ale zmenšením boxu rozbil object-fit: cover ořez pevně kalibrované
-   koláže (viz [[project_hero_collage]] – obrázek má přesnou úhlopříčnou
-   geometrii navrženou pro box na celou šířku). Důsledek: v celém okně
-   1024–1399px se místo fotky zobrazoval kus jejího vlastního "modrého"
-   panelu jako falešná mezera mezi textem a fotkami (odhaleno až přes
-   screenshot pro Open Graph, ale je to živá chyba pro reálné návštěvníky –
-   1366×768 a 1280×800 jsou běžná rozlišení notebooků). Bez fixu (box na
-   celou šířku, left: 0, stejně jako od 1400px výš) se text jen nepatrně
-   dotýká úhlopříčného švu na 1024px (ověřeno zoomovaným screenshotem,
-   čitelnost není narušená) – mnohem menší problém než ta mezera. Pro
-   tablety (768–1023px) viz samostatný blok níže — tam se stejný problém
-   řeší jinak (jako na mobilu). */
-
 @media (max-width: 767px) {
-  /* Mobil: koláž už NENÍ pozadí za textem, ale samostatný pruh
-     (jen elektro/fotovoltaika/průmysl, bez modré) v běžném toku pod textem.
-     Modrou plochu za textem dělá čistě gradient sekce .hero. Aspect-ratio
-     odpovídá reálným rozměrům Obrazky/Domov/hero-photos-mobile.jpg (1200×1905 —
-     stejný svislý výřez jako na desktopu, aby fotka po přesahu karty služeb
-     (.services-overlap) zůstala z velké části vidět), takže se obrázek nikdy
-     neořezává přes object-fit: cover. */
   .hero-media {
     position: relative;
     width: 100%;
@@ -568,8 +518,6 @@ p {
   z-index: 1;
   /* flow-root zabrání "propadnutí" margin-top z .hero-content skrz tento box */
   display: flow-root;
-  /* Celková výška sekce (dost prostoru pod pohledem, aby karty zůstaly schované) —
-     vycentrování textu ale řeší .hero-content zvlášť, jen na 100vh */
   min-height: calc(100vh + 8rem);
   min-height: calc(100svh + 8rem);
   padding-bottom: calc(var(--space-24) + var(--space-8));
@@ -581,13 +529,6 @@ p {
     width: 100%;
     max-width: 100%;
     padding-inline: var(--space-6);
-    /* Zrušit velkou rezervu z hlavního pravidla — ta byla potřeba jen když
-       koláž byla pozadí přes celou sekci; teď má koláž svou vlastní výšku
-       (.hero-media) hned pod textem. Nahoře i dole stejný padding modré
-       plochy — stejná hodnota (--space-16) jako u .page-hero-content na
-       podstránkách (2026-09-17, na přání uživatelky ať je vzdušnost mobilního
-       hero homepage stejná jako u podstránek) — nahoře k tomu ještě
-       připočtena výška hlavičky, aby se text neschoval pod fixní menu. */
     min-height: auto;
     padding-top: calc(var(--header-height) + var(--space-16));
     padding-bottom: var(--space-16);
@@ -600,9 +541,6 @@ p {
   z-index: 2;
   margin-top: -8.6rem;
   padding-bottom: var(--space-16);
-  /* Odkaz "Naše služby" v hero sekci míří na #sluzby (= tenhle element) —
-     bez scroll-margin-top by prohlížeč zarovnal úplný vršek sekce (ikony karet)
-     pod fixní hlavičku, takže by byly ikony napůl schované za menu. */
   scroll-margin-top: calc(var(--header-height) + var(--space-6));
 }
 
@@ -627,9 +565,6 @@ p {
 
 @media (max-width: 767px) {
   .hero-content {
-    /* Odstup od hlavičky teď řeší padding-top na .hero-inner (symetrický
-       s padding-bottom dole) — tady stačí zrušit vynucenou výšku na 100vh,
-       jinak by centrování naopak roztahovalo mezery nad/pod textem */
     margin-top: 0;
     min-height: auto;
   }
@@ -648,8 +583,6 @@ p {
 }
 
 @media (min-width: 1024px) and (max-width: 1439px) {
-  /* Anglický eyebrow je delší než český sloupec (max-width výš) – s nowrap by
-     "SOLUTIONS" zajíždělo do fotky. Na širších obrazovkách se vejde. */
   html[lang="en"] .hero-content .eyebrow { white-space: normal; }
 }
 
@@ -680,16 +613,12 @@ p {
 }
 
 @media (max-width: 767px) {
-  /* Tlačítka blíž textu než na desktopu – jen na homepage (.hero-content),
-     .hero-actions je sdílená třída i s .page-hero-content na podstránkách,
-     kde má vlastní, symetrické odsazení (viz níže u .page-hero-content). */
   .hero-content .hero-actions {
     margin-top: var(--space-4);
   }
 }
 
 @media (min-width: 768px) {
-  /* Spodní hranice drží dost místa pro eyebrow na jeden řádek, škáluje výš na širších obrazovkách */
   .hero-content { max-width: clamp(29rem, 20vw, 32rem); }
   .hero-inner {
     min-height: calc(100vh + 10rem);
@@ -707,39 +636,14 @@ p {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Tablet (768–1023px): stejná strukturální úprava jako na mobilu — koláž
-     jako full-bleed pozadí vedle úzkého sloupce textu tu ukazovala jen tenký
-     svislý pruh elektro panelu a zbytek koláže (fotovoltaika, průmysl) byl
-     úplně skrytý. Řešení: text přes celou modrou plochu (bez postranního
-     sloupce), koláž jako samostatný široký pruh v běžném toku POD textem —
-     princip převzatý z mobilního řešení výše, jen s širším (méně vysokým)
-     poměrem stran, protože tablet má na šířku mnohem víc místa než mobil. */
   .hero-content { max-width: none; }
 
   .hero-inner {
-    /* Šířka/padding se NEpřebíjí (na rozdíl od mobilu) — necháváme běžné
-       chování .container (85 %, max 1280px), aby levý/pravý okraj textu
-       lícoval s kartami služeb a všemi dalšími sekcemi pod hero. Dřívější
-       pevný padding (--space-8) dával textu o ~26px víc místa než 85 %
-       container, takže se text rozjel oproti zbytku stránky. */
     min-height: auto;
-    /* Nahoře je vidět jen --space-24 (--header-height je fixní hlavička,
-       ne vizuální odsazení od textu) — dole musí být stejných --space-24,
-       ať je odstup od hlavičky/nahoře a od fotky/dole opravdu stejný. Celá
-       mezera před fotkou zůstává tady (ne na .hero-media jako margin) —
-       ::before níže kryje gradientem přesně box .hero-inner (včetně
-       paddingu), takže cokoliv za jeho hranicí by ukázalo jinou, plochou
-       barvu z pozadí .hero a vzniklo by viditelné švové rozhraní. */
     padding-top: calc(var(--header-height) + var(--space-24));
     padding-bottom: var(--space-24);
   }
 
-  /* Gradient přesunutý sem (ne jen na .hero) — .hero-media tu není absolutně
-     pozicovaná, takže prodlužuje výšku celé sekce, a gradient definovaný jen
-     na .hero by měl svůj světlejší konec schovaný za neprůhlednou fotkou.
-     `::before` musí "prokouknout" mimo 85% šířku .hero-inner (container) do
-     celé šířky obrazovky, jinak by na okraji vznikl viditelný šev proti
-     ploché barvě .hero za ním — odtud trik s `left:50%/width:100vw/translateX`. */
   .hero-inner::before {
     content: '';
     position: absolute;
@@ -758,19 +662,10 @@ p {
   }
 
   .hero-content .eyebrow {
-    /* Bez úzkého postranního sloupce (viz výše) může eyebrow zalomit na dva
-       řádky stejně jako na mobilu, když se nevejde do 85% šířky. */
     white-space: normal;
     margin-bottom: var(--space-8);
   }
 
-  /* Sladěné rozestupy mezi eyebrow/nadpisem/textem/tlačítky — dřív 24/32/64px
-     (nekonzistentní), sjednoceno na 24px (--space-6), ale to bylo na vkus
-     uživatelky moc nahusto — teď jednotně 32px (--space-8) mezi každou
-     dvojicí, o trochu vzdušnější. .hero-content je flex column, takže se
-     sousední margins (na rozdíl od běžných blokových boxů) NEkolabují na
-     větší z obou, ale sečtou se — .lead margin-bottom je proto nutné
-     vynulovat, ať mezeru dělá jen .hero-actions margin-top. */
   .hero-content h1 { margin-bottom: var(--space-8); }
   .hero-content .lead { margin-bottom: 0; }
   .hero-actions { margin-top: var(--space-8); }
@@ -779,30 +674,14 @@ p {
     position: relative;
     left: auto;
     width: 100%;
-    /* Vyšší poměr stran než původních 12/5 = 2.4 (ten ukazoval jen tenký
-       vodorovný pruh, cca 33 % výšky, uprostřed vysoké koláže) – ale 4/3
-       (60 %) dělalo fotku tak vysokou, že přesah karet pod ní (viz
-       .services-overlap) vypadal jako by karty vůbec nevyčuhovaly. 3/2
-       (cca 52 % výšky) je kompromis: pořád mnohem čitelnější panely než
-       12/5, ale přesah karet je vůči nižší fotce znovu vidět. */
     aspect-ratio: 3 / 2;
-    /* Bez vlastního margin-top — mezera před fotkou je teď celá v
-       .hero-inner padding-bottom (viz výše), aby ji celou kryl gradient
-       a nevznikl na rozhraní viditelný švík. */
   }
 
   .hero-media img {
-    /* Výchozí `center center` ukazovalo příliš z vrchu koláže (horní část
-       elektro panelu) — posunuto níž ve zdrojovém obrázku (= obrázek
-       vizuálně "nahoru" ve výřezu), ať je víc vidět středová část
-       (fotovoltaika) a míň vrch. */
     object-position: center 65%;
   }
 
   .services-overlap {
-    /* Karta má vykukovat přes spodní okraj fotky zřetelně (ne jen náznakem),
-       ale míň než na desktopu (-9.6rem/-10.6rem, tam je vedle fotky dost
-       místa i nad kartou). */
     margin-top: -6rem;
   }
 }
@@ -894,19 +773,11 @@ p {
 
 @media (max-width: 767px) {
   .band-inner {
-    /* Vyšší karta — text (nahoře) zůstává stejně velký a čitelný, dole
-       přibude prostor, kde je přes masku dobře vidět fotka */
     min-height: 32rem;
   }
   .band-photo {
     -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.5) 58%, #000 82%);
     mask-image: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.5) 58%, #000 82%);
-    /* Úzká/vysoká mobilní karta přes "cover" na širokoúhlé desktopové fotce
-       (1800×649) nemá žádnou svislou rezervu k posunu (výška se srovná
-       přesně, "cover" vždy ořízne jen šířku) – jakákoli změna Y v
-       background-position tam proto nic nezmění. Řešení: samostatný,
-       předem oříznutý výřez (750×500, jen displej/ciferník multimetru
-       + rozvaděč, bez zbytku ruky/kabelové role) jen pro mobil. */
     background-image:
       linear-gradient(100deg, rgba(15, 34, 61, 0.6) 0%, rgba(15, 34, 61, 0.2) 55%, rgba(15, 34, 61, 0) 100%),
       url('Obrazky/Spolecne/pohotovost-pas-mobile.jpg');
@@ -924,41 +795,24 @@ p {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Tablet: stejné svislé uspořádání jako na mobilu (ikona/nadpis/text nahoře,
-     tlačítko pod tím, fotka jako maskovaný pruh dole) místo řádkového z
-     pravidla výše — to na tomhle rozsahu bylo přehuštěné: text se lámal do
-     mnoha úzkých řádků, tlačítko i fotka byly stěsnané doprostřed karty. */
   .band-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-6);
     padding: var(--space-8);
-    /* Nižší než mobilních 32rem — širší sloupec zalomí text do míň řádků,
-       takže by se stejná výška zbytečně roztáhla do prázdna nad fotkou. */
     min-height: 26rem;
   }
 
   .band-photo {
-    /* Stejný svislý ořez a maska jako na mobilu (viz @media max-width:767px
-       výše) — širokoúhlá desktopová fotka (1800×649) by se přes "cover" na
-       vysoké kartě ořízla jen vodorovně a svislá maska by nikdy nic
-       neodkryla (žádná rezerva k posunu). */
     background-image:
       linear-gradient(100deg, rgba(15, 34, 61, 0.6) 0%, rgba(15, 34, 61, 0.2) 55%, rgba(15, 34, 61, 0) 100%),
       url('Obrazky/Spolecne/pohotovost-pas-mobile.jpg');
-    /* Y posunuto z "center" (50 %) na 85 % — širší tabletová karta ořízne
-       tuhle vysokou fotku hodně svisle (vidět je jen ~44 % její výšky), a
-       střed obrázku padá na řady jističů, ne na multimetr v ruce dole.
-       Beze změny velikosti/zoomu (pořád "cover") — jen jiné okno v témže
-       rámu, ať je multimetr zase vidět, ale pořád v kontextu rozvaděče. */
     background-position: 0% 0%, 50% 85%;
     -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.5) 58%, #000 82%);
     mask-image: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.5) 58%, #000 82%);
   }
 
   .band .btn-pulse {
-    /* Tlačítko posunuté doprava — .band-inner je flex column s
-       align-items:flex-start, tohle přebíjí zarovnání jen pro tento prvek. */
     align-self: flex-end;
   }
 }
@@ -1075,12 +929,6 @@ p {
 
 @media (max-width: 767px) {
   .about-watermark {
-    /* Logo zůstává na modré ploše nad fotkou (stejně jako na desktopu je
-       na plché modré ploše, ne na fotce samotné — na fotce by kvůli
-       opacity 0.2 nebylo vůbec vidět). "75vw" = výška fotky (.about-media
-       má aspect-ratio 4/3 na celou šířku), takže bottom: 75vw + odstup =
-       logo sedí těsně nad horní hranou fotky, se stejným malým odstupem
-       od spodní hrany modré plochy jako od pravého okraje. */
     width: 11rem;
     bottom: calc(75vw + var(--space-2));
     right: var(--space-2);
@@ -1088,28 +936,16 @@ p {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Tablet: stejná skládaná struktura (text → watermark → fotka na celou
-     šířku) jako na mobilu, ale fotka dřív byla mnohem vyšší než textový
-     blok (aspect-ratio 4/3 na celou šířku obrazovky = 576–767px, zatímco
-     text má jen ~420px) — na žádost uživatelky zkrácena na pevnou výšku,
-     jen o něco vyšší než text, místo škálování s šířkou. */
   .about-media {
     aspect-ratio: auto;
     height: 28rem;
   }
 
   .about-media img {
-    /* Výchozí `left 35%` je zděděné z ostatních šířek — na tomhle nižším,
-       širším výřezu (viz aspect-ratio výše) to nechávalo v obraze zbytečně
-       moc oblohy. Posunuto o kousek níž ve zdrojové fotce (= nahoru ve
-       výřezu), ať je víc auta/domu a míň oblohy. */
     object-position: left 60%;
   }
 
   .about-watermark {
-    /* Stejný princip jako v mobilním pravidle výše (bottom = výška fotky +
-       odstup), ale fotka už neroste s `vw` (viz .about-media), takže i tahle
-       hodnota je teď pevná, ne `vw`-based. */
     width: 11rem;
     bottom: calc(28rem + var(--space-2));
     right: var(--space-2);
@@ -1167,8 +1003,6 @@ p {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Na tabletu byly 4 karty vedle sebe v jednom úzkém řádku moc stěsnané
-     (text se lámal do mnoha řádků) — po dvou pod sebou je čitelnější. */
   .feature-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -1258,9 +1092,6 @@ p {
 }
 
 @media (max-width: 767px) {
-  /* Diagonální řez na mobilu dělal problémy (bílý proužek v místě, kde se
-     posunutý transform a polygon nepřekrývaly přesně s sousední fotkou) —
-     na mobilu proto standardní rovné oddělení fotek (mřížka 3×2, bez skew). */
 
   /* Odznaky s ikonou oboru na malé fotce zmenšit, ať ji nezakrývají */
   .showcase-tag {
@@ -1303,11 +1134,6 @@ p {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Na tabletu je všech 6 fotek vedle sebe v jednom řádku (stejně jako na
-     desktopu), ale sloupec je tu jen ~1/6 šířky obrazovky (128–170px) —
-     s poměrem 3/4 z toho vyšla velmi nízká, "useknutá" fotka. Vyšší poměr
-     dá fotkám víc prostoru, aniž by se měnil počet sloupců nebo diagonální
-     řez. */
   .showcase-photo { aspect-ratio: 3 / 6; }
 }
 
@@ -1438,7 +1264,6 @@ p {
   isolation: isolate;
   padding-block: var(--space-24);
 }
-
 
 .contact-grid {
   position: relative;
@@ -1571,9 +1396,6 @@ p {
   margin-bottom: 0;
 }
 
-/* Validace formuláře (script.js, sekce 5): hvězdička u povinných polí, chybová
-   hláška pod polem a souhrnný rámeček nad tlačítkem. Formulář má novalidate,
-   takže prohlížečové bubliny nejsou vidět a chyby ukazuje jen tohle. */
 .form-req {
   color: var(--color-accent-dark);
   font-style: normal;
@@ -1631,41 +1453,12 @@ p {
   }
 }
 
-/* Kontakt (kontakt.html) používá STEJNOU .contact-section komponentu jako
-   homepage, včetně dekorativní fotky na pozadí (.contact-section::before
-   výše, Obrazky/Kontakt/kontakt-pozadi.jpg) – na uživatelčino přání 2026-09-10 má
-   sekce "Nezávazná poptávka" vypadat stejně jako na homepage. (Dřív měla
-   tahle stránka vlastní modifikátor .contact-section--plain, který tuhle
-   fotku vypínal – hero sekce tehdy používala TUTÉŽ fotku, takže by se
-   opakovala dvakrát. Hero teď používá jinou fotku, karta-kontakt.jpg,
-   takže důvod pro vypnutí zmizel a modifikátor byl odstraněný i z HTML.) */
-
-/* Kontakt — 3 karty (Kontaktní údaje / Sídlo+Sledujte nás / Fakturační
-   údaje): stejná .feature-item skleněná karta jako všude jinde na webu,
-   3 stejně velké sloupce (mobil 1, tablet 2, desktop 3) – stejný vzor jako
-   u ostatních trojkových výjimek .feature-grid na webu. Karta "Kontaktní
-   údaje" je díky 4 kontaktním metodám (telefon + 3 e-maily) přirozeně
-   vyšší než zbylé dvě karty – to je v pořádku (na uživatelčino přání
-   2026-09-10 zkoušena i varianta s širší kartou přes celou řádku, ale
-   nelíbila se, vráceno k jednoduchým stejným kartám). Zalomení dlouhých
-   e-mailů řeší štítek NAD odkazem (.contact-methods-grid níže), ne šířka
-   karty. */
 .contact-info-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-6);
 }
 
-/* Vlastní ikony (Obrazky/Ikony/kontaktni-udaje.png, sidlo.png, fakturacni-
-   udaje.png, doplněné 2026-09-09, zpracované stejným vzorcem jako všechny
-   ostatní ikony na webu – canvas_side = round(max(content_h/0.85,
-   content_w))) jsou barevné navy/oranžové, ne bílý symbol – stejný důvod
-   jako u .offer-grid .feature-item-icon: bez kolečka, jinak by se bily
-   s vlastní oranžovou. Podsvícení (bílý glow + tmavý stín) na přání
-   uživatelky doplněno, stejné jako u .service-card-icon img na homepage
-   (na rozdíl od .offer-grid/.step-number, kde podobný filtr dřív dělal
-   viditelný šedý "flek" – viz komentář u .step-number – zkontrolováno
-   vizuálně, že se tu stejný problém neopakuje). */
 .contact-info-grid .feature-item-icon {
   width: 2.625rem;
   height: 2.625rem;
@@ -1717,13 +1510,6 @@ p {
   .contact-info-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* Malý štítek "Sledujte nás" uvnitř karty "Sídlo" – druhý blok obsahu ve
-   stejné kartě (adresa nahoře, sociální sítě dole), potřebuje jen jemné
-   odlišení od adresy, ne plnohodnotný nadpis jako .feature-item h3.
-   Specificita MUSÍ být vyšší než ".contact-info-grid p" výše (jinak by
-   tahle barva prohrála a text by zdědil obecnou šedou barvu odstavců –
-   to byl přesně nahlášený bug "Sledujte nás má jinou barvu než ostatní
-   nadpisy"). */
 .contact-info-grid p.contact-card-subhead {
   font-size: 1.2rem;
   font-weight: 700;
@@ -1731,18 +1517,6 @@ p {
   margin: var(--space-4) 0 var(--space-2) 0;
 }
 
-/* Kontaktní metody (telefon + 3 e-maily) v kartě "Kontaktní údaje" – každá
-   metoda má vlastní malý oranžový štítek NAD odkazem (Poptávky/Servis/
-   Fakturace), natrvalo (ne jen jako fallback při nedostatku místa). Dřívější
-   pokus mít štítek INLINE před e-mailem (2026-09-10) se na menším monitoru
-   znovu zalamoval – 3sloupcová mřížka dělá kartu užší při každé šířce mezi
-   1024–~1440px, takže "administrace@raskaengineering.cz" (a na užších
-   monitorech i další e-maily) se štítkem na stejném řádku nikdy spolehlivě
-   nevejdou; žádná rozumná velikost písma to nevyřeší pro všechny šířky.
-   Nadřazený řádek/sloupec proto NENÍ podmíněný flex-wrapem – je to natrvalo
-   sloupcové uspořádání, stejné na jakémkoliv monitoru. Telefon (bez
-   štítku, viz HTML) je zvýrazněný oranžově místo tmavě modře, ať je na
-   první pohled odlišený od 3 e-mailů pod ním. */
 .contact-methods-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1779,10 +1553,6 @@ p {
   width: fit-content;
 }
 
-/* Sledujte nás — stejný princip jako .footer-social (kolečko, hover přejde
-   na oranžový gradient), jen invertované barvy: tahle karta je na SVĚTLÉM
-   skle (na rozdíl od tmavé patičky), takže výchozí kolečko je světle modré
-   se tmavě modrou ikonou místo bílé na průhledné tmavé. */
 .social-links {
   display: flex;
   gap: var(--space-3);
@@ -1808,10 +1578,6 @@ p {
 }
 
 .social-links svg { width: 1.25rem; height: 1.25rem; }
-
-/* LinkedIn ikona v této kartě používá vlastní symbol #icon-linkedin-cutout:
-   tmavě modrý čtverec s PRŮHLEDNÝM "in" (evenodd výřez, prosvítá kolečko –
-   světle modré, při hoveru oranžový gradient), stejně jako ostatní ikony. */
 
 /* --------------------------------------------------------------------------
    12. Patička
@@ -1863,10 +1629,6 @@ p {
   transform: translateY(-2px);
 }
 
-/* LinkedIn ikona (karta na Kontaktu i patička) je symbol #icon-linkedin-cutout:
-   čtverec s PRŮHLEDNÝM "in", takže "in" má vždy barvu kolečka pod ikonou
-   (v patičce tmavá průhledná, po najetí myší oranžový gradient). */
-
 .footer-social svg { width: 1.15rem; height: 1.15rem; }
 
 .footer-col h3 {
@@ -1882,11 +1644,6 @@ p {
 }
 
 @media (max-width: 1023px) {
-  /* Navigace v patičce ve 2 sloupcích po 3 – vlevo služby, vpravo
-     Domů/O nás/Kontakt. Pořadí v HTML zůstává beze změny (Domů, Elektro
-     služby, Fotovoltaika, Průmyslová řešení, O nás, Kontakt), přeskládání
-     řeší jen explicitní grid-column/row podle pořadí položek. Od 1024px
-     se vrací původní jednosloupcové zarovnání na výšku (viz níže). */
   .footer-nav-col ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1987,11 +1744,6 @@ p {
 }
 
 /* --------------------------------------------------------------------------
-   13. (uvolněno – cookie lišta odstraněna 2026-09-17, viz stav.md: web
-   nesetuje žádné cookies vyžadující souhlas, font Outfit je teď lokální)
-   -------------------------------------------------------------------------- */
-
-/* --------------------------------------------------------------------------
    14. Utility
    -------------------------------------------------------------------------- */
 .sr-only {
@@ -2024,18 +1776,7 @@ p {
 /* --------------------------------------------------------------------------
    15. Standardní vertikální padding obsahových sekcí na mobilu
    -------------------------------------------------------------------------- */
-/* Na desktopu má každá sekce svůj vlastní (často větší) padding-block/top/
-   bottom nastavený výše. Na mobilu to ale zbytečně dělá sekce (O nás, CTA
-   pás před kontaktem, kontaktní formulář...) vysoké a řídké. Jednotný,
-   menší, ale dostatečný padding (--section-padding-mobile, 3rem/48px) proto
-   sjednocuje vzhled napříč celou stránkou. Tento blok je záměrně úplně na
-   konci souboru, aby (při stejné specificitě jednoho selektoru) vždy přebil
-   dřívější nepodmíněná pravidla pro tytéž sekce – viz i poznámka o pořadí
-   pravidel v sekci 6 (Hero). */
 @media (max-width: 767px) {
-  /* Jen padding-top u .section – .showcase-section si dole záměrně
-     nastavuje padding-bottom:0 (galerie navazuje na CTA pás bez mezery)
-     a nechceme jí to přepsat. */
   .section {
     padding-top: var(--section-padding-mobile);
   }
@@ -2050,15 +1791,6 @@ p {
 /* --------------------------------------------------------------------------
    16. Standardní vertikální padding obsahových sekcí na tabletu
    -------------------------------------------------------------------------- */
-/* Na desktopu má každá sekce svůj vlastní padding-block/top/bottom laděný
-   zvlášť (48px u .band, 64px u .about-section/.showcase-section, 96–112px
-   u .contact-section/.showcase-cta-band) — na tabletu (768–1023px; hero se
-   podle zadání neřeší, viz sekce 6) ale takhle rozházené hodnoty vedle sebe
-   při scrollování působí nesladěně. Sjednoceno na var(--space-16) (64px) —
-   stejná hodnota, jakou už přirozeně mají .section/.about-section, jen
-   přebité u tří sekcí, které se od ní na tabletu odchylovaly. Blok je
-   záměrně na konci souboru (stejně jako mobilní ekvivalent v sekci 15), aby
-   při stejné specificitě vždy přebil dřívější nepodmíněná pravidla. */
 @media (min-width: 768px) and (max-width: 1023px) {
   .band {
     padding-top: var(--space-16);
@@ -2077,52 +1809,22 @@ p {
    17. Podstránky — hero, nabídka služeb, elektrorevize, FAQ, CTA pás
    -------------------------------------------------------------------------- */
 
-/* Hero podstránky: text vlevo na tmavém gradientu, fotka vpravo se šikmým
-   řezem (stejný princip jako .about-media, jen zrcadlově — fotka vpravo,
-   proto se seřezává levá hrana) — sdílí vizuální jazyk s O nás místo aby
-   kopíroval jedinečný full-bleed hero homepage. Homepage hero má zůstat
-   největší a nejnápadnější prvek webu — hero podstránek je proto záměrně
-   menší a klidnější: žádné vh-based min-height (výška plyne jen z obsahu),
-   textu je vždy víc místa než fotce (58/42), protože nadpis a text
-   podstránek bývají delší než krátký claim na homepage. */
 .page-hero {
   position: relative;
-  /* Stejný vzorec jako .hero/.site-footer, ale se stlačenými zlomy (dřív
-     0/55/100 %) – na nízké ploché sekci podstránky (na rozdíl od hero na
-     homepage přes celou výšku okna) padal světlejší konec (55–100 %)
-     geometricky mimo viditelnou oblast (na desktopu pod fotku, jinde pod
-     spodní okraj), takže gradient vždy vypadal jako plná tmavá barva. */
   background: linear-gradient(160deg, var(--color-primary-dark) 0%, var(--color-primary-dark) 15%, var(--color-primary) 55%);
   isolation: isolate;
   overflow: hidden;
-  /* Sekce leží hned pod fixní hlavičkou — offset patří sem jednou, ne
-     zvlášť na mobilu/tabletu/desktopu (viz poučení v sekci 6, Hero). */
   padding-top: var(--header-height);
-  /* Rezerva dole, do které přesahují karty "Co nabízíme" (.offer-overlap,
-     stejná technika jako .hero-inner padding-bottom + .services-overlap na
-     homepage) – bez ní by přesahující karty ležely na bílém pozadí další
-     sekce, ne na modrém gradientu hero. */
   padding-bottom: var(--space-16);
 }
 
 @media (max-width: 1023px) {
-  /* Do 1024px nese tuhle rezervu už sama fotka (viz .page-hero-media
-     padding-bottom výše, který k poměru 4:3 přičítá přesně tuhle
-     hodnotu) – kdyby zůstala i tady, sečetla by se s tou ve fotce a karty
-     by byly zarovnané na spodek PRÁZDNÉ rezervy za už vyšší fotkou,
-     místo aby přesahovaly do samotné fotky. */
   .page-hero {
     padding-bottom: 0;
   }
 }
 
 .page-hero-split {
-  /* BEZ position:relative – .page-hero-media na desktopu (1024px+) je
-     position:absolute a potřebuje mít za containing block přímo .page-hero
-     (kvůli jeho padding-bottom rezervě, do které má fotka sahat), ne tenhle
-     mezičlánek. Kdyby tu position:relative zůstalo, staly by se z něj
-     nejbližší pozicovaný předek a fotka by končila na konci textového
-     sloupce (bez rezervy) – přesně to způsobovalo přetrvávající modrý pruh. */
   display: flex;
   flex-direction: column;
 }
@@ -2138,28 +1840,16 @@ p {
 
 .page-hero-content h1 {
   color: var(--color-white);
-  /* Bez vlastní velikosti by nadpis spadl na obecnou --fs-h1 škálu (až
-     3.75rem/60px na desktopu) a byl by VĚTŠÍ než homepage hero (max 3rem/
-     48px) – přesný opak žádoucího stavu. Homepage musí zůstat vizuálně
-     nejmarkantnější, hero podstránek je proto vždy o něco menší napříč
-     všemi šířkami (cca 75–83 % homepage hodnoty). */
   font-size: clamp(1.75rem, 1.5rem + 1.6vw, 2.5rem);
   margin-bottom: var(--space-6);
 }
 
 .page-hero-content .lead {
   color: rgba(255, 255, 255, 0.86);
-  /* Na přání uživatelky (2026-09-17) stejná velikost jako u odstavce v
-     sekci .page-cta – zděděná základní .lead škála (--fs-lead), žádný
-     vlastní override. */
   margin-bottom: 0;
 }
 
 @media (max-width: 767px) {
-  /* Bez tohohle by tlačítka zdědila mobilní override .hero-content
-     .hero-actions (16px, laděný pro homepage) – tady chceme stejnou mezeru
-     jako pod nadpisem (h1 margin-bottom: var(--space-6)), ne menší. Na
-     tabletu/desktopu zůstává hero-actions na sdílených 48px beze změny. */
   .page-hero-content .hero-actions {
     margin-top: var(--space-6);
   }
@@ -2168,34 +1858,10 @@ p {
 .page-hero-media {
   position: relative;
   width: 100%;
-  /* Fotka rozvaděče beze změny/ořezu (celá, přesně jak ji dodala
-     uživatelka) – poměr ~0,82 (na výšku). Box na desktopu má fixní výšku
-     ~640px danou textovým sloupcem, ale proměnlivou šířku (42 % viewportu),
-     takže viditelný podíl fotky se breakpoint od breakpointu dost liší –
-     jedno object-position tedy nesedí úplně stejně na všech šířkách, ale
-     to je akceptovaný kompromis výměnou za nezořezanou fotku. */
-  /* Klasický intrinsic-ratio box (padding-bottom v % šířky) místo čistého
-     aspect-ratio – umožňuje k poměru 4:3 (=75 %) přičíst ještě FIXNÍCH
-     --space-16 navíc, ať fotka sahá až do spodní rezervy .page-hero, do
-     které přesahují karty "Co nabízíme" (.offer-overlap, margin-top:
-     -4rem). Bez týhle přidané výšky ležel horní okraj karet na holém
-     modrém pozadí (rezerva byla prázdná, ne fotka) místo na fotce –
-     translucentní sklo karty se namíchalo s tmavě modrou místo s fotkou a
-     vytvořilo nevzhledný namodralý pruh. Jen do 1024px – od 1024px řeší
-     stejnou věc .page-hero-media { position:absolute; bottom:0 } níže.
-     Bez explicitního height (necháno na auto) – box-sizing je border-box,
-     takže by height:0 padding do celkové výšky nezapočítal a box by
-     zůstal 0px vysoký; s height:auto ho auto-výška spočítá správně jako
-     součet paddingu (žádný jiný obsah box nevyplňuje, img je absolutní). */
   padding-bottom: calc(75% + var(--space-16));
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Na tabletu vychází ze stejného poměru (75 % šířky) fotka v absolutních
-     px vyšší než homepage (768–1023px tam roste jen 512–682px, tady
-     640–831px) – opačně, než by u podstránky mělo být. Nižší procento
-     dělá fotku o kus nižší, přesah karet (--space-16 fixní přídavek)
-     zůstává stejný. */
   .page-hero-media {
     padding-bottom: calc(50% + var(--space-16));
   }
@@ -2204,10 +1870,6 @@ p {
 .page-hero-media picture { display: contents; }
 
 .page-hero-media img {
-  /* Absolutní pozicování místo width/height:100% – v (column) flex
-     kontejneru width/height:100% na img způsobovalo, že rodičovský
-     aspect-ratio se vůbec neuplatnil a box se řídil nativním poměrem
-     zdrojové fotky (aspect-ratio bylo v praxi bez efektu). */
   position: absolute;
   inset: 0;
   width: 100%;
@@ -2217,26 +1879,6 @@ p {
   display: block;
 }
 
-/* O nás – hero fotka dodávky (2026-09-15). Karta-o-nas.jpg je zvenku
-   zarámovaná tak, že auto je nalevo a dům/plot napravo (uživatelka chtěla
-   auto celé a větší, dům nemusí být celý – posléze doladěno, ať dům/plot
-   nebyl úplně pryč, viz komentář u <img> v o-nas.html pro celou historii
-   ořezu vč. zdrojové fotky IMG_0909.jpeg). Se sdíleným
-   object-position:center 25% by .page-hero-media img na desktopu ořezávalo
-   ROVNOMĚRNĚ z obou stran a uřezalo by kus auta vlevo i domu vpravo
-   zároveň. Modifikátor jen pro tuhle stránku (base pravidlo pro ostatní
-   podstránky beze změny) posouvá ořez na levou hranu – auto (levá část
-   fotky) tak zůstává celé (nebo s minimální ztrátou vzadu na nejužší
-   1024px) na všech šířkách, ořezává se především napravo (dům/plot).
-   Box .page-hero-media na desktopu NENÍ jeden pevný poměr stran – kvůli
-   layoutu (levý textový sloupec fixní %, box vpravo doplňuje zbytek,
-   výška section je ale daná hlavně výškou TEXTU, ne šířkou) vychází box
-   od cca 0,70:1 (1024px, portrétový) do 1,37:1 (1920px, na šířku) – ověřeno
-   Playwright getBoundingClientRect na 1024/1100/1280/1440/1920px. Zdrojová
-   fotka (1760×1160, poměr 1,52:1) je proto na 1024px ořezaná víc než na
-   1920px – akceptovaný kompromis, stejný princip jako komentář u fotky
-   rozvaděče výš ("jedno object-position nesedí úplně stejně na všech
-   šířkách"). */
 .page-hero-media--van img {
   object-position: left 25%;
 }
@@ -2260,37 +1902,16 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Ještě větší souměrný padding nad nadpisem/pod tlačítky (dřív
-       space-16/64px) – vyšší textový sloupec = vyšší .page-hero-split =
-       vyšší .page-hero, takže karty "Co nabízíme" (přesah -4rem od spodku
-       .page-hero) sklouznou o kus níž. Pravý padding (dřív 0) přidán, ať
-       text nedoléhá až na hranu fotky vpravo (na přání uživatelky). */
     padding: var(--space-24) var(--space-12) var(--space-24) var(--tunnel-inset);
   }
 
   .page-hero-media {
-    /* Absolutně přes CELOU výšku .page-hero (včetně spodní rezervy
-       padding-bottom, do které přesahují karty "Co nabízíme") – stejná
-       technika jako .hero-media na homepage. Dřív byla fotka jen flex
-       položka v řádku vedle textu (výška = výška textového sloupce), takže
-       pod ní zbývala v rezervě viditelná modrá plocha místo fotky, i když
-       karty samy měly nulovou mezeru – při sebemenší odchylce výšky textu
-       (jiný font/prohlížeč) se mezera znovu objevila. Absolutní pozicování
-       na spodní hranu sekce (bottom:0) tohle riziko úplně odstraňuje –
-       fotka VŽDY sahá až tam, kam sahá karta, bez ohledu na výšku textu. */
     position: absolute;
     top: 0;
     left: 58%;
     right: 0;
     bottom: 0;
-    /* width:100% ze základního (mobilního) pravidla by jinak mělo přednost
-       před dopočtem šířky z left+right a box by byl široký přes celou
-       obrazovku (ověřeno getBoundingClientRect – bez tohohle byl box
-       1920px místo očekávaných ~806px). */
     width: auto;
-    /* Reset mobilního/tabletového triku (padding-bottom v % šířky, viz
-       základní pravidlo výše) – tady je box absolutně pozicovaný přes
-       top+bottom, takže by ten padding jen zbytečně přidával místo navíc. */
     padding-bottom: 0;
     aspect-ratio: auto;
     clip-path: polygon(4.5rem 0, 100% 0, 100% 100%, 0 100%);
@@ -2301,11 +1922,6 @@ p {
   }
 }
 
-/* Děkovací stránka po odeslání formuláře (/dekujeme, /en/thank-you) – jediná
-   .page-hero-split BEZ .page-hero-media (na rozdíl od ostatních podstránek
-   tu není žádná relevantní fotka). Bez tohohle modifikátoru by textový
-   sloupec zůstal na fixních 58 % šířky z pravidla výš (počítá s fotkou v
-   pravé polovině) a napravo by na desktopu zela prázdná tmavá plocha. */
 .page-hero-content--wide {
   text-align: center;
 }
@@ -2322,25 +1938,13 @@ p {
   }
 }
 
-/* Karty "Co nabízíme" přesahují přes spodní hranu hero sekce – stejná
-   technika jako .services-overlap na homepage (záporný margin-top vytáhne
-   sekci nahoru do rezervy v .page-hero padding-bottom). Menší hodnoty než
-   na homepage (-8.6/-9.6/-10.6rem) – hero podstránky je menší, přesah
-   úměrně skromnější. */
 .offer-overlap {
   position: relative;
   z-index: 2;
-  /* -4rem = přesně .page-hero padding-bottom (var(--space-16)) – karty tak
-     začínají přesně na spodní hraně fotky/tlačítek (bez mezery = modrého
-     pruhu pod fotkou, ale i bez zásahu DO fotky, viz předchozí dvě kola,
-     kde -2rem nechávalo mezeru a -7rem řezalo do fotky). Přeměřeno
-     getBoundingClientRect na 1920/1024/768/390px. */
   margin-top: -4rem;
   padding-bottom: var(--space-16);
 }
 
-/* Nabídka služeb — mřížka skleněných karet (stejná komponenta jako
-   .feature-item v O nás), jen s vlastním počtem sloupců pro 6 položek. */
 .offer-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -2355,20 +1959,6 @@ p {
   .offer-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* "Co nabízíme" používá kartu 1:1 podle homepage (stejná .feature-item
-   receptura jako v O nás – bílé sklo), ale ikony NE ve stylu bílého
-   symbolu na oranžovém kolečku (feature-item-icon default) – nahrané
-   ikony jsou barevné (navy/oranžová), stejně jako u velkých karet služeb
-   (.service-card-icon), takže by se v kolečku bily s vlastní oranžovou.
-   Místo toho ikona bez kolečka, zmenšená – karty "Co nabízíme" jsou dost
-   menší než karty služeb na homepage. Podsvícení (bílý glow + tmavý stín)
-   PŮVODNĚ dělalo na téhle menší 48px ikoně viditelný šedavý "flek"
-   (hlášeno na mobilu jako "ikony mají jakoby pozadí a je ořezané") –
-   příčina byl PŘÍLIŠ VELKÝ poloměr rozostření (4/10/18/2px) vzhledem
-   k velikosti ikony, ne glow samotný. Na uživatelčino přání 2026-09-10
-   vrácen zpět v mnohem menší, ikoně úměrné síle (stejné hodnoty jako
-   .contact-info-grid .feature-item-icon img, viz komentář tam) – ověřeno
-   přiblíženým screenshotem i na mobilu, že se flek neopakuje. */
 .offer-grid .feature-item-icon {
   width: 3rem;
   height: 3rem;
@@ -2388,25 +1978,11 @@ p {
     drop-shadow(0 1px 1.5px rgba(15, 34, 61, 0.18));
 }
 
-/* "Stěhování výrobních strojů" – ikona je široká/plochá (stroj + šipky po
-   stranách), takže při vynucení do stejného čtvercového 3rem plátna jako
-   ostatní ikony vycházela nižší (viz komentář u karty v HTML). Místo
-   deformace obsahu (zmenšování šipky) necháváme ikonu širší než ostatní,
-   ale o něco menší celkově (na přání uživatelky – "o kousíček ji zmenši"),
-   poměr stran zpracovaného PNG zachovaný (Obrazky/Ikony/icon-stehovani-
-   stroju.png, 986×527px). */
 .offer-grid .feature-item-icon--wide {
   width: 4.97rem;
   height: 2.65rem;
 }
 
-/* "5,0★ hodnocení klientů" (O nás, Fakta o firmě) – ikona o kousek
-   zvětšená oproti standardním 3rem (na přání uživatelky 2026-09-12),
-   poměr stran zachovaný (čtverec). Zvětšení přidává výšku jen dolů (box
-   je nahoře zarovnaný stejně jako ostatní), takže bez korekce vizuálně
-   "klesá" níž a nadpis pod ním sedí níž než u sousedních karet – posunuto
-   zpět nahoru záporným margin-top a odečteno z margin-bottom, ať boxík
-   zůstane vystředěný na stejné ose jako ty menší a nadpisy dál lícují. */
 .offer-grid .feature-item-icon--lg {
   width: 3.5rem;
   height: 3.5rem;
@@ -2414,45 +1990,13 @@ p {
   margin-bottom: 0.5rem;
 }
 
-/* "7+ let na trhu" – po --lg (3.5rem) uživatelka chtěla ještě větší, "podle
-   ostatních ikon" (2026-09-15). Stejný princip zarovnání jako u --lg výš,
-   jen s větším přírůstkem (3rem → 4.25rem výšky, delta 1.25rem): margin-top
-   -delta/2, margin-bottom = základních 0.75rem (--space-3, viz
-   .feature-item-icon) minus delta/2, ať nadpis pod ikonou zůstane na
-   stejné ose jako u sousedních karet.
-   2026-09-15, doladění: ikona (kalendář+hodiny) má vlastní obsah "na
-   výšku" (847×1097px po ořezu) – dřívější verze PNG dávala tenhle obsah
-   na ČTVERCOVÉ plátno vycentrovaný, což vypadalo v pořádku velikostně,
-   ale nechávalo průhlednou mezeru VLEVO od reálné kresby → ikona
-   působila posunutá doprava a její levý okraj (skutečná kresba, ne
-   okraj PNG) nelícoval s levým okrajem nadpisu/textu pod ní. Icon PNG
-   teď těsný ořez na obsah (bez odsazení, viz komentář u <img> v HTML),
-   takže width místo dalšího čtverce odpovídá reálnému poměru stran
-   obsahu (847:1097 → při výšce 4.25rem šířka 3.28rem), ať kresba
-   vyplňuje box 100 % v obou směrech a její levý okraj sedí přesně na
-   ose ostatního obsahu karty. */
 .offer-grid .feature-item-icon--xl {
-  /* 2026-09-15: 4.25rem bylo na přání uživatelky "zase moc velké" –
-     zmenšeno na 3.75rem (poměr stran 847:1097 zachovaný, width
-     dopočítaná stejně jako výš), margin dopočítán stejnou formulí se
-     zmenšeným delta (0.75rem místo 1.25rem). */
   width: 2.9rem;
   height: 3.75rem;
   margin-top: -0.375rem;
   margin-bottom: 0.375rem;
 }
 
-/* "Hromosvody a ochrana před bleskem" (Elektro služby, Co nabízíme) –
-   ikona (blesk+dům) má obsah "na výšku" (773×1047px), na standardním
-   čtvercovém 3rem plátně vyplňovala jen 63 % šířky (fill_w 0.627 proti
-   0.85-0.95 u sousedních ikon) → i po dodržení stejné formule vypadala
-   tenčí a menší. Uživatelka 2026-09-15 potvrdila "vypadá dost malá" a
-   požádala o zvětšení. Řešení jako u --xl výš: ikona uložena jako těsný
-   ořez na obsah (bez odsazení), CSS box odpovídá reálnému poměru stran
-   obsahu (773:1097 → 2.51rem:3.4rem, o kousek větší než základních 3rem),
-   ať kresba vyplňuje box na 100 % a je viditelně větší. Zarovnání stejnou
-   formulí jako --lg/--xl (margin-top -delta/2, margin-bottom 0.75rem -
-   delta/2, delta = 0.4rem). */
 .offer-grid .feature-item-icon--tall {
   width: 2.51rem;
   height: 3.4rem;
@@ -2460,64 +2004,22 @@ p {
   margin-bottom: 0.55rem;
 }
 
-/* Elektrorevize — bez fotky (dřívější fotka montáže tematicky neseděla
-   k revizím a byla příliš dominantní). Karty "Provádíme revize" používají
-   STEJNOU skleněnou recepturu jako .feature-item/.service-card všude jinde
-   na webu (blur, border, shadow-lg, gradientové kolečko na ikonu) – dřívější
-   pokus o "plochý" bezstínový vzhled i bezfotkový layout vypadaly vedle
-   zbytku webu jako z jiné stránky/nekonzistentně – vráceno k ověřenému
-   vzoru: fotka + text nahoře (stejná komponenta jako O nás na homepage:
-   .about-split/.about-content/.about-media/.about-watermark), karty
-   "Provádíme revize" přesahující přes spodní hranu fotky (.feature-grid,
-   stejné karty/ikony jako O nás). Fotka: technik s multimetrem při měření
-   (Obrazky/Elektro/revize-mereni.jpg) – motiv měření/kontroly sedí k revizím
-   mnohem líp než dřívější fotka montáže rozvaděče. */
 .revize-section {
-  /* Sekce sama je BÍLÁ (bez vlastního background) – modré pozadí zůstává
-     jen na úrovni fotky/textu, to dělá `.about-split` samo o sobě (base
-     pravidlo, background: var(--color-bg-blue)). Karty "Provádíme revize"
-     a "Jak elektrorevize probíhá" pod tím jsou tedy na bílé ploše, modrá se
-     vrací až v sekci "Otázky a odpovědi" (.section--blue) pod tím. */
-  /* padding-top: 0 MUSÍ být explicitní, ne jen vynechané — element má i
-     třídu .about-section, jejíž padding-block:var(--space-16) (64px nahoře
-     i dole) jinak platí dál (jen vynechání padding-top v tomhle pravidle ho
-     nepřebije, cascade ho nechá být) – fotka by pak nesahala až na vrch
-     sekce (viz 16./23. kolo). */
   padding-top: 0;
   padding-bottom: var(--space-16);
-  /* margin-top (ne padding-top!) doplňuje mezeru mezi pásem "Potřebujete
-     elektrikáře rychle?" a touhle sekcí, kterou by na homepage dělal
-     padding-top:var(--space-16) na .about-section – tady ho ale mít
-     nemůžeme (viz padding-top:0 výše, kvůli modrému pruhu). Margin na
-     rozdíl od paddingu nevykresluje pozadí sekce, takže mezera zůstane
-     bílá (stejně jako na homepage mezi .band a .about-section), ne modrá –
-     bez rizika, že se bug s pruhem vrátí. */
   margin-top: var(--space-16);
 }
 
 @media (max-width: 767px) {
-  /* Stejné zmenšení jako --section-padding-mobile u .about-section/
-     .contact-section jinde na webu (sekce 15) – tahle mezera je margin
-     místo padding (viz výše), takže se do stejného sdíleného pravidla
-     netrefí sama, doplněno ručně. */
   .revize-section { margin-top: var(--space-12); }
 }
 
 .revize-section .about-content { padding-block: var(--space-8); }
 
-/* Multimetr a zkoušečka napětí jsou v dolní části zdrojové fotky – vyšší
-   Y posune viditelné okno níž (odkryje víc spodku, míň horní police). */
 .revize-section .about-media img { object-position: center 90%; }
 
 .revize-section .feature-grid { margin-top: -2.5rem; }
 
-/* 5 karet (po přidání "Fotovoltaické systémy" 2026-09-15) – základní
-   .feature-grid počítá se 4 (repeat(4,1fr) od 640px), takže by v posledním
-   řádku zbyla 1 karta osamocená vedle prázdného sloupce (stejný problém
-   jako u .fve-section/.cleaning-section, viz komentáře tam). Vlastní počet
-   sloupců: 2 na tabletu (rows 2+2+1, poslední osamocená karta bez
-   sousedního prázdna vedle je vizuálně v pořádku), 5 od desktopu (všech 5
-   karet v jednom řádku, žádné zalomení). */
 @media (min-width: 640px) and (max-width: 1023px) {
   .revize-section .feature-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -2525,82 +2027,35 @@ p {
 @media (min-width: 1024px) {
   .revize-section .feature-grid { grid-template-columns: repeat(5, 1fr); }
 
-  /* Užší sloupce (5 karet v řádku) způsobují, že se některé nadpisy
-     zalomí na 2 řádky a jiné (kratší) ne – ve stejném řádku pak text pod
-     nimi nezačíná ve stejné výšce a řádek karet vypadá nesourodě. Na
-     tabletu/mobilu se všechny nadpisy vejdou na 1 řádek přirozeně (širší
-     sloupec/plná šířka), takže tam k nesouladu nedochází a min-height by
-     jen přidal zbytečnou mezeru – proto opravu omezujeme jen na tuhle
-     šířku. Bez zásahu do textu (nadpisy se nemají přepisovat) sjednocena
-     výška nadpisu na 2 řádky (min-height = 2 × font-size 1.05rem ×
-     --lh-heading 1.2), ať i jednořádkové nadpisy zaberou stejný prostor
-     a text pod nimi lícuje. */
   .revize-section .feature-item h3 { min-height: 2.52rem; }
 }
 
-/* "Fotovoltaické systémy" – ikona (panel + sluneční paprsky) má i po
-   ořezu na obsah dost "vzdušna" kolem hlavní hmoty (paprsky jsou tenké a
-   trčí do stran), takže i se stejným fill_h/fill_w jako sousední ikony
-   opticky působí menší/řidší. Uživatelka 2026-09-15 potvrdila "malinká v
-   tom kolečku" – zvětšeno jen tady (zbytek ikon v téhle mřížce sedí),
-   základ .feature-item-icon img je 2,3rem. */
 .revize-section .feature-item-icon--lg img {
   width: 3.1rem;
   height: 3.1rem;
 }
 
 @media (max-width: 767px) {
-  /* Fotka (1024×768) má PŘESNĚ stejný poměr stran 4:3 jako výchozí
-     .about-media box na mobilu – object-fit:cover proto nemá žádnou
-     rezervu ke svislému ořezu a object-position:90% (viz výše) neměla na
-     mobilu vůbec žádný efekt. Mírně širší poměr boxu vytvoří rezervu, aby
-     šlo skutečně posunout, co je vidět nahoře/dole. */
   .revize-section .about-media { aspect-ratio: 4 / 2.3; }
   .revize-section .about-media img { object-position: center 100%; }
 
-  /* Na mobilu sladěno s O nás na homepage (var(--space-12)/48px a
-     -3.5rem přesah karet) – zmenšená "kompaktní" hodnota výše (--space-8/
-     32px, -2.5rem, viz 4. kolo úprav podstránky) zůstává jen na desktopu,
-     kde má tahle sekce dost místa navíc. Pravidlo musí být AŽ ZA obecným
-     (viz poučení v sekci Tablet hero) – stejná specificita, jinak by ho
-     pozdější obecné pravidlo v cascade přebilo. */
   .revize-section .about-content { padding-block: var(--space-12); }
   .revize-section .feature-grid { margin-top: -3.5rem; }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Sdílené tabletové pravidlo (.about-media { height: 28rem }, laděné pro
-     homepage O nás) dělalo na šířku téhle sekce (celá obrazovka, ne jen
-     container) fotku nepřirozeně nízkou a širokou – skoro jako útlý pruh
-     místo fotky. Vyšší hodnota jen pro tuhle sekci. */
   .revize-section .about-media { height: 30rem; }
   .revize-section .about-watermark { bottom: calc(30rem + var(--space-2)); }
   .revize-section .about-media img { object-position: center 100%; }
 
-  /* Svislý rytmus (padding textu + přesah karet) sladěn s homepage O nás
-     na tabletu (var(--space-16)/64px, -3.5rem) – kompaktní "úsporná"
-     hodnota (--space-8, -2.5rem) zůstává jen na desktopu, kde má sekce
-     dost místa navíc. Pravidlo AŽ ZA base .revize-section .about-content/
-     .feature-grid výše (stejná specificita, jinak by ho přebily). */
   .revize-section .about-content { padding-block: var(--space-16); }
   .revize-section .feature-grid { margin-top: -3.5rem; }
 }
 
 @media (min-width: 1024px) {
-  /* 26rem dělalo fotku na užších desktopech (1024–1200px) nepřirozeně
-     nízkou a širokou ("pruh") – 34rem dává poměr blízký homepage O nás
-     (36rem), jen mírně kompaktnější. */
   .revize-section .about-split { min-height: 34rem; }
 }
 
-/* ============================= FOTOVOLTAIKA – "FOTOVOLTAIKA NA KLÍČ" =============================
-   Stejná komponenta jako .revize-section u Elektro služeb, jen vlastní
-   třída (jiná podstránka, jiná fotka). Fotka karta-fotovoltaika.jpg má
-   shodný poměr stran 4:3 jako revize-mereni.jpg, takže výchozí hodnoty
-   (výšky, object-position) přebrané 1:1 jako rozumný start – motiv je ale
-   jiný (letecký pohled na střechu, ne polička s přístroji), takže přesný
-   ořez bude po prvním náhledu čekat na doladění, stejně jako to trvalo
-   u Elektrorevize (viz kola úprav podstránky elektro-sluzby výše). */
 .fve-section {
   padding-top: 0;
   padding-bottom: var(--space-16);
@@ -2613,21 +2068,10 @@ p {
 
 .fve-section .about-content { padding-block: var(--space-8); }
 
-/* Zdrojová fotka (karta-fotovoltaika.jpg) je teď už oříznutá při zpracování
-   tak, aby zmizel levý okraj střechy i palec fotografa v rohu záběru (dřív
-   object-position nešlo použít, protože poměr stran fotky skoro přesně
-   odpovídal poměru stran boxu, takže cover neměl co ořezávat). Svisle mírně
-   nahoru (35 %), aby byly vidět hlavně panely, ne beton střechy dole. */
 .fve-section .about-media img { object-position: center 45%; }
 
 .fve-section .feature-grid { margin-top: -2.5rem; }
 
-/* Základní .feature-grid počítá se 4 kartami (grid-template-columns:
-   repeat(4,1fr) od 640px) – u techologií jsou jen 3 (SolaX/NORD/GoodWe),
-   takže by v řádku zbyl jeden prázdný sloupec a karty by nedosáhly na
-   pravý okraj containeru (přesně tenhle efekt bylo vidět předtím). Vlastní
-   počet sloupců pro tuhle sekci, stejné zlomy jako .offer-grid (2 sloupce
-   na tabletu, 3 od desktopu). */
 @media (min-width: 640px) and (max-width: 1023px) {
   .fve-section .feature-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -2657,12 +2101,6 @@ p {
   .fve-section .about-split { min-height: 34rem; }
 }
 
-/* ============================= PRŮMYSLOVÁ ŘEŠENÍ – "ČIŠTĚNÍ VODNÍCH A CHLADICÍCH OKRUHŮ" =============================
-   Stejný .feature-grid problém jako u .fve-section výše – jen 3 karty
-   (zařízení, u kterých se čištění provádí), základní .feature-grid počítá
-   se 4 (repeat(4,1fr) od 640px), takže by zbyl prázdný sloupec a karty by
-   nedosáhly na pravý okraj containeru. Stejné zlomy jako u .fve-section
-   (2 sloupce na tabletu, 3 od desktopu). */
 @media (min-width: 640px) and (max-width: 1023px) {
   .cleaning-section .feature-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -2670,28 +2108,6 @@ p {
 @media (min-width: 1024px) {
   .cleaning-section .feature-grid { grid-template-columns: repeat(3, 1fr); }
 }
-
-/* ============================= PRŮMYSLOVÁ ŘEŠENÍ – "VÝROBA A OPRAVA TOPNÝCH TĚLES" =============================
-   Stejná komponenta jako .cleaning-section výš (.about-section/.about-split,
-   fotka+text + .feature-grid karty přesahující přes spodní hranu fotky).
-   Karty mají stejnou ikonu (icon-topna-telesa-bila.png) na všech 6 kartách
-   – žádné vlastní ikony pro jednotlivé typy těles nebyly dodané, tak se
-   opakuje ikona z úvodní karty "Výroba a opravy topných těles" (offer-grid
-   výš na téže stránce), jen předělaná na bílou do oranžového kolečka jako
-   ostatní feature-grid ikony (viz komentář u icon-topna-telesa-bila.png
-   v `stav.md`). 6 karet (sudé číslo) – na rozdíl od cleaning-section (3) tu
-   base .feature-grid 4 sloupce nesedí ani náhodou, vlastní počet: 2 na
-   tabletu (2×3 řádky).
-   Na desktopu PŮVODNĚ 6 sloupců v jednom řádku (na přání uživatelky
-   2026-09-16), ale po doplnění ikon uživatelka usoudila, že užší 1/6 karty
-   mají "málo obsahu" – změněno na 4+2 (2026-09-16, druhá žádost): žádný
-   vlastní `grid-template-columns` přepis, jen zdědí základní `.feature-grid`
-   4 sloupce (viz pravidlo výš na řádku ~1140), takže 6 karet přirozeně
-   zalomí do 4+2. Spodní 2 karty vycentrované doprostřed (`grid-column`
-   na 2.–3. sloupec ze 4) přes `nth-child(5)`/`nth-child(6)` – proto je i
-   pořadí karet v HTML upravené tak, aby na pozici 5–6 byly ty s
-   NEJKRATŠÍM názvem ("Topné patrony" a "Čidla"), ať krátký text
-   nepůsobí v osamocené vycentrované dvojici zbytečně prázdně. */
 
 @media (min-width: 640px) and (max-width: 1023px) {
   .topeni-section .feature-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2702,13 +2118,6 @@ p {
   .topeni-section .feature-item:nth-child(6) { grid-column: 3 / 4; }
 }
 
-/* Pod kartami zůstal jen 40px bílého prostoru do konce sekce (bez vlastní
-   dolní mezery pod .container), zatímco třeba pod FAQ (.section--blue) je
-   to plných 64px (= --space-16, base .section padding-block) – rozdíl
-   24px. Uživatelka nejdřív chtěla mezeru zaplnit galerií fotek (zkusili
-   jsme kruhové náhledy, ale nakonec se jí to nelíbilo a galerii jsme
-   odstranili), takže místo obsahu jen dorovnaná mezera na stejnou
-   velikost jako pod FAQ (2026-09-16). */
 .topeni-section .container { padding-bottom: var(--space-6); }
 
 .revize-subhead {
@@ -2717,10 +2126,6 @@ p {
   margin-bottom: var(--space-8);
 }
 
-/* Jak elektrorevize probíhá — číslované kroky s vlastními ikonami čísel,
-   propojené šipkou/chevronem mezi jednotlivými kroky (vodorovně v řádku od
-   tabletu, svisle mezi kroky pod sebou na mobilu) – čitelný postup
-   "1 → 2 → 3" místo pouhých čísel vedle sebe. */
 .steps {
   display: grid;
   grid-template-columns: 1fr;
@@ -2733,11 +2138,6 @@ p {
 .step-item { position: relative; }
 
 .step-number {
-  /* Číslice mají různý přirozený poměr stran (úzká "1" vs. širší "2"/"3") –
-     pevná čtvercová plocha s object-fit:contain je proto zprostředkovaně
-     centrovala různě daleko od levého okraje a nesedělo to s textem pod
-     nimi. Místo toho pevná výška a šířka podle obsahu (bez centrování),
-     zarovnané zleva stejně jako nadpis a text kroku. */
   display: flex;
   align-items: flex-end;
   height: 3.25rem;
@@ -2748,13 +2148,6 @@ p {
   height: 100%;
   width: auto;
   display: block;
-  /* BEZ glow filtru — na rozdíl od karet "Co nabízíme" (.offer-grid
-     .feature-item-icon), které leží na tmavé fotce v přesahu heroa, čísla
-     kroků jsou vždy v bílé .revize-section. Původně sdílený vícevrstvý
-     drop-shadow (bílá glow + tmavý stín rgba(15,34,61,0.18)) tam na bílém
-     pozadí bílou složku ztratil úplně a zbyl viditelný šedavý "flek" kolem
-     číslice, hlášeno jako "ikony mají jakoby pozadí a je ořezané" na
-     mobilu. Na bílém pozadí žádný filtr netřeba. */
 }
 
 .step-item h4 { color: var(--color-primary-dark); margin-bottom: var(--space-3); }
@@ -2764,19 +2157,9 @@ p {
 @media (min-width: 768px) {
   .steps { grid-template-columns: repeat(3, 1fr); gap: var(--space-12) var(--space-6); }
 
-  /* Vnitřní padding u každého kroku, aby sloupce vedle sebe nepůsobily
-     nalepené – ke gapu mezi sloupci (space-6) přidává další odstup od
-     souseda vpravo (poslednímu sloupci nevadí, jen zbyde neviditelná
-     rezerva). */
   .step-item { padding-right: var(--space-6); }
 }
 
-/* Technologie (SolaX/NORD/GoodWe) teď žijí jako karty přímo ve
-   .fve-section .feature-grid – STEJNÝ vzhled jako "Provádíme revize" u
-   Elektro služeb / feature-grid u O nás (výchozí .feature-item-icon
-   kolečko, oranžový gradient). Jediná vlastní věc navíc je tahle kurzíva
-   pro podtitul značky mezi h3 a dlouhým popisem – základní ".feature-item p"
-   pravidlo (margin:0) by jinak slepilo podtitul a popis bez odstupu. */
 .feature-grid .tech-tagline {
   color: var(--color-accent);
   font-style: italic;
@@ -2785,10 +2168,6 @@ p {
 
 .fve-section .feature-grid h3 { font-size: 1.25rem; }
 
-/* ============================= CERTIFIKACE A ODBORNÁ ZPŮSOBILOST =============================
-   Náhledy skutečných certifikátů (Obrazky/Certifikaty) – klikací, otevírají
-   plnou velikost v nové záložce (ne přes sdílený lightbox galerie realizací
-   níž, aby se šipkami "další/předchozí" nemísily dokumenty s fotkami). */
 .cert-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -2821,33 +2200,13 @@ p {
 
 .cert-card p { font-size: var(--fs-base); color: var(--color-muted); margin: 0; }
 
-/* Otázky a odpovědi — accordion na <details>/<summary>, šipka rotuje při
-   otevření; od 1024px ve dvou sloupcích (mobil a tablet pod sebou). Sloupce jsou od
-   1024px dva NEZÁVISLÉ flex kontejnery (.faq-col), ne jeden grid o 2
-   sloupcích/2 řádcích – ve sdíleném gridu roztažení jedné karty zvětšilo
-   výšku celého řádku a posunulo dolů i kartu ve vedlejším sloupci ve
-   stejném řádku (byť samotná neroztažená karta zůstávala nahoře díky
-   align-items:start, prostor pod ní v řádku ji odsouval). Samostatné
-   sloupce = otevření karty ovlivní jen její vlastní sloupec. */
 .faq-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
-  /* Karty mají měkký box-shadow, který dobarvuje pozadí pod sebou ještě
-     desítky px za svou hranou – bez tohohle marginu opticky "ukusuje" ze
-     spodního paddingu sekce a dělá dojem menší mezery než nahoře. */
   margin-bottom: var(--space-6);
 }
 
-/* Na mobilu a tabletu (1 sloupec, do 1023px) je .faq-col jen obalový element
-   bez vizuálního významu – display:contents ho z box tree odstraní, takže
-   karty (details) se stanou přímými grid items v .faq-grid. V HTML jsou ale
-   seřazené po sloupcích (1., 3. otázka v prvním <div>, 2., 4. ve druhém –
-   kvůli desktopu, viz komentář výše), takže bez zásahu by vyšlo pořadí
-   1, 3, 2, 4 místo čtenářského 1, 2, 3, 4 – opraveno přes `order` níž
-   (k-tá položka 1. sloupce = 2k-1, 2. sloupce = 2k; pokryto do 5 položek
-   na sloupec, dřív jen 3+2, takže osmice otázek na Průmyslu byla na mobilu
-   promíchaná). Od 1024px se karty vracejí do dvou sloupců. */
 .faq-col { display: contents; }
 
 @media (max-width: 1023px) {
@@ -2864,8 +2223,6 @@ p {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Tablet: jeden sloupec, stejné pravidelné rozestupy jako mezi kartami ve
-     dvou sloupcích na desktopu. */
   .faq-grid { gap: var(--space-6); }
 }
 
@@ -2915,12 +2272,6 @@ p {
   .faq-col { display: flex; flex-direction: column; gap: var(--space-6); flex: 1; min-width: 0; }
 }
 
-/* Tablet ve 2 sloupcích: při lichém počtu karet zůstávala poslední osamocená
-   vlevo vedle prázdného místa. Teď se vycentruje – stejná šířka jako ostatní
-   karty (polovina řádku bez poloviny mezery), jen posunutá doprostřed přes
-   celý řádek (grid-column: 1 / -1). Vzhled karty se nemění. Feature-gridy
-   (mezera space-4) jsou ve 2 sloupcích od 640px, offer/contact-info (mezera
-   space-6) od 768px; od 1024px jsou 3 a víc sloupců, tam se to netýká. */
 @media (min-width: 640px) and (max-width: 1023px) {
   .revize-section .feature-grid > :last-child:nth-child(odd),
   .fve-section .feature-grid > :last-child:nth-child(odd),
@@ -2940,18 +2291,10 @@ p {
   }
 }
 
-/* CTA pás před kontaktem na podstránkách — stejný jazyk jako kontaktní
-   sekce na homepage (světle modré pozadí, tmavě modré nadpisy), jen bez
-   formuláře. Tmavý gradient (dřívější verze) byl identický s pozadím
-   patičky hned pod ním, takže sekce s patičkou vizuálně splývala bez
-   viditelné hranice mezi nimi. */
 .page-cta {
   background: var(--color-bg-blue);
   color: var(--color-text);
   text-align: center;
-  /* Menší než homepage .contact-section (var(--space-24)/96px), ale větší
-     než FAQ/Ukázky (64px) – uživatelka chtěla u téhle sekce výraznější
-     padding, cca 80px, mezi oběma hodnotami škály. */
   padding-block: 5rem;
 }
 
@@ -2997,21 +2340,6 @@ p {
    18. Stránka O nás — profilová karta, certifikáty
    -------------------------------------------------------------------------- */
 
-/* "Fakta o firmě" (karty přesahující hero) – plain .feature-item/.offer-grid
-   skleněná karta, stejná jako "Co nabízíme" na ostatních podstránkách
-   (2026-09-12: dřív měly vlastní velké oranžové číslo nad nadpisem přes
-   .stat-value/.stat-card, na přání uživatelky zrušeno – hodnota je teď
-   součástí textu nadpisu). Ikony viz .feature-item-icon--lg níže. Karty
-   dřív měly i inline odkaz uvnitř <p> ("Přečtěte si reference/více ↓",
-   vlastní stylování `.offer-grid .feature-item p a`) – odstraněno
-   2026-09-12 na přání uživatelky, CSS pravidlo smazáno jako nepoužívané. */
-
-/* "Kdo za Raška engineering stojí" – jedna centrovaná karta se skutečnou
-   fotkou Zdeňka (dřív iniciálový avatar "ZR", nahrazeno 2026-09-23, jakmile
-   uživatelka dodala portrét), stejná skleněná receptura jako .feature-item,
-   jen větší/širší. Na .section--blue (plná barva, ne fotka) blur nemá co
-   rozostřovat, ale poloprůhledná bílá i tak dá vizuálně odlišenou kartu
-   od pozadí – přijatelné, stejný princip jako .contact-form-card. */
 .profile-card {
   display: flex;
   flex-direction: column;
@@ -3021,8 +2349,6 @@ p {
   margin-inline: auto;
   padding: var(--space-8);
   text-align: center;
-  /* Jemně světlemodré sklo (ne bílé) – sekce je od 2026-09-11 plain bílá
-     (dřív .section--blue), karta musí barvu nést sama, aby se odlišila. */
   background: rgba(220, 230, 242, 0.55);
   backdrop-filter: blur(28px) saturate(160%);
   -webkit-backdrop-filter: blur(28px) saturate(160%);
@@ -3031,10 +2357,6 @@ p {
   box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-/* .profile-top drží avatar + text (nadpis/role/medailonek). Kontaktní
-   tlačítka jsou 2026-09-23 vyvedena jako samostatný řádek pod tímto blokem
-   (ne uvnitř .profile-body), aby fotka na desktopu mohla být vysoká přesně
-   od nadpisu po konec medailonku, bez tlačítek – viz .profile-avatar níže. */
 .profile-top {
   display: flex;
   flex-direction: column;
@@ -3043,14 +2365,6 @@ p {
   width: 100%;
 }
 
-/* Kontejner má overflow:hidden a obrázek uvnitř je jemně přiblížený
-   transformem (scale) – schová to tenký polopropustný okraj kruhového
-   výřezu fotky (viditelný jako světlý prstýnek), aniž by se musel
-   samotný soubor fotky oříznout/upravit. Fotka je od zdroje kruhový
-   výřez (viz komentář u .profile-card), proto zůstává kruhová i na
-   desktopu (jen větší) – NE zaoblený obdélník, ten by s kruhovým
-   výřezem fotky neseděl (2026-09-23, na přání uživatelky vráceno zpět
-   z předchozí "vysoký obdélník" varianty). */
 .profile-avatar {
   flex-shrink: 0;
   width: 10rem;
@@ -3087,29 +2401,13 @@ p {
 }
 
 @media (min-width: 768px) {
-  /* align-items zděděné z mobilní verze bylo "center" – u .profile-contact
-     s width:100% + margin-left to řádek jen vycentrovalo (posun o polovinu
-     zamýšlené vzdálenosti), místo aby ho posunulo přesně pod text. */
   .profile-card { text-align: left; align-items: flex-start; }
   .profile-top { flex-direction: row; align-items: center; }
   .profile-avatar { width: 14rem; height: 14rem; border-radius: 50%; }
   .profile-role { margin-bottom: var(--space-3); }
-  /* Odsazeno o šířku avataru + mezeru, ať tlačítka začínají pod textem,
-     ne pod fotkou (ta je teď mimo .profile-body, viz .profile-top výš). */
   .profile-contact { justify-content: flex-start; margin-left: calc(14rem + var(--space-6)); }
 }
 
-/* "Zkušenosti a certifikace" (O nás) – reálné naskenované certifikáty (ne
-   ikony), proto vlastní jednodušší karta na PLAIN bílém pozadí (ne
-   skleněná .feature-item receptura – ta je laděná na to, že pod ní něco
-   prosvítá; tady je fotka certifikátu vždy uvnitř karty, ne pod ní).
-   Pojmenováno "credential-*", NE "cert-*" – fotovoltaika.html už má
-   VLASTNÍ, jinak stavěnou "Certifikace a odborná způsobilost" sekci se
-   třídami .cert-grid/.cert-card/.cert-thumb (viz sekce výš, "CERTIFIKACE
-   A ODBORNÁ ZPŮSOBILOST"); dřívější použití stejných jmen na téhle
-   stránce se s ní v cascade tiše bilo (např. .cert-card p přepisovalo
-   fotovoltaika.html fs-base na fs-small) – opraveno přejmenováním, ne
-   přejmenováním té starší sekce. */
 .credential-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -3145,9 +2443,6 @@ p {
 
 .credential-card p { font-size: var(--fs-small); color: var(--color-muted); margin: 0; }
 
-/* Prostřední karta (osvědčení o kvalifikaci) – jen přední strana je vidět
-   jako náhled, zadní strana je "jen zadní strana" a otevře se až po
-   kliknutí jako mini galerie (#cert-lightbox, obsluha ve script.js). */
 .cert-gallery-trigger {
   display: block;
   width: 100%;
@@ -3159,10 +2454,6 @@ p {
   cursor: zoom-in;
 }
 
-/* Kotvy pro odkazy "Přečtěte si reference"/"Přečtěte si více" v kartách
-   "Hodnocení klientů"/"Odborná způsobilost" nad hero (viz o-nas.html) —
-   stejný scroll-margin-top vzorec jako #sluzby na homepage
-   (.services-overlap), ať sekce nezmizí pod fixní hlavičkou. */
 #reference,
 #certifikace {
   scroll-margin-top: calc(var(--header-height) + var(--space-6));
@@ -3170,19 +2461,6 @@ p {
 
 /* -- Reference (recenze z Firmy.cz) -- */
 
-/* Souhrnná karta (skóre + hvězdy + "10 hodnocení" + odkaz na Firmy.cz) je
-   od 2026-09-12 (na přání uživatelky) jedna z rovnocenných karet
-   v .review-track, ne samostatná karta nad ním – .review-card--summary je
-   modifikátor .review-card, ne vlastní komponenta. Všechny karty mají
-   stejné jemně světlemodré sklo (sekce je plain bílá, karta musí barvu
-   nést sama, stejný princip jako .profile-card).
-   2026-09-11: přibyly 2 další recenze (celkem 6 karet vč. souhrnné) – na
-   4 sloupce v gridu se přestaly vejít přehledně na 1 řádek, takže mřížka
-   (.review-grid) nahrazena horizontálním carouselem (.review-carousel =
-   šipky + .review-track). Šířka jednotlivé karty zůstala STEJNÁ jako dřív
-   dávala grid-column šablona (1/2/4 na mobil/tablet/desktop) – jen teď je
-   karet víc, než se vejde, a přebytek se odscrolluje (swipe/scroll-snap)
-   nebo šipkami .review-carousel-nav (JS v script.js, sekce 7). */
 .review-carousel {
   display: flex;
   align-items: center;
@@ -3197,34 +2475,8 @@ p {
   scroll-behavior: smooth;
   flex: 1 1 auto;
   min-width: 0;
-  /* overflow-x:auto počítá i overflow-y jako auto (spec: pokud jedna osa
-     není visible, obě se chovají jako auto) – karty se tak ořezávaly
-     přesně v hraně tracku a jejich box-shadow (--shadow-md, dosahuje
-     přes hranu karty) byl nahoře/dole vidět jen z půlky. Padding dá
-     stínu místo, kam "dopadnout", než ho overflow ustřihne – ale JEN
-     nahoře/dole (padding-inline zůstává 0, viz níže proč). Záporný
-     margin vyrovnává padding, ať se okolní layout neposune. */
   padding-block: var(--space-6) var(--space-8);
   margin-block: calc(var(--space-6) * -1) calc(var(--space-8) * -1);
-  /* Horizontální padding se sem záměrně NEDÁVÁ (byly 2 problémy):
-     1) scroll-snap container se svým paddingem nekamarádí – Chromium
-        při načtení stránky sám odscrolloval přesně o tolik, o kolik byl
-        padding-left, aby "start" hrana 1. karty seděla na hraně tracku
-        (scrollLeft vyšel 8px místo 0) – levá a pravá mezera k šipkám
-        pak vyšly různě (4px vs 20px), přesně bug, který uživatelka
-        nahlásila ("proč je levá a pravá šipka jinak daleko"). Na
-        vertikální (nescrollovanou) osu se tohle netýká, proto tam
-        padding zůstal.
-     2) Boční stín karet (co by ten padding měl zachránit) stejně nemá
-        kam "dopadnout" smysluplně – u karty uprostřed tracku ho stejně
-        pohltí gap (var(--space-6), 24px) k sousední kartě, a u krajní
-        (scrollnuté) karty je stín beztak vidět jen do půlky, což
-        vypadá jako artefakt. Uživatelka proto navrhla boční stín
-        rovnou nechat ořezávat (žádná zvláštní CSS úprava stínu není
-        potřeba – stačí tenhle padding nedávat). */
-  /* Skrytý nativní scrollbar – navigace je přes šipky/swipe, ne přes
-     viditelný pruh (stejný princip jako .showcase-track by mělo mít,
-     kdyby scrollbar vadil i tam – tady konzistentně schovaný). */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -3234,17 +2486,10 @@ p {
 .review-track .review-card {
   scroll-snap-align: start;
   flex: 0 0 100%;
-  /* Bez min-width:0 by defaultní "min-width:auto" flex položky nechal
-     kartu se souhrnným tlačítkem ("Zobrazit všechna hodnocení", .btn má
-     white-space:nowrap) roztáhnout na šířku textu tlačítka namísto
-     zadané flex-basis – karta pak byla širší než track a rozbíjela
-     rozvržení (přetékala přes šipky na mobilu). */
   min-width: 0;
 }
 
 .review-card--summary .btn {
-  /* Uvnitř úzké karty by nowrap z .btn tlačítko roztáhl přes okraj karty
-     (viz komentář u min-width výše) – tady se text má směle zalomit. */
   white-space: normal;
   text-align: center;
 }
@@ -3289,14 +2534,6 @@ p {
 }
 
 @media (max-width: 767px) {
-  /* Na přání uživatelky (2026-09-14): pole s textem recenze má být na
-     mobilu co nejširší, šipky jen tak velké, ať se vejdou. .review-carousel
-     proto na mobilu vybočí ven z .container (ten má width:85%, takže po
-     stranách nechává 7,5vw prázdna) – stejný princip "tunelu" jako
-     .about-content jinde na webu, jen záporným marginem místo paddingu.
-     -4,5vw znamená, že z původních 7,5vw mezery zbydou po stranách 3vw,
-     zbytek připadne kartám. Šipky se zároveň zmenší (44px → 36px) a gap
-     k nim se zúží, ať uberou trocku ze šířky, kterou dostane .review-track. */
   .review-carousel {
     margin-inline: -4.5vw;
     gap: var(--space-2);
@@ -3370,14 +2607,6 @@ p {
   margin: 0;
 }
 
-/* Zkrácení dlouhých recenzí + "Číst více" (2026-11-18). Výška karet má
-   zůstat stejná jako s původními recenzemi – měřítkem je nejdelší recenze
-   do limitu znaků (data-clamp-chars na .review-track, CZ 250 / EN 310,
-   odpovídá původní nejdelší recenzi Filakova). Delší recenze se zkrátí na
-   stejný počet řádků (--review-lines počítá JS podle šířky karty, proto ne
-   pevné číslo v CSS) a dostanou tlačítko. Bez JS se nic nezkracuje.
-   .is-clamp-ready přepne track na align-items:flex-start + min-height
-   karet, aby se po rozbalení natáhla JEN rozbalená karta, ne všechny. */
 .review-track.is-clamp-ready { align-items: flex-start; }
 .review-track.is-clamp-ready .review-card { min-height: var(--review-card-h, auto); }
 
@@ -3387,9 +2616,6 @@ p {
   -webkit-line-clamp: var(--review-lines, 10);
   line-clamp: var(--review-lines, 10);
   overflow: hidden;
-  /* Bez toho by flex-grow z .review-text natáhl box přes zkrácené řádky
-     a pod "…" by z půlky prosvítal další řádek. Tlačítko pak drží
-     autora dole přes margin-bottom:auto. */
   flex-grow: 0;
 }
 
@@ -3403,9 +2629,6 @@ p {
   font: inherit;
   font-size: var(--fs-small);
   font-weight: 400;
-  /* Nenápadné (2026-11-18, na přání uživatelky): šedá místo oranžové,
-     normální řez, bez podtržení, za textem šipka dolů (po rozbalení
-     otočená nahoru). Na hover tmavší modrá. */
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -3413,9 +2636,6 @@ p {
   cursor: pointer;
 }
 
-/* Šipka = stejná ikona jako v CTA tlačítku "Nezávazná poptávka"
-   (#icon-arrow-right ze sprite, vkládá ji JS), otočená dolů, po
-   rozbalení nahoru. */
 .review-more svg {
   width: 1em;
   height: 1em;
@@ -3434,11 +2654,6 @@ p {
    -------------------------------------------------------------------------- */
 .error-page {
   text-align: center;
-  /* Sekce leží hned pod fixní plovoucí hlavičkou (viz .site-header, sekce
-     5) – bez odsazení o --header-height by ikona/nadpis byly nalepené
-     hned pod menu (uživatelčino připomínka 2026-09-17). Navíc velká
-     vlastní rezerva (--space-24), ať má stránka nahoře vzduch, ne jen
-     těsné odlepení od hlavičky. */
   padding-top: calc(var(--header-height) + var(--space-24));
   padding-bottom: var(--space-24);
 }
@@ -3451,9 +2666,6 @@ p {
 }
 
 .error-page-icon img {
-  /* Uživatelka 2026-09-17 dodala vlastní dvoubarevnou (navy/oranžová)
-     verzi ikony přímo v barvách webu – bez kolečka/pozadí kolem, jen
-     samotná ikona, výrazně větší. */
   width: 11rem;
   height: auto;
   object-fit: contain;

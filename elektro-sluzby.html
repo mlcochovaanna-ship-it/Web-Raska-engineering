@@ -263,15 +263,6 @@
   <main id="hlavni-obsah">
     <!-- ============================= HERO ============================= -->
     <section class="page-hero">
-      <!-- .page-hero-media je záměrně MIMO .page-hero-split (ne uvnitř) –
-           .page-hero-split má data-reveal, jehož "is-visible" stav nastavuje
-           transform:translateY(0). I nulový transform ale zakládá containing
-           block pro potomky s position:absolute, takže .page-hero-media
-           (absolute na desktopu, viz media query níže) by se místo na
-           .page-hero přichytávala na .page-hero-split – tj. přesně na výšku
-           textového sloupce, bez spodní rezervy .page-hero. Vlastní
-           data-reveal na fotce dá stejný fade-in efekt bez tohohle vedlejšího
-           efektu. */ -->
       <div class="page-hero-split" data-reveal>
         <div class="page-hero-content">
           <h1>Elektroinstalace a&nbsp;elektrorevize pro domácnosti, firmy i&nbsp;průmysl</h1>
@@ -298,8 +289,6 @@
     </section>
 
     <!-- ============================= CO NABÍZÍME ============================= -->
-    <!-- Karty přesahují přes spodní hranu hero sekce – stejná technika jako
-         .services-overlap na homepage (viz .page-hero padding-bottom výše). -->
     <section class="offer-overlap">
       <div class="container">
         <h2 class="sr-only">Co nabízíme</h2>
@@ -358,10 +347,6 @@
     </section>
 
     <!-- ============================= ELEKTROREVIZE ============================= -->
-    <!-- Stejná komponenta jako "O nás" na homepage (fotka + text, šikmý řez,
-         karty přesahující přes spodní hranu fotky). Fotka: technik s
-         multimetrem při měření – motiv kontroly/měření sedí k revizím,
-         na rozdíl od dřívější fotky montáže rozvaděče. -->
     <section class="about-section revize-section">
       <div class="about-split" data-reveal>
         <div class="about-content">
@@ -621,7 +606,6 @@
       <p>Copyright &copy; 2026 Raška engineering s.r.o. Webdesign <a href="https://harmonickyweb.cz" target="_blank" rel="noopener">harmonickyweb.cz</a></p>
     </div>
   </footer>
-
 
   <!-- ============================= LIGHTBOX GALERIE ============================= -->
   <div class="lightbox" id="showcase-lightbox" role="dialog" aria-modal="true" aria-label="Zvětšená fotografie realizace">

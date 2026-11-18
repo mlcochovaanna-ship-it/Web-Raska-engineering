@@ -17,10 +17,6 @@
 <body>
   <a class="skip-link" href="#hlavni-obsah">Přeskočit na hlavní obsah</a>
 
-  <!-- Sprite s ikonami (skryté, znovupoužitelné přes <use>) – stejný minimální
-       výběr jako na 404 (jen hlavička/patička/tlačítko + šipka v CTA). Cíl
-       formuláře (index.html, kontakt.html) sem po úspěšném odeslání
-       přesměruje script.js (data-thanks na <form>). -->
   <svg xmlns="http://www.w3.org/2000/svg" class="sr-only" aria-hidden="true">
     <defs>
       <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -108,12 +104,6 @@
 
   <main id="hlavni-obsah">
     <!-- ============================= HERO ============================= -->
-    <!-- Stejná .page-hero/.page-hero-split konstrukce jako na Kontaktu (na
-         přání uživatelky "podobná jako stránka kontaktu"), ale BEZ
-         .page-hero-media – děkovací stránka nemá vlastní fotku. Modifikátor
-         .page-hero-content--wide (viz style.css u .page-hero-media--van)
-         proto na 1024px+ zruší fixní 58% sloupec a text vycentruje přes
-         celou šířku, ať napravo nezůstane prázdná tmavá plocha. -->
     <section class="page-hero">
       <div class="page-hero-split" data-reveal>
         <div class="page-hero-content page-hero-content--wide">
@@ -209,7 +199,6 @@
       <p>Copyright &copy; 2026 Raška engineering s.r.o. Webdesign <a href="https://harmonickyweb.cz" target="_blank" rel="noopener">harmonickyweb.cz</a></p>
     </div>
   </footer>
-
 
   <script src="script.js?v=20260922a"></script>
 </body>
